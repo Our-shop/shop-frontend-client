@@ -1,14 +1,13 @@
 import React from 'react';
-import ErrorBoundaryComp from "./components/error-boundary.comp";
+import ErrorBoundaryComp from './components/error-boundary.comp';
 
 // app router
-import {BrowserRouter as Router} from "react-router-dom";
-import AppRoutes from "./app.routes";
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppRoutes from './app.routes';
 
 // store
-import {Provider} from "react-redux";
-import store from "./store";
-
+import { Provider } from 'react-redux';
+import store from './store';
 
 function App() {
   return (
