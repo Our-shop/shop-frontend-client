@@ -1,16 +1,40 @@
+import React, { FC, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-const AppRoutes = () => {
+// ======= private route ======= //
+const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
+  return true ? (
+    <Suspense fallback={<div>PrivateRoute Loading...</div>}>
+      <div>
+        <Element />
+      </div>
+    </Suspense>
+  ) : (
+    <Navigate to={''} />
+  );
+};
+
+// ======= public route ======= //
+const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
+  <Suspense fallback={<div>PublicRoute Loading...</div>}>
+    <Element />
+  </Suspense>
+);
+
+// ======= pages ======= //
+const ProductsPage = React.lazy(() => import('./app/products'));
+
+const AppRoutes: FC = () => {
   return (
     <Routes>
-      {/* PRIVATE */}
-      <Route path="/public/*" element={<div>public page</div>} />
+      {/* PUBLIC */}
+      <Route path="/products" element={<PublicRoute element={ProductsPage} />} />
 
       {/* PRIVATE */}
-      <Route path="/private/*" element={<div>private page</div>} />
+      <Route path="/private/*" element={<PrivateRoute element={<>Private</>} />} />
 
       {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/default-page" />} />
+      <Route path="*" element={<Navigate to="/products" />} />
     </Routes>
   );
 };
