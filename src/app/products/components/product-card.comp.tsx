@@ -18,7 +18,7 @@ const ProductCardComp: FC<ProductCardCompProps> = ({ card }) => {
   return (
     <Card sx={{ width: 160 }} elevation={4}>
       <CardActionArea>
-        <Box paddingTop={2} paddingBottom={2} paddingLeft={5} paddingRight={5}>
+        <Box paddingLeft={5} paddingRight={5} height={200} display={'flex'} alignItems={'center'}>
           <CardMedia component="img" image={card.image} alt={card.title}></CardMedia>
         </Box>
 

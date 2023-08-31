@@ -9,7 +9,7 @@ interface CardListCompProps {
 
 const CardListComp: FC<CardListCompProps> = ({ cards }) => {
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={3} maxWidth={750}>
       {cards.map((card) => (
         <Grid item xs={3}>
           <ProductCardComp key={card.title} card={card} />
