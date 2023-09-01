@@ -9,10 +9,10 @@ interface CardListCompProps {
 
 const CardListComp: FC<CardListCompProps> = ({ products }) => {
   return (
-    <Grid container spacing={3}>
+    <Grid container spacing={3} maxWidth={750}>
       {products.map((product) => (
-        <Grid item xs={3} key={product.id}>
-          <ProductCardComp product={product} />
+        <Grid item xs={3}>
+          <ProductCardComp key={product.title} product={product} />
         </Grid>
       ))}
     </Grid>

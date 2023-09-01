@@ -28,7 +28,7 @@ const AppRoutes: FC = () => {
   return (
     <Routes>
       {/* PUBLIC */}
-      <Route path="/products" element={<PublicRoute element={ProductsPage} />} />
+      <Route path="/products/*" element={<PublicRoute element={ProductsPage} />} />
 
       {/* PRIVATE */}
       <Route path="/private/*" element={<PrivateRoute element={<>Private</>} />} />

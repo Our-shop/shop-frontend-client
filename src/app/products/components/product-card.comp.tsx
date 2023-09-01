@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
-import { useTheme } from '@mui/material/styles';
-import { IProductCard } from '../types/i-product-card.type';
+import { ProductDto } from '../types/product-dto.type';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -10,40 +9,41 @@ import { Button, CardActionArea, CardActions } from '@mui/material';
 import Stack from '@mui/material/Stack';
 
 interface ProductCardCompProps {
-  card: IProductCard;
+  product: ProductDto;
 }
 
-const ProductCardComp: FC<ProductCardCompProps> = ({ card }) => {
-  useTheme();
+const ProductCardComp: FC<ProductCardCompProps> = ({ product }) => {
   return (
-    <Card sx={{ width: 160 }} elevation={4}>
-      <CardActionArea>
-        <Box paddingLeft={5} paddingRight={5} height={200} display={'flex'} alignItems={'center'}>
-          <CardMedia component="img" image={card.image} alt={card.title}></CardMedia>
-        </Box>
+    <Box width={220}>
+      <Card sx={{ width: 220 }} elevation={4}>
+        <CardActionArea>
+          <Box margin={'0 auto'} width={80} height={220} display="flex" alignItems="center">
+            <CardMedia component="img" image={product.image} alt={product.title}></CardMedia>
+          </Box>
 
-        <CardContent sx={{ paddingTop: 0, paddingBottom: 0, backgroundColor: 'primary.light' }}>
-          <Typography variant="h6" display={'flex'} justifyContent={'center'} color="white">
-            {card.title}
-          </Typography>
-
-          <Stack direction="row" justifyContent="space-between">
-            <Typography variant="body2" color="gold">
-              ${card.price}
+          <CardContent sx={{ paddingTop: 0, paddingBottom: 0, backgroundColor: 'primary.light' }}>
+            <Typography gutterBottom variant="body1" color="white">
+              {product.title}
             </Typography>
-            <Typography variant="body2" color="white">
-              {card.type}
-            </Typography>
-          </Stack>
-        </CardContent>
-      </CardActionArea>
 
-      <CardActions sx={{ padding: 0, backgroundColor: 'primary.light' }}>
-        <Button size="small" color="inherit" fullWidth>
-          + Add to cart
-        </Button>
-      </CardActions>
-    </Card>
+            <Stack direction="row" justifyContent="space-between">
+              <Typography variant="body2" color="gold">
+                ${product.price}
+              </Typography>
+              <Typography variant="body2" color="white">
+                {product.type}
+              </Typography>
+            </Stack>
+          </CardContent>
+        </CardActionArea>
+
+        <CardActions sx={{ padding: 0, backgroundColor: 'primary.light' }}>
+          <Button size="small" color="inherit" fullWidth>
+            + Add to cart
+          </Button>
+        </CardActions>
+      </Card>
+    </Box>
   );
 };
 
