@@ -6,6 +6,7 @@ import GitHubIcon from '@mui/icons-material/GitHub';
 import { IconButton } from '@mui/material';
 
 const Component = styled('footer')({
+  paddingTop: 20,
   marginTop: 'auto',
   display: 'flex',
   alignItems: 'center',
@@ -35,7 +36,7 @@ const GitHubLinks: FC = () => {
     <Typography paddingLeft={3} color="text.secondary">
       GitHub Links:
       {gitHubs.map((gitHub) => (
-        <Link paddingLeft={1} color="inherit" href={gitHub.href}>
+        <Link key={gitHub.href} paddingLeft={1} color="inherit" href={gitHub.href}>
           {gitHub.userName}
           <IconButton size="small">
             <GitHubIcon />

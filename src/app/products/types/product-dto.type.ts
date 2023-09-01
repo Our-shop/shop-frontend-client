@@ -1,4 +1,6 @@
-export interface IProductCard {
+import { BaseDto } from '../../../types/base-dto.type';
+
+export interface ProductDto extends BaseDto {
   title: string;
   price: number;
   description: string;
