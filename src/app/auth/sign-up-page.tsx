@@ -2,7 +2,9 @@ import React, { FC, useState } from 'react';
 import {
   Avatar,
   Button,
+  Checkbox,
   FormControl,
+  FormControlLabel,
   Grid,
   InputLabel,
   Link,
@@ -92,6 +94,11 @@ const SignUpPage: FC = () => {
             <MenuItem value={'admin'}>admin</MenuItem>
           </Select>
         </FormControl>
+        <FormControlLabel
+          required
+          control={<Checkbox name="AcceptTerms" />}
+          label="I accept the terms and conditions."
+        />
         <Button
           type="submit"
           color="primary"

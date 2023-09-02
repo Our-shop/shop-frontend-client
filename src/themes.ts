@@ -52,6 +52,15 @@ const themes = createTheme({
   shape: {
     borderRadius: 5,
   },
+  components: {
+    MuiFormHelperText: {
+      styleOverrides: {
+        root: {
+          color: colors.error,
+        },
+      },
+    },
+  },
 });
 
 export default themes;

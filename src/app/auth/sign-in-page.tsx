@@ -4,6 +4,8 @@ import { styled } from '@mui/material/styles';
 import { colors } from '../../themes';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { NavLink as RouterLink } from 'react-router-dom';
+import { Form, Formik, Field, ErrorMessage } from 'formik';
+import { signInSchema } from './validation-schemas/sign-in.schema';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -23,7 +25,28 @@ const StyledBackBtn = styled(Button)`
   align-items: center;
 `;
 
+interface FormValues {
+  email: string;
+  password: string;
+}
+
 const SignInPage: FC = () => {
+  const initialValues: FormValues = {
+    email: '',
+    password: '',
+  };
+
+  const handleSubmit = (values: FormValues, props: any) => {
+    console.log('Form values:', values);
+
+    setTimeout(() => {
+      props.resetForm();
+      props.setSubmitting(false);
+    }, 2000);
+
+    console.log('Props:', props);
+  };
+
   return (
     <Grid container justifyContent="center">
       <StyledPaper elevation={10}>
@@ -35,29 +58,46 @@ const SignInPage: FC = () => {
             Sign In
           </Typography>
         </Grid>
-        <TextField
-          label="Email"
-          placeholder="Enter email"
-          fullWidth
-          required
-          sx={{ marginBottom: '10px' }}
-        />
-        <TextField
-          label="Password"
-          placeholder="Enter password"
-          type="password"
-          fullWidth
-          required
-        />
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          fullWidth
-          sx={{ margin: '8px 0' }}
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={signInSchema}
         >
-          Sign in
-        </Button>
+          {(props) => (
+            <Form>
+              <Field
+                as={TextField}
+                label="Email"
+                name="email"
+                placeholder="Enter email"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                helperText={<ErrorMessage name="email" />}
+              />
+              <Field
+                as={TextField}
+                label="Password"
+                name="password"
+                placeholder="Enter password"
+                type="password"
+                fullWidth
+                required
+                helperText={<ErrorMessage name="password" />}
+              />
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                fullWidth
+                sx={{ margin: '8px 0' }}
+                disabled={props.isSubmitting}
+              >
+                {props.isSubmitting ? 'Loading' : 'Sign in'}
+              </Button>
+            </Form>
+          )}
+        </Formik>
         <Typography sx={{ marginTop: '5px' }}>
           <Link component={RouterLink} to="/auth/forgot-password">
             Forgot password?
