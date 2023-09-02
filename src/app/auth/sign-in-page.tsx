@@ -8,7 +8,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 const StyledPaper = styled(Paper)`
   padding: 20px;
   min-height: 50vh;
-  width: 280px;
+  width: 400px;
   margin: 50px auto 20px;
 `;
 
