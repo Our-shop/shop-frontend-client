@@ -4,13 +4,16 @@ import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { IconButton } from '@mui/material';
+import { colors } from '../themes';
 
 const Component = styled('footer')({
   paddingTop: 20,
+  paddingBottom: 10,
   marginTop: 'auto',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
+  backgroundColor: colors.slightGrey,
 });
 
 const Copyright: FC = () => {
