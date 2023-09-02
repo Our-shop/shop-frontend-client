@@ -19,10 +19,7 @@ const Component = styled('footer')({
 const Copyright: FC = () => {
   return (
     <Typography color="text.secondary">
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Pet's Shop
-      </Link>{' '}
+      {"Copyright ©  Pet's Shop "}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
@@ -39,7 +36,7 @@ const GitHubLinks: FC = () => {
     <Typography paddingLeft={3} color="text.secondary">
       GitHub Links:
       {gitHubs.map((gitHub) => (
-        <Link key={gitHub.href} paddingLeft={1} color="inherit" href={gitHub.href}>
+        <Link key={gitHub.href} paddingLeft={1} color="inherit" href={gitHub.href} target="_blank">
           {gitHub.userName}
           <IconButton size="small">
             <GitHubIcon />

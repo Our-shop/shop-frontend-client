@@ -16,7 +16,7 @@ const pages = ['products', 'about'];
 
 const buttonStyle = {
   border: `1px solid ${colors.lightViolet}`,
-  borderRadius: '4px',
+  borderRadius: '50%',
   margin: '0 4px',
 };
 
@@ -68,7 +68,7 @@ const HeaderComp: FC = () => {
             size="small"
             style={buttonStyle}
           >
-            RU
+            <Typography fontSize={14}>RU</Typography>
           </IconButton>
           <IconButton
             aria-label="Switch to English"
@@ -76,7 +76,7 @@ const HeaderComp: FC = () => {
             size="small"
             style={buttonStyle}
           >
-            EN
+            <Typography fontSize={14}>EN</Typography>
           </IconButton>
         </Box>
       </Toolbar>
