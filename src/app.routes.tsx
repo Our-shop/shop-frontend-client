@@ -1,5 +1,6 @@
 import React, { FC, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import AuthPage from './app/auth';
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
@@ -29,6 +30,8 @@ const AppRoutes: FC = () => {
     <Routes>
       {/* PUBLIC */}
       <Route path="/products/*" element={<PublicRoute element={ProductsPage} />} />
+
+      <Route path="/auth/*" element={<PublicRoute element={AuthPage} />} />
 
       {/* PRIVATE */}
       <Route path="/private/*" element={<PrivateRoute element={<>Private</>} />} />

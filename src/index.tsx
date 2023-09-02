@@ -1,14 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app';
+import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 
-// theme
+// themes
 import { ThemeProvider } from '@mui/material';
-import theme from './theme';
+import themes from './themes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
-  <ThemeProvider theme={theme}>
+  <ThemeProvider theme={themes}>
     <App />
   </ThemeProvider>,
 );
+
+serviceWorkerRegistration.register();
