@@ -59,7 +59,9 @@ const SignInPage: FC = () => {
           Sign in
         </Button>
         <Typography sx={{ marginTop: '5px' }}>
-          <Link href="#">Forgot password?</Link>
+          <Link component={RouterLink} to="/auth/forgot-password">
+            Forgot password?
+          </Link>
         </Typography>
         <Typography sx={{ marginTop: '5px' }}>Do you have an account?</Typography>
         <Typography>
@@ -67,11 +69,9 @@ const SignInPage: FC = () => {
             Sign Up
           </Link>
         </Typography>
-        <StyledBackBtn variant="contained">
-          <Link component={RouterLink} to="/" color={colors.white}>
-            Go Back
-          </Link>
-        </StyledBackBtn>
+        <Link component={RouterLink} to="/" color={colors.white}>
+          <StyledBackBtn variant="contained">Go Back</StyledBackBtn>
+        </Link>
       </StyledPaper>
     </Grid>
   );

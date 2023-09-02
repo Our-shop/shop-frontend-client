@@ -72,19 +72,19 @@ const SignUpPage: FC = () => {
         />
         <TextField
           label="Confirm password"
-          placeholder="Repeat password"
+          placeholder="Confirm password"
           type="password"
           fullWidth
           required
           sx={{ marginBottom: '10px' }}
         />
         <FormControl fullWidth>
-          <InputLabel id="selectRole">Who you are?</InputLabel>
+          <InputLabel id="selectRole">Register as:</InputLabel>
           <Select
             labelId="selectRole"
             id="roleSelect"
             value={userRole}
-            label="Role"
+            label="Register as:"
             onChange={handleRoleChange}
             required
           >
