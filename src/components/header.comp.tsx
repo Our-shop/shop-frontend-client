@@ -8,9 +8,10 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import SearchComp from './ui/search.comp';
-import { Button, Icon } from '@mui/material';
+import { Button, Icon, Link } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
+import { NavLink as RouterLink } from 'react-router-dom';
 
 const pages = ['products', 'about'];
 
@@ -53,11 +54,14 @@ const HeaderComp: FC = () => {
         </Box>
 
         <Box paddingLeft={3}>
-          <Button aria-label="sign-in" color="inherit">
-            sign in
-          </Button>
-          <Button aria-label="sign-out" color="inherit">
-            sign out
+          <Button aria-label="sign-in">
+            <Link
+              component={RouterLink}
+              to="/auth/sign-in"
+              sx={{ color: colors.white, textDecoration: 'none' }}
+            >
+              Sign In
+            </Link>
           </Button>
         </Box>
 
