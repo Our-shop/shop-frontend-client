@@ -30,7 +30,7 @@ const ForgotPasswordPage: FC = () => {
             <LockResetIcon />
           </StyledAvatar>
           <Typography variant="h5" marginBottom={3}>
-            Forgot password
+            Forgot password ?
           </Typography>
         </Grid>
         <Typography variant="h6" marginBottom={3} textAlign={'center'}>

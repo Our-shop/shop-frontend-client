@@ -1,24 +1,26 @@
-import React, { FC, useState } from 'react';
+import React, { FC } from 'react';
 import {
   Avatar,
   Button,
   Checkbox,
   FormControl,
   FormControlLabel,
+  FormLabel,
   Grid,
-  InputLabel,
   Link,
-  MenuItem,
   Paper,
-  Select,
-  SelectChangeEvent,
+  Radio,
+  RadioGroup,
   TextField,
   Typography,
 } from '@mui/material';
 import { NavLink as RouterLink } from 'react-router-dom';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { Form, Formik, Field, ErrorMessage } from 'formik';
 import { colors } from '../../themes';
 import { styled } from '@mui/material/styles';
+import { signUpSchema } from './validation-schemas/sign-up.schema';
+import { FormHelperText } from '@mui/material';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -32,11 +34,34 @@ const StyledAvatar = styled(Avatar)`
   margin-bottom: 10px;
 `;
 
-const SignUpPage: FC = () => {
-  const [userRole, setUserRole] = useState<string>('');
+interface FormValues {
+  userName: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+  role: string;
+  acceptTerms: boolean;
+}
 
-  const handleRoleChange = (event: SelectChangeEvent<string>) => {
-    setUserRole(event.target.value);
+const SignUpPage: FC = () => {
+  const initialValues: FormValues = {
+    userName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: '',
+    acceptTerms: false,
+  };
+
+  const handleSubmit = (values: FormValues, props: any) => {
+    console.log('Form values:', values);
+
+    setTimeout(() => {
+      props.resetForm();
+      props.setSubmitting(false);
+    }, 2000);
+
+    console.log('Props:', props);
   };
 
   return (
@@ -50,64 +75,85 @@ const SignUpPage: FC = () => {
             Sign Up
           </Typography>
         </Grid>
-        <TextField
-          label="UserName"
-          placeholder="Enter name"
-          fullWidth
-          required
-          sx={{ marginBottom: '10px' }}
-        />
-        <TextField
-          label="Email"
-          placeholder="Enter email"
-          fullWidth
-          required
-          sx={{ marginBottom: '10px' }}
-        />
-        <TextField
-          label="Password"
-          placeholder="Enter password"
-          type="password"
-          fullWidth
-          required
-          sx={{ marginBottom: '10px' }}
-        />
-        <TextField
-          label="Confirm password"
-          placeholder="Confirm password"
-          type="password"
-          fullWidth
-          required
-          sx={{ marginBottom: '10px' }}
-        />
-        <FormControl fullWidth>
-          <InputLabel id="selectRole">Register as:</InputLabel>
-          <Select
-            labelId="selectRole"
-            id="roleSelect"
-            value={userRole}
-            label="Register as:"
-            onChange={handleRoleChange}
-            required
-          >
-            <MenuItem value={'user'}>user</MenuItem>
-            <MenuItem value={'admin'}>admin</MenuItem>
-          </Select>
-        </FormControl>
-        <FormControlLabel
-          required
-          control={<Checkbox name="AcceptTerms" />}
-          label="I accept the terms and conditions."
-        />
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          fullWidth
-          sx={{ margin: '8px 0' }}
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={signUpSchema}
         >
-          Sign Up
-        </Button>
+          {(props) => (
+            <Form>
+              <Field
+                as={TextField}
+                label="UserName"
+                placeholder="Enter name"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                name="userName"
+                helperText={<ErrorMessage name="userName" />}
+              />
+              <Field
+                as={TextField}
+                label="Email"
+                placeholder="Enter email"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                name="email"
+                helperText={<ErrorMessage name="email" />}
+              />
+              <Field
+                as={TextField}
+                label="Password"
+                placeholder="Enter password"
+                type="password"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                name="password"
+                helperText={<ErrorMessage name="password" />}
+              />
+              <Field
+                as={TextField}
+                label="Confirm password"
+                placeholder="Confirm password"
+                type="password"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                name="confirmPassword"
+                helperText={<ErrorMessage name="confirmPassword" />}
+              />
+              <FormControl fullWidth>
+                <FormLabel component="legend">Who are you?</FormLabel>
+                <Field as={RadioGroup} aria-label="role" name="role" style={{ display: 'initial' }}>
+                  <FormControlLabel value="user" control={<Radio />} label="user" />
+                  <FormControlLabel value="admin" control={<Radio />} label="admin" />
+                </Field>
+              </FormControl>
+              <FormHelperText>
+                <ErrorMessage name="role" />
+              </FormHelperText>
+              <FormControlLabel
+                control={<Field as={Checkbox} name="acceptTerms" />}
+                label="I accept the terms and conditions."
+              />
+              <FormHelperText>
+                <ErrorMessage name="acceptTerms" />
+              </FormHelperText>
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                fullWidth
+                sx={{ margin: '8px 0' }}
+                disabled={props.isSubmitting}
+              >
+                {props.isSubmitting ? 'Loading' : 'Sign up'}
+              </Button>
+            </Form>
+          )}
+        </Formik>
         <Typography sx={{ marginTop: '5px' }}>Already registered?</Typography>
         <Typography>
           <Link component={RouterLink} to="/auth/sign-in">

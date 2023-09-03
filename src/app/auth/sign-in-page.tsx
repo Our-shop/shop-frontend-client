@@ -74,6 +74,7 @@ const SignInPage: FC = () => {
                 required
                 sx={{ marginBottom: '10px' }}
                 helperText={<ErrorMessage name="email" />}
+                autoComplete="email"
               />
               <Field
                 as={TextField}
@@ -84,6 +85,7 @@ const SignInPage: FC = () => {
                 fullWidth
                 required
                 helperText={<ErrorMessage name="password" />}
+                autoComplete="password"
               />
               <Button
                 type="submit"
