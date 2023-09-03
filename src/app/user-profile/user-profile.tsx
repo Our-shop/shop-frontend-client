@@ -2,7 +2,6 @@ import React, { FC, useState } from 'react';
 import {
   AppBar,
   Box,
-  Container,
   IconButton,
   List,
   ListItem,
@@ -11,9 +10,10 @@ import {
   Typography,
 } from '@mui/material';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
-import BackHomeBtn from '../../components/ui/back.btn.comp';
 import styled from '@emotion/styled';
+import BackHomeBtn from '../../components/ui/back.btn.comp';
 import ForgotPswSettings from './components/forgot-psw.settings';
+import DeleteAccountSettings from './components/delete-account.settings';
 
 const StyledBox = styled(Box)`
   flex-grow: 1;
@@ -85,7 +85,10 @@ const UserProfilePage: FC = () => {
               <Typography variant="h4">Orders history</Typography>
             )}
             {selectedMenuItem === 'Delete account' && (
-              <Typography variant="h4">Delete account</Typography>
+              <>
+                <Typography variant="h4">Delete account</Typography>
+                <DeleteAccountSettings />
+              </>
             )}
           </Box>
         </StyledBox>
