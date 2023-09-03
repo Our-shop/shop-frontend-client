@@ -39,59 +39,59 @@ const UserProfilePage: FC = () => {
   };
 
   return (
-      <Box sx={{ display: 'flex' }}>
-        <AppBar position="fixed">
-          <Toolbar>
-            <IconButton edge="start" color="inherit" aria-label="menu">
-              <ManageAccountsIcon />
-            </IconButton>
-            <Typography variant="h6" noWrap marginRight={5}>
-              User Profile
-            </Typography>
-            <BackHomeBtn />
-          </Toolbar>
-        </AppBar>
-        <List sx={{ marginTop: '80px', width: '160px' }}>
-          {menuItems.map((item: string, index: number) => (
-            <ListItem
-              button
-              key={item}
-              selected={selectedMenuItem === item}
-              onClick={() => handleMenuItemClick(item)}
-            >
-              <ListItemText primary={item} />
-            </ListItem>
-          ))}
-        </List>
-        <StyledBox>
-          <Box sx={{ marginLeft: '20px' }}>
-            {selectedMenuItem === 'Settings' && (
-              <Typography variant="h4">Edit personal information</Typography>
-            )}
-            {selectedMenuItem === 'Edit address details' && (
-              <Typography variant="h4">Edit address details</Typography>
-            )}
-            {selectedMenuItem === 'Forgot password' && (
-              <>
-                <Typography variant="h4">Forgot password</Typography>
-                <ForgotPswSettings />
-              </>
-            )}
-            {selectedMenuItem === 'Delivery details' && (
-              <Typography variant="h4">Delivery details</Typography>
-            )}
-            {selectedMenuItem === 'Orders history' && (
-              <Typography variant="h4">Orders history</Typography>
-            )}
-            {selectedMenuItem === 'Delete account' && (
-              <>
-                <Typography variant="h4">Delete account</Typography>
-                <DeleteAccountSettings />
-              </>
-            )}
-          </Box>
-        </StyledBox>
-      </Box>
+    <Box sx={{ display: 'flex' }}>
+      <AppBar position="fixed">
+        <Toolbar>
+          <IconButton edge="start" color="inherit" aria-label="menu">
+            <ManageAccountsIcon />
+          </IconButton>
+          <Typography variant="h6" noWrap marginRight={5}>
+            User Profile
+          </Typography>
+          <BackHomeBtn />
+        </Toolbar>
+      </AppBar>
+      <List sx={{ marginTop: '80px', width: '160px' }}>
+        {menuItems.map((item: string, index: number) => (
+          <ListItem
+            button
+            key={item}
+            selected={selectedMenuItem === item}
+            onClick={() => handleMenuItemClick(item)}
+          >
+            <ListItemText primary={item} />
+          </ListItem>
+        ))}
+      </List>
+      <StyledBox>
+        <Box sx={{ marginLeft: '20px' }}>
+          {selectedMenuItem === 'Settings' && (
+            <Typography variant="h4">Edit personal information</Typography>
+          )}
+          {selectedMenuItem === 'Edit address details' && (
+            <Typography variant="h4">Edit address details</Typography>
+          )}
+          {selectedMenuItem === 'Forgot password' && (
+            <>
+              <Typography variant="h4">Forgot password</Typography>
+              <ForgotPswSettings />
+            </>
+          )}
+          {selectedMenuItem === 'Delivery details' && (
+            <Typography variant="h4">Delivery details</Typography>
+          )}
+          {selectedMenuItem === 'Orders history' && (
+            <Typography variant="h4">Orders history</Typography>
+          )}
+          {selectedMenuItem === 'Delete account' && (
+            <>
+              <Typography variant="h4">Delete account</Typography>
+              <DeleteAccountSettings />
+            </>
+          )}
+        </Box>
+      </StyledBox>
+    </Box>
   );
 };
 
