@@ -39,7 +39,6 @@ const UserProfilePage: FC = () => {
   };
 
   return (
-    <>
       <Box sx={{ display: 'flex' }}>
         <AppBar position="fixed">
           <Toolbar>
@@ -93,7 +92,6 @@ const UserProfilePage: FC = () => {
           </Box>
         </StyledBox>
       </Box>
-    </>
   );
 };
 
