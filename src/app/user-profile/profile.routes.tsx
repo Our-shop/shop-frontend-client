@@ -27,9 +27,9 @@ const UserProfilePage = React.lazy(() => import('./user-profile'));
 const ProfileRoutes: FC = () => {
   return (
     <Routes>
-      <Route path="/profile" element={<Suspended element={UserProfilePage} />} />
+      <Route path="/" element={<Suspended element={UserProfilePage} />} />
       {/*/!* DEFAULT *!/*/}
-      <Route path="*" element={<Navigate to="./" replace />} />
+      <Route path="*" element={<Navigate to="/profile" />} />
     </Routes>
   );
 };
