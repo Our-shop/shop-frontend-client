@@ -71,6 +71,7 @@ const ForgotPasswordPage: FC = () => {
                 as={TextField}
                 label="Email"
                 placeholder="Enter email"
+                type="email"
                 fullWidth
                 required
                 sx={{ marginBottom: '10px' }}

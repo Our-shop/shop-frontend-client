@@ -59,6 +59,7 @@ const SignUpPage: FC = () => {
     setTimeout(() => {
       props.resetForm();
       props.setSubmitting(false);
+      // TODO add navigation to main page after sign-up
     }, 2000);
 
     console.log('Props:', props);
@@ -96,6 +97,7 @@ const SignUpPage: FC = () => {
                 as={TextField}
                 label="Email"
                 placeholder="Enter email"
+                type="email"
                 fullWidth
                 required
                 sx={{ marginBottom: '10px' }}

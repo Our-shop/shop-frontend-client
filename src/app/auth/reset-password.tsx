@@ -1,8 +1,10 @@
 import React, { FC } from 'react';
-import { Avatar, Button, Grid, Link, Paper, TextField, Typography } from '@mui/material';
+import { Form, Formik, Field, ErrorMessage } from 'formik';
+import { Avatar, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import { colors } from '../../themes';
 import { styled } from '@mui/material/styles';
+import { resetPswSchema } from './validation-schemas/reset-psw.schema';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -20,7 +22,32 @@ const StyledAvatar = styled(Avatar)`
   margin-bottom: 10px;
 `;
 
+interface FormValues {
+  email: string;
+  newPsw: string;
+  confirmNewPsw: string;
+}
+
 const ResetPasswordPage: FC = () => {
+  const initialValues: FormValues = {
+    email: '',
+    newPsw: '',
+    confirmNewPsw: '',
+  };
+
+  const handleSubmit = (values: FormValues, props: any) => {
+    console.log('Form values:', values);
+
+    setTimeout(() => {
+      props.resetForm();
+      props.setSubmitting(false);
+
+      // TODO navigate to main page after reset password
+    }, 2000);
+
+    console.log('Props:', props);
+  };
+
   return (
     <Grid container justifyContent="center">
       <StyledPaper elevation={10}>
@@ -35,36 +62,59 @@ const ResetPasswordPage: FC = () => {
         <Typography variant="h6" marginBottom={3} textAlign={'center'}>
           Please enter your email and new password:
         </Typography>
-        <TextField
-          label="Email"
-          placeholder="Enter email"
-          fullWidth
-          required
-          sx={{ marginBottom: '10px' }}
-        />
-        <TextField
-          label="New password"
-          placeholder="Enter new password"
-          fullWidth
-          required
-          sx={{ marginBottom: '10px' }}
-        />
-        <TextField
-          label="Dublicate new password"
-          placeholder="Dublicate new password"
-          fullWidth
-          required
-          sx={{ marginBottom: '10px' }}
-        />
-        <Button
-          type="submit"
-          color="primary"
-          variant="contained"
-          fullWidth
-          sx={{ margin: '8px 0' }}
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={resetPswSchema}
         >
-          Save
-        </Button>
+          {(props) => (
+            <Form>
+              <Field
+                as={TextField}
+                label="Email"
+                placeholder="Enter email"
+                type="email"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                name="email"
+                helperText={<ErrorMessage name="email" />}
+              />
+              <Field
+                as={TextField}
+                label="New password"
+                placeholder="Enter new password"
+                type="password"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                name="newPsw"
+                helperText={<ErrorMessage name="newPsw" />}
+              />
+              <Field
+                as={TextField}
+                label="Duplicate new password"
+                placeholder="Duplicate new password"
+                type="password"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                name="confirmNewPsw"
+                helperText={<ErrorMessage name="confirmNewPsw" />}
+              />
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                fullWidth
+                sx={{ margin: '8px 0' }}
+                disabled={props.isSubmitting}
+              >
+                {props.isSubmitting ? 'Loading' : 'Save'}
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </StyledPaper>
     </Grid>
   );

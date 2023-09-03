@@ -69,6 +69,7 @@ const SignInPage: FC = () => {
                 as={TextField}
                 label="Email"
                 name="email"
+                type="email"
                 placeholder="Enter email"
                 fullWidth
                 required
