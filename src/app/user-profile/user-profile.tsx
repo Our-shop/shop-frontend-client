@@ -13,9 +13,12 @@ import {
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import BackHomeBtn from '../../components/ui/back.btn.comp';
 import styled from '@emotion/styled';
+import ForgotPswSettings from './components/forgot-psw.settings';
 
 const StyledBox = styled(Box)`
   flex-grow: 1;
+  justify-content: center;
+  align-items: center;
   padding: 20px;
   margin-top: 70px;
 `;
@@ -29,7 +32,7 @@ const menuItems: string[] = [
 ];
 
 const UserProfilePage: FC = () => {
-  const [selectedMenuItem, setSelectedMenuItem] = useState<string>('Home');
+  const [selectedMenuItem, setSelectedMenuItem] = useState<string>('Settings');
 
   const handleMenuItemClick = (item: string) => {
     setSelectedMenuItem(item);
@@ -62,7 +65,7 @@ const UserProfilePage: FC = () => {
           ))}
         </List>
         <StyledBox>
-          <Container>
+          <Box sx={{ marginLeft: '20px' }}>
             {selectedMenuItem === 'Settings' && (
               <Typography variant="h4">Edit personal information</Typography>
             )}
@@ -70,7 +73,10 @@ const UserProfilePage: FC = () => {
               <Typography variant="h4">Edit address details</Typography>
             )}
             {selectedMenuItem === 'Forgot password' && (
-              <Typography variant="h4">Forgot password</Typography>
+              <>
+                <Typography variant="h4">Forgot password</Typography>
+                <ForgotPswSettings />
+              </>
             )}
             {selectedMenuItem === 'Delivery details' && (
               <Typography variant="h4">Delivery details</Typography>
@@ -81,7 +87,7 @@ const UserProfilePage: FC = () => {
             {selectedMenuItem === 'Delete account' && (
               <Typography variant="h4">Delete account</Typography>
             )}
-          </Container>
+          </Box>
         </StyledBox>
       </Box>
     </>
