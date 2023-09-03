@@ -1,17 +1,20 @@
 import React, { FC } from 'react';
-import { Grid, Paper, Avatar, TextField, Button, Typography, Link } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { colors } from '../../themes';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { NavLink as RouterLink } from 'react-router-dom';
 import { Form, Formik, Field, ErrorMessage } from 'formik';
-import { signInSchema } from './validation-schemas/sign-in.schema';
+import { Avatar, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import LockResetIcon from '@mui/icons-material/LockReset';
+import { colors } from '../../themes';
+import { styled } from '@mui/material/styles';
+import { resetPswSchema } from './validation-schemas/reset-psw.schema';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
   min-height: 50vh;
   width: 400px;
   margin: 50px auto 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 `;
 
 const StyledAvatar = styled(Avatar)`
@@ -19,21 +22,17 @@ const StyledAvatar = styled(Avatar)`
   margin-bottom: 10px;
 `;
 
-const StyledBackBtn = styled(Button)`
-  margin-top: 15px;
-  justify-content: center;
-  align-items: center;
-`;
-
 interface FormValues {
   email: string;
-  password: string;
+  newPsw: string;
+  confirmNewPsw: string;
 }
 
-const SignInPage: FC = () => {
+const ResetPasswordPage: FC = () => {
   const initialValues: FormValues = {
     email: '',
-    password: '',
+    newPsw: '',
+    confirmNewPsw: '',
   };
 
   const handleSubmit = (values: FormValues, props: any) => {
@@ -42,7 +41,8 @@ const SignInPage: FC = () => {
     setTimeout(() => {
       props.resetForm();
       props.setSubmitting(false);
-      // TODO add navigation to main page after sign-in
+
+      // TODO navigate to main page after reset password
     }, 2000);
 
     console.log('Props:', props);
@@ -53,41 +53,54 @@ const SignInPage: FC = () => {
       <StyledPaper elevation={10}>
         <Grid container direction="column" alignItems="center">
           <StyledAvatar>
-            <LockOutlinedIcon />
+            <LockResetIcon />
           </StyledAvatar>
           <Typography variant="h5" marginBottom={3}>
-            Sign In
+            Reset password
           </Typography>
         </Grid>
+        <Typography variant="h6" marginBottom={3} textAlign={'center'}>
+          Please enter your email and new password:
+        </Typography>
         <Formik
           initialValues={initialValues}
           onSubmit={handleSubmit}
-          validationSchema={signInSchema}
+          validationSchema={resetPswSchema}
         >
           {(props) => (
             <Form>
               <Field
                 as={TextField}
                 label="Email"
-                name="email"
-                type="email"
                 placeholder="Enter email"
+                type="email"
                 fullWidth
                 required
                 sx={{ marginBottom: '10px' }}
+                name="email"
                 helperText={<ErrorMessage name="email" />}
-                autoComplete="email"
               />
               <Field
                 as={TextField}
-                label="Password"
-                name="password"
-                placeholder="Enter password"
+                label="New password"
+                placeholder="Enter new password"
                 type="password"
                 fullWidth
                 required
-                helperText={<ErrorMessage name="password" />}
-                autoComplete="password"
+                sx={{ marginBottom: '10px' }}
+                name="newPsw"
+                helperText={<ErrorMessage name="newPsw" />}
+              />
+              <Field
+                as={TextField}
+                label="Duplicate new password"
+                placeholder="Duplicate new password"
+                type="password"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                name="confirmNewPsw"
+                helperText={<ErrorMessage name="confirmNewPsw" />}
               />
               <Button
                 type="submit"
@@ -97,28 +110,14 @@ const SignInPage: FC = () => {
                 sx={{ margin: '8px 0' }}
                 disabled={props.isSubmitting}
               >
-                {props.isSubmitting ? 'Loading' : 'Sign in'}
+                {props.isSubmitting ? 'Loading' : 'Save'}
               </Button>
             </Form>
           )}
         </Formik>
-        <Typography sx={{ marginTop: '5px' }}>
-          <Link component={RouterLink} to="/auth/forgot-password">
-            Forgot password?
-          </Link>
-        </Typography>
-        <Typography sx={{ marginTop: '5px' }}>Do you have an account?</Typography>
-        <Typography>
-          <Link component={RouterLink} to="/auth/sign-up">
-            Sign Up
-          </Link>
-        </Typography>
-        <Link component={RouterLink} to="/" color={colors.white}>
-          <StyledBackBtn variant="contained">Go Back</StyledBackBtn>
-        </Link>
       </StyledPaper>
     </Grid>
   );
 };
 
-export default SignInPage;
+export default ResetPasswordPage;
