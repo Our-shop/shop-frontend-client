@@ -42,6 +42,7 @@ const SignInPage: FC = () => {
     setTimeout(() => {
       props.resetForm();
       props.setSubmitting(false);
+      // TODO add navigation to main page after sign-in
     }, 2000);
 
     console.log('Props:', props);
