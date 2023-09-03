@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
+import { Form, Formik, Field, ErrorMessage } from 'formik';
 import { Avatar, Button, Grid, Link, Paper, TextField, Typography } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { colors } from '../../themes';
 import { styled } from '@mui/material/styles';
+import { forgotPswSchema } from './validation-schemas/forgot-psw.schema';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -21,7 +23,29 @@ const StyledAvatar = styled(Avatar)`
   margin-bottom: 10px;
 `;
 
+interface FormValues {
+  email: string;
+}
+
 const ForgotPasswordPage: FC = () => {
+  const navigate = useNavigate();
+
+  const initialValues: FormValues = {
+    email: '',
+  };
+
+  const handleSubmit = (values: FormValues, props: any) => {
+    console.log('Form values:', values);
+
+    setTimeout(() => {
+      props.resetForm();
+      props.setSubmitting(false);
+      navigate('/auth/reset-password');
+    }, 500);
+
+    console.log('Props:', props);
+  };
+
   return (
     <Grid container justifyContent="center">
       <StyledPaper elevation={10}>
@@ -30,29 +54,41 @@ const ForgotPasswordPage: FC = () => {
             <LockResetIcon />
           </StyledAvatar>
           <Typography variant="h5" marginBottom={3}>
-            Forgot password ?
+            Forgot password
           </Typography>
         </Grid>
         <Typography variant="h6" marginBottom={3} textAlign={'center'}>
           To restore the password please enter your email:
         </Typography>
-        <TextField
-          label="Email"
-          placeholder="Enter email"
-          fullWidth
-          required
-          sx={{ marginBottom: '10px' }}
-        />
-        <Link component={RouterLink} to="/auth/reset-password" color={colors.white}>
-          <Button
-            type="submit"
-            color="primary"
-            variant="contained"
-            sx={{ margin: '20px auto 8px' }}
-          >
-            Restore password
-          </Button>
-        </Link>
+        <Formik
+          initialValues={initialValues}
+          onSubmit={handleSubmit}
+          validationSchema={forgotPswSchema}
+        >
+          {(props) => (
+            <Form>
+              <Field
+                as={TextField}
+                label="Email"
+                placeholder="Enter email"
+                fullWidth
+                required
+                sx={{ marginBottom: '10px' }}
+                name="email"
+                helperText={<ErrorMessage name="email" />}
+              />
+              <Button
+                type="submit"
+                color="primary"
+                variant="contained"
+                sx={{ margin: '20px auto 8px' }}
+                disabled={props.isSubmitting}
+              >
+                {props.isSubmitting ? 'Loading' : 'Restore password'}
+              </Button>
+            </Form>
+          )}
+        </Formik>
       </StyledPaper>
     </Grid>
   );

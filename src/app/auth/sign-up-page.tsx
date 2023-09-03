@@ -15,12 +15,12 @@ import {
   Typography,
 } from '@mui/material';
 import { NavLink as RouterLink } from 'react-router-dom';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { Form, Formik, Field, ErrorMessage } from 'formik';
+import { signUpSchema } from './validation-schemas/sign-up.schema';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import { FormHelperText } from '@mui/material';
 import { colors } from '../../themes';
 import { styled } from '@mui/material/styles';
-import { signUpSchema } from './validation-schemas/sign-up.schema';
-import { FormHelperText } from '@mui/material';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
