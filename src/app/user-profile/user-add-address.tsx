@@ -1,11 +1,12 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Avatar, Button, Grid, Link, Paper, TextField, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers, FormikProps } from 'formik';
 import { styled } from '@mui/material/styles';
 import { colors } from '../../themes';
 import { addAddressSchema } from './validation-schemas/add-address.schema';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
+import { addAddress } from './api/ user-address';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -19,37 +20,47 @@ const StyledAvatar = styled(Avatar)`
   margin-bottom: 10px;
 `;
 
-interface FormValues {
-  city: string;
-  address: string;
-  phone: string;
-}
-
 const StyledBackBtn = styled(Button)`
   justify-content: center;
   align-items: center;
   border: 1px solid #fff;
 `;
 
+interface FormValues {
+  city: string;
+  address: string;
+  phone: string;
+}
+
+const initialValues: FormValues = {
+  city: '',
+  address: '',
+  phone: '',
+};
+
 const UserAddAddress: FC = () => {
+  const [address, setAddress] = useState(initialValues);
   const navigate = useNavigate();
+  const userId = '6c221a3c-38bc-43fb-91ba-4a88fb17f4f4';
 
-  const initialValues: FormValues = {
-    city: '',
-    address: '',
-    phone: '',
-  };
+  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
+    setAddress(Object.assign(address, values));
+    const addData = {
+      userId: userId,
+      ...address,
+    };
 
-  const handleSubmit = (values: FormValues, props: any) => {
-    console.log('Form values:', values);
-
-    setTimeout(() => {
-      props.resetForm();
-      props.setSubmitting(false);
-      navigate('/profile/delivery-details');
-    }, 2000);
-
-    console.log('Props:', props);
+    try {
+      const res = await addAddress(addData);
+      console.log(res);
+      formikHelpers.resetForm();
+      formikHelpers.setSubmitting(false);
+      setTimeout(() => {
+        navigate('/profile/delivery-details');
+      }, 2000);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -68,7 +79,7 @@ const UserAddAddress: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={addAddressSchema}
         >
-          {(props) => (
+          {(FormikProps) => (
             <Form>
               <Field
                 as={TextField}
@@ -110,9 +121,9 @@ const UserAddAddress: FC = () => {
                 variant="contained"
                 fullWidth
                 sx={{ margin: '8px 0' }}
-                disabled={props.isSubmitting}
+                disabled={FormikProps.isSubmitting}
               >
-                {props.isSubmitting ? 'Loading' : 'Add Address'}
+                {FormikProps.isSubmitting ? 'Loading' : 'Add Address'}
               </Button>
             </Form>
           )}

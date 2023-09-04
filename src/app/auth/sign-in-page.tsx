@@ -39,8 +39,6 @@ const SignInPage: FC = () => {
       props.setSubmitting(false);
       // TODO add navigation to main page after sign-in
     }, 2000);
-
-    console.log('Props:', props);
   };
 
   return (
