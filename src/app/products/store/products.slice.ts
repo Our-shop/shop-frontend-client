@@ -1,10 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getProducts } from './products.actions';
+import { getProducts, setProducts } from './products.actions';
 import { ProductsState } from '../types/products-state.type';
 import productsJson from '../products.json';
 
 const initialState: ProductsState = {
-  products: productsJson.slice(0, 6),
+  products: [],
   pending: true,
   error: null,
 };
@@ -12,7 +12,11 @@ const initialState: ProductsState = {
 export const productsSlice = createSlice({
   name: 'products',
   initialState,
-  reducers: {},
+  reducers: {
+    setProducts: (state, action) => {
+      state.products = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // ============ GET PRODUCTS ============ //
@@ -27,6 +31,10 @@ export const productsSlice = createSlice({
       .addCase(getProducts.rejected, (state, action: any & { payload: any }) => {
         state.pending = false;
         state.error = action.payload.message;
+      })
+      // ============ SET PRODUCTS ============ //
+      .addCase(setProducts, (state, action) => {
+        state.products = action.payload;
       });
   },
 });

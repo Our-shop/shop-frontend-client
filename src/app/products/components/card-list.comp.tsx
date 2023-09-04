@@ -1,13 +1,15 @@
 import { Grid } from '@mui/material';
 import React, { FC } from 'react';
-import { ProductDto } from '../types/product-dto.type';
 import ProductCardComp from './product-card.comp';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../store';
+import { useSelector } from 'react-redux';
+import { productsSelector } from '../store/products.selectors';
 
-interface CardListCompProps {
-  products: ProductDto[];
-}
+const CardListComp: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const products = useSelector(productsSelector);
 
-const CardListComp: FC<CardListCompProps> = ({ products }) => {
   return (
     <Grid container spacing={3}>
       {products.map((product) => (

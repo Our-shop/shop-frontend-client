@@ -4,28 +4,47 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { productsSelector } from '../store/products.selectors';
+import { pendingSelector, productsSelector } from '../store/products.selectors';
 import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../store';
+import { setProducts } from '../store/products.actions';
+import { ProductDto } from '../types/product-dto.type';
 
-const categories = [{ value: 'all' }];
+const allCategories = [
+  { name: 'all products', value: '' },
+  { name: 'food', value: 'food' },
+  { name: 'clothes', value: 'clothes' },
+  { name: 'toys', value: 'toys' },
+];
 
 const SidebarComp: FC = () => {
-  const dispatch = useDispatch();
-  const products = useSelector(productsSelector);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const [category, setCategory] = useState('all');
+  // CATEGORY
+  const [category, setCategory] = useState<string>(allCategories[0].value);
 
-  useEffect(() => {
-    const filtered = products.filter((product) => {
-      return category === 'all' ? true : product.category === category;
-    });
-    console.log(filtered);
-    console.log(category);
-  }, [category]);
-
-  const handleChange = (event: React.MouseEvent<HTMLElement>, nextCategory: string) => {
+  const changeCategory = (event: React.MouseEvent<HTMLElement>, nextCategory: string) => {
     setCategory(nextCategory);
   };
+
+  // PRODUCTS
+  const products = useSelector(productsSelector);
+  const [originalProducts, setOriginalProducts] = useState<ProductDto[]>([]);
+
+  useEffect(() => {
+    dispatch(
+      setProducts(
+        originalProducts.filter((product) => (category ? product.category === category : true)),
+      ),
+    );
+  }, [category]);
+
+  // PENDING
+  const pending = useSelector(pendingSelector);
+
+  useEffect(() => {
+    setOriginalProducts(products);
+  }, [pending]);
 
   return (
     <Box width={220}>
@@ -35,20 +54,13 @@ const SidebarComp: FC = () => {
         orientation="vertical"
         value={category}
         exclusive
-        onChange={handleChange}
+        onChange={changeCategory}
       >
-        <ToggleButton value="all" aria-label="all">
-          <Typography>All products</Typography>
-        </ToggleButton>
-        <ToggleButton value="food" aria-label="food">
-          <Typography>Food</Typography>
-        </ToggleButton>
-        <ToggleButton value="clothes" aria-label="clothes">
-          <Typography>Clothes</Typography>
-        </ToggleButton>
-        <ToggleButton value="toys" aria-label="toys">
-          <Typography>Toys</Typography>
-        </ToggleButton>
+        {allCategories.map((item) => (
+          <ToggleButton key={item.name} value={item.value} aria-label={item.name}>
+            <Typography>{item.name}</Typography>
+          </ToggleButton>
+        ))}
       </ToggleButtonGroup>
     </Box>
   );
