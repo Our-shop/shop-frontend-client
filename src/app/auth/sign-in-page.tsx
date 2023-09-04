@@ -6,6 +6,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { NavLink as RouterLink } from 'react-router-dom';
 import { Form, Formik, Field, ErrorMessage } from 'formik';
 import { signInSchema } from './validation-schemas/sign-in.schema';
+import BackHomeBtn from '../../components/ui/back.btn.comp';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -17,12 +18,6 @@ const StyledPaper = styled(Paper)`
 const StyledAvatar = styled(Avatar)`
   background-color: ${colors.lightViolet};
   margin-bottom: 10px;
-`;
-
-const StyledBackBtn = styled(Button)`
-  margin-top: 15px;
-  justify-content: center;
-  align-items: center;
 `;
 
 interface FormValues {
@@ -108,14 +103,12 @@ const SignInPage: FC = () => {
           </Link>
         </Typography>
         <Typography sx={{ marginTop: '5px' }}>Do you have an account?</Typography>
-        <Typography>
+        <Typography sx={{ marginBottom: '15px' }}>
           <Link component={RouterLink} to="/auth/sign-up">
             Sign Up
           </Link>
         </Typography>
-        <Link component={RouterLink} to="/" color={colors.white}>
-          <StyledBackBtn variant="contained">Go Back</StyledBackBtn>
-        </Link>
+        <BackHomeBtn />
       </StyledPaper>
     </Grid>
   );

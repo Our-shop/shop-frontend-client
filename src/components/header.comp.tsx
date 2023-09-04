@@ -48,9 +48,11 @@ const HeaderComp: FC = () => {
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          <IconButton size="large" edge="end" aria-label="user" color="inherit">
-            <AccountCircle />
-          </IconButton>
+          <Link component={RouterLink} to="/profile">
+            <IconButton size="large" edge="end" aria-label="user" sx={{ color: colors.white }}>
+              <AccountCircle />
+            </IconButton>
+          </Link>
         </Box>
 
         <Box paddingLeft={3}>

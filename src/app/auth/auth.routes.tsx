@@ -1,20 +1,31 @@
 import React, { FC, PropsWithChildren, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import SignInPage from './sign-in-page';
-import SignUpPage from './sign-up-page';
-import ForgotPasswordPage from './forgot-password';
-import ResetPasswordPage from './reset-password';
+import { CircularProgress } from '@mui/material';
 
 const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element }) => {
   return (
-    <Suspense fallback={<div>Logging Loading...</div>}>
+    <Suspense
+      fallback={
+        <CircularProgress
+          sx={{
+            position: 'absolute',
+            top: '30%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
+      }
+    >
       <Element />
     </Suspense>
   );
 };
 
 // ======= pages ======= //
-const AuthPage = React.lazy(() => import('./index'));
+const SignInPage = React.lazy(() => import('./sign-in-page'));
+const SignUpPage = React.lazy(() => import('./sign-up-page'));
+const ForgotPasswordPage = React.lazy(() => import('./forgot-password'));
+const ResetPasswordPage = React.lazy(() => import('./reset-password'));
 
 const AuthRoutes: FC = () => {
   return (
