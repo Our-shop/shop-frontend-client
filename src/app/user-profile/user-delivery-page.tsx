@@ -1,10 +1,10 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { Button, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import { Button, Link, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { colors } from '../../themes';
-import { DeliveryData, getAllAddresses, GetDeliveryData } from './api/ user-address';
-import { useNavigate } from 'react-router-dom';
+import { deleteAddress, getAddress, getAllActive, GetDeliveryData } from './api/ user-address';
 import UserEditAddress from './components/user-edit-address';
+import { NavLink as RouterLink } from 'react-router-dom';
 
 const StyledTable = styled(Table)`
   width: 90%;
@@ -29,47 +29,49 @@ const TRow = styled(TableRow)`
 const UserDeliveryPage: FC = () => {
   const [addresses, setAddresses] = useState<GetDeliveryData[]>([]);
   const [addressForEditId, setAddressForEditId] = useState<string>('');
+  const [activeAddress, setActiveAddress] = useState<any>();
   const [showModal, setShowModal] = useState(false);
 
-  const userId = '6c221a3c-38bc-43fb-91ba-4a88fb17f4f4';
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    getAll();
-  }, []);
-
-  //
-  // const deleteUserData = async (id) => {
-  //   await deleteAddress(id);
-  //   getAllAddresses();
-  // }
-  //
-
-  const getAll = async () => {
-    const response = await getAllAddresses(userId);
-    const res = response.data;
-    setAddresses(res);
+  const getAllActiveDeliveries = async () => {
+    try {
+      const response = await getAllActive();
+      const res = response.data;
+      setAddresses(res);
+      return response;
+    } catch (error) {
+      console.error(error);
+    }
   };
 
-  console.log(addresses);
-
   const handleEditClick = (id: string) => {
-    setAddressForEditId(id);
+    const fetchData = async () => {
+      try {
+        const currentAddress = await getAddress(id);
+        setActiveAddress(currentAddress.data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
     setShowModal(true);
-    console.log(id);
+    setAddressForEditId(id);
   };
 
   const handleDeleteClick = (id: string) => {
-    console.log(id);
+    const deleteAddressById = async () => {
+      try {
+        await deleteAddress(id);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    deleteAddressById();
+    getAllActiveDeliveries();
   };
 
-  console.log('showModal', showModal);
-
-  // useEffect(() => {
-  //   setShowModal(true);
-  //   console.log(showModal);
-  // }, [handleEditClick]);
+  useEffect(() => {
+    getAllActiveDeliveries();
+  }, [showModal, handleDeleteClick]);
 
   return (
     <>
@@ -81,6 +83,13 @@ const UserDeliveryPage: FC = () => {
             <TableCell>Address</TableCell>
             <TableCell>Phone</TableCell>
             <TableCell></TableCell>
+            <TableCell>
+              <Link component={RouterLink} to="/profile">
+                <Button type="submit" color="primary" variant="contained">
+                  Go back
+                </Button>
+              </Link>
+            </TableCell>
           </THead>
         </TableHead>
         <TableBody>
@@ -112,9 +121,10 @@ const UserDeliveryPage: FC = () => {
         </TableBody>
       </StyledTable>
       <UserEditAddress
-        addressId={addressForEditId}
+        activeAddress={activeAddress}
         setShowModal={setShowModal}
         showModal={showModal}
+        addressForEditId={addressForEditId}
       />
     </>
   );

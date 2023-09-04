@@ -1,12 +1,12 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Avatar, Box, Button, Grid, Link, Paper, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers, replace } from 'formik';
 import { styled } from '@mui/material/styles';
 import { colors } from '../../../themes';
 import { addAddressSchema } from '../validation-schemas/add-address.schema';
 import { useNavigate } from 'react-router-dom';
-import { getAddress } from '../api/ user-address';
+import { getAddress, GetDeliveryData, updateAddress } from '../api/ user-address';
 
 const StyledBackdrop = styled(Box)`
   background: rgba(0, 0, 0, 0.5);
@@ -42,7 +42,7 @@ const initialValues: FormValues = {
   phone: '',
 };
 
-interface FormValues {
+export interface FormValues {
   city: string;
   address: string;
   phone: string;
@@ -51,50 +51,33 @@ interface FormValues {
 interface AddressEditProps {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  addressId: string;
+  activeAddress: GetDeliveryData;
+  addressForEditId: string;
 }
 
-const UserEditAddress: FC<AddressEditProps> = ({ showModal, setShowModal, addressId }) => {
+const UserEditAddress: FC<AddressEditProps> = ({
+  showModal,
+  setShowModal,
+  activeAddress,
+  addressForEditId,
+}) => {
   const [address, setAddress] = useState(initialValues);
-
   const navigate = useNavigate();
-  const userId = '6c221a3c-38bc-43fb-91ba-4a88fb17f4f4';
-
-  // getAddress(addressId)
-  //   .then((currentAddress) => {
-  //     console.log(currentAddress.data);
-  //   })
-  //   .catch((error) => {
-  //     return error;
-  //   });
-
-  // console.log(res);
-
-  // const initialData = {
-  //   city: currentAddress.data.city,
-  //   address: currentAddress.data.address,
-  //   phone: currentAddress.data.phone,
-  // };
-  const fetchData = async () => {
-    try {
-      const currentAddress = await getAddress(addressId);
-      setAddress(currentAddress.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   useEffect(() => {
-    fetchData();
-    console.log(address);
-  }, [showModal, addressId]);
+    setAddress(activeAddress);
+  }, [showModal, activeAddress]);
 
   const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
     setAddress(Object.assign(address, values));
     const addData = {
-      userId: userId,
-      ...address,
+      city: address.city,
+      address: address.address,
+      phone: address.phone,
     };
+    await updateAddress(addressForEditId, addData);
+    setShowModal(false);
+    navigate('/profile/delivery-details');
   };
 
   const handleCloseModal = () => {

@@ -25,7 +25,6 @@ const Suspended: FC<PropsWithChildren & { element: any }> = ({ element: Element 
 const UserProfilePage = React.lazy(() => import('./user-profile'));
 const UserDeliveryPage = React.lazy(() => import('./user-delivery-page'));
 const UserAddAddressPage = React.lazy(() => import('./user-add-address'));
-// const UserEditAddressPage = React.lazy(() => import('./user-edit-address'));
 
 const ProfileRoutes: FC = () => {
   return (
@@ -33,7 +32,7 @@ const ProfileRoutes: FC = () => {
       <Route path="/" element={<Suspended element={UserProfilePage} />} />
       <Route path="/delivery-details" element={<Suspended element={UserDeliveryPage} />} />
       <Route path="/add-address" element={<Suspended element={UserAddAddressPage} />} />
-      {/*<Route path="/edit-address/:id" element={<Suspended element={UserEditAddressPage} />} />*/}
+
       {/*/!* DEFAULT *!/*/}
       <Route path="*" element={<Navigate to="/profile" />} />
     </Routes>
