@@ -7,14 +7,16 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import Stack from '@mui/material/Stack';
+import { useNavigate } from 'react-router-dom';
 
 interface ProductCardCompProps {
   product: ProductDto;
 }
 
 const ProductCardComp: FC<ProductCardCompProps> = ({ product }) => {
+  const navigate = useNavigate();
   return (
-    <Box width={220}>
+    <Box width={220} onClick={() => navigate(`${product.category}/${product.id}`)}>
       <Card sx={{ width: 220 }} elevation={4}>
         <CardActionArea>
           <Box margin={'0 auto'} width={80} height={220} display="flex" alignItems="center">
