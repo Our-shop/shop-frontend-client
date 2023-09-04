@@ -15,6 +15,7 @@ interface ProductCardCompProps {
 
 const ProductCardComp: FC<ProductCardCompProps> = ({ product }) => {
   const navigate = useNavigate();
+
   return (
     <Box width={220} onClick={() => navigate(`${product.category}/${product.id}`)}>
       <Card sx={{ width: 220 }} elevation={4}>

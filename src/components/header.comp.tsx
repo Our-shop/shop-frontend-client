@@ -11,9 +11,12 @@ import SearchComp from './ui/search.comp';
 import { Button, Icon, Link } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 
-const pages = ['products', 'about'];
+const pages = [
+  { name: 'products', href: '/products' },
+  { name: 'about', href: '/about' },
+];
 
 const buttonStyle = {
   border: `1px solid ${colors.lightViolet}`,
@@ -22,6 +25,8 @@ const buttonStyle = {
 };
 
 const HeaderComp: FC = () => {
+  const navigate = useNavigate();
+
   return (
     <AppBar position="sticky">
       <Toolbar>
@@ -35,8 +40,13 @@ const HeaderComp: FC = () => {
 
         <Box>
           {pages.map((page) => (
-            <Button key={page} aria-label={page} color="inherit">
-              {page}
+            <Button
+              key={page.name}
+              aria-label={page.name}
+              color="inherit"
+              onClick={() => navigate(page.href)}
+            >
+              {page.name}
             </Button>
           ))}
         </Box>
