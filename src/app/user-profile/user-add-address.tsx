@@ -38,7 +38,6 @@ const UserAddAddress: FC = () => {
   const [address, setAddress] = useState(initialValues);
   const navigate = useNavigate();
 
-  storage.set('userId', '76f557e6-b06a-43aa-96a0-77c3099fba1c');
   const userId = storage.get('userId');
 
   const handleSubmit = async (

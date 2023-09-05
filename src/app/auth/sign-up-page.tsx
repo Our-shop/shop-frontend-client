@@ -18,7 +18,6 @@ import {
 } from '@mui/material';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import { Form, Formik, Field, ErrorMessage } from 'formik';
-import jwt_decode from 'jwt-decode';
 import { signUpSchema } from './validation-schemas/sign-up.schema';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { FormHelperText } from '@mui/material';
@@ -30,6 +29,7 @@ import { signUp } from './api/sign-up';
 import storage from '../../local-storage/storage';
 import { isAxiosError } from 'axios';
 import { DefaultError } from '../../types/error.type';
+import jwt_decode from 'jwt-decode';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -81,12 +81,11 @@ const SignUpPage: FC = () => {
       storage.set('at_expired', data.at_expiration);
       storage.set('rt_expired', data.rt_expiration);
 
-      // const payload = jwt_decode(data.access_token);
-      // storage.set('userId', payload.id);
-      // console.log('payload', payload);
+      const payload: { id: string } = jwt_decode(data.access_token);
+      storage.set('userId', payload.id);
 
       props.resetForm();
-      navigate('/');
+      // navigate('/');
     } catch (error) {
       if (isAxiosError<DefaultError>(error)) {
         setAlertOpen(true);
