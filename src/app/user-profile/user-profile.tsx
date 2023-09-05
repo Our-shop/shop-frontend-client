@@ -14,6 +14,7 @@ import styled from '@emotion/styled';
 import BackHomeBtn from '../../components/ui/back.btn.comp';
 import ForgotPswSettings from './components/forgot-psw.settings';
 import DeleteAccountSettings from './components/delete-account.settings';
+import UserDeliverySettings from './components/user-delivery.settings';
 
 const StyledBox = styled(Box)`
   flex-grow: 1;
@@ -78,7 +79,10 @@ const UserProfilePage: FC = () => {
             </>
           )}
           {selectedMenuItem === 'Delivery details' && (
-            <Typography variant="h4">Delivery details</Typography>
+            <>
+              <Typography variant="h4">Delivery details</Typography>
+              <UserDeliverySettings />
+            </>
           )}
           {selectedMenuItem === 'Orders history' && (
             <Typography variant="h4">Orders history</Typography>
