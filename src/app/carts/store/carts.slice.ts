@@ -1,6 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { CartsState } from '../types/carts-state.type';
-import { deleteCartItem, editProductQuantity, getActiveCart, getCartItems } from './carts.actions';
+import {
+  addCartItem,
+  deleteCartItem,
+  editProductQuantity,
+  getActiveCart,
+  getCartItems,
+} from './carts.actions';
 
 const initialState: CartsState = {
   cart: null,
@@ -47,10 +53,15 @@ export const cartsSlice = createSlice({
         state.pending.cartItems = false;
         state.errors.cartItems = action.payload.message;
       })
-      // ============ EDIT CART ITEM ============ //
-      .addCase(editProductQuantity.pending, (state) => {
-        state.errors.cartItems = null;
+      // ============ ADD CART ITEM ============ //
+      .addCase(addCartItem.fulfilled, (state) => {
+        if (state.cart) state.cart.orderItemsQuantity += 1;
       })
+      .addCase(addCartItem.rejected, (state, action: any & { payload: any }) => {
+        state.pending.cartItems = false;
+        state.errors.cartItems = action.payload.message;
+      })
+      // ============ EDIT CART ITEM ============ //
       .addCase(editProductQuantity.fulfilled, (state, { payload }) => {
         const index = state.cartItems.findIndex((item) => item.id === payload.id);
         state.cartItems[index] = payload;
@@ -59,9 +70,6 @@ export const cartsSlice = createSlice({
         state.errors.cartItems = action.payload.message;
       })
       // ============ DELETE CART ITEM ============ //
-      .addCase(deleteCartItem.pending, (state) => {
-        state.errors.cartItems = null;
-      })
       .addCase(deleteCartItem.fulfilled, (state, { payload }) => {
         state.cartItems = state.cartItems.filter((item) => item.id !== payload.id);
         if (state.cart) state.cart.orderItemsQuantity -= 1;

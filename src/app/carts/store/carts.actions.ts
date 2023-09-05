@@ -39,6 +39,18 @@ export const getCartItems = createAsyncThunk<CartItemDto[], { cartId: string }>(
   },
 );
 
+export const addCartItem = createAsyncThunk<CartItemDto, { cartId: string; productId: string }>(
+  'POST/order-items',
+  async ({ cartId, productId }, { rejectWithValue }) => {
+    try {
+      const response = await repository.post('order-items', { orderId: cartId, productId });
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const editProductQuantity = createAsyncThunk<CartItemDto, Partial<CartItemDto>>(
   'PUT/order-items/:orderItemId',
   async (cartItem, { rejectWithValue }) => {

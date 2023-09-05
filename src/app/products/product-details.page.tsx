@@ -4,8 +4,15 @@ import { useParams } from 'react-router-dom';
 import repository from '../../repository';
 import { FullProductDto } from './types/full-product.type';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { useSelector } from 'react-redux';
+import { cartSelector } from '../carts/store/carts.selector';
+import { addCartItem } from '../carts/store/carts.actions';
 
 const ProductDetailsPage: FC = () => {
+  const dispatch = useDispatch<AppDispatch>();
+
   const { category, id } = useParams();
 
   const [product, setProduct] = useState<FullProductDto>();
@@ -15,6 +22,14 @@ const ProductDetailsPage: FC = () => {
       setProduct(data);
     });
   }, []);
+
+  // ADD TO CART
+  const cart = useSelector(cartSelector);
+
+  const addToCart = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    cart && product && dispatch(addCartItem({ cartId: cart?.id, productId: product.id }));
+  };
 
   if (!product) return <div>Loading...</div>;
 
@@ -35,7 +50,7 @@ const ProductDetailsPage: FC = () => {
             {product?.size && 'Clothes size: ' + product.size}
             {product?.recommendedAge && 'Recommended age: ' + product.recommendedAge}
           </Typography>
-          <Button variant="contained" sx={{ marginTop: 3 }}>
+          <Button variant="contained" sx={{ marginTop: 3 }} onClick={(event) => addToCart(event)}>
             Add to Cart
           </Button>
         </Stack>
