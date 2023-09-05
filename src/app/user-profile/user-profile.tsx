@@ -86,13 +86,6 @@ const UserProfilePage: FC = () => {
               <ForgotPswSettings />
             </>
           )}
-          {/*{selectedMenuItem === 'Delivery details' && (*/}
-          {/*  <>*/}
-          {/*    <Typography variant="h4">Delivery details</Typography>*/}
-          {/*    <UserDeliverySettings />*/}
-          {/*  </>*/}
-          {/*)}*/}
-          {/*{selectedMenuItem === 'Delivery details' && (<></>)}*/}
           {selectedMenuItem === 'Orders history' && (
             <Typography variant="h4">Orders history</Typography>
           )}

@@ -8,6 +8,7 @@ import { addAddressSchema } from './validation-schemas/add-address.schema';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import { addAddress } from './api/ user-address';
 import { AddAddressFormValues } from './types/add-address.type';
+import storage from '../../local-storage/storage';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -36,7 +37,9 @@ const initialValues: AddAddressFormValues = {
 const UserAddAddress: FC = () => {
   const [address, setAddress] = useState(initialValues);
   const navigate = useNavigate();
-  const userId = '9dc49b21-1a18-4a20-828d-92cced1cbc23';
+
+  storage.set('userId', '76f557e6-b06a-43aa-96a0-77c3099fba1c');
+  const userId = storage.get('userId');
 
   const handleSubmit = async (
     values: AddAddressFormValues,
@@ -44,7 +47,7 @@ const UserAddAddress: FC = () => {
   ) => {
     setAddress(Object.assign(address, values));
     const addData = {
-      userId: userId,
+      userId: userId ? userId : '',
       ...address,
     };
 

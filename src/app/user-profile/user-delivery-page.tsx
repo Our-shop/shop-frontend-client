@@ -15,6 +15,8 @@ import { colors } from '../../themes';
 import { deleteAddress, getAddress, getAllActiveByUserId } from './api/ user-address';
 import UserEditAddress from './components/user-edit-address';
 import { GetDeliveryData } from './types/get-delivery-data.type';
+import storage from '../../local-storage/storage';
+import LoaderComp from '../../components/loader.comp';
 
 const StyledTable = styled(Table)`
   width: 90%;
@@ -44,7 +46,7 @@ const UserDeliveryPage: FC = () => {
 
   const navigate = useNavigate();
 
-  const userId = '9dc49b21-1a18-4a20-828d-92cced1cbc23';
+  const userId = storage.get('userId');
 
   const getAllActiveUserDeliveries = async (userId: string) => {
     try {
@@ -80,12 +82,14 @@ const UserDeliveryPage: FC = () => {
       }
     };
     deleteAddressById();
-    getAllActiveUserDeliveries(userId);
+    getAllActiveUserDeliveries(userId ? userId : '');
   };
 
   useEffect(() => {
-    getAllActiveUserDeliveries(userId);
+    getAllActiveUserDeliveries(userId ? userId : '');
   }, [showModal, handleDeleteClick]);
+
+  if (!addresses) return <LoaderComp />;
 
   return (
     <>
