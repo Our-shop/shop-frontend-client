@@ -1,22 +1,9 @@
 import repository from '../../../repository';
+import { DeliveryDto } from '../types/delivery-dto.type';
+import { GetDeliveryData } from '../types/get-delivery-data.type';
 
-export interface DeliveryData {
-  userId: string;
-  city: string;
-  address: string;
-  phone: string;
-}
-
-export interface GetDeliveryData {
-  userId: string;
-  city: string;
-  address: string;
-  phone: string;
-  id: string;
-}
-
-export const addAddress = async (address: DeliveryData) => {
-  return await repository.post<DeliveryData>('/delivery', address);
+export const addAddress = async (address: DeliveryDto) => {
+  return await repository.post<DeliveryDto>('/delivery', address);
 };
 
 export const getAllActive = async () => {
@@ -31,10 +18,10 @@ export const getAddress = async (id: string) => {
   return await repository.get<GetDeliveryData>(`/delivery/${id}`);
 };
 
-export const updateAddress = async (id: string, address: Partial<DeliveryData>) => {
-  return await repository.put<Partial<DeliveryData>>(`delivery/${id}`, address);
+export const updateAddress = async (id: string, address: Partial<DeliveryDto>) => {
+  return await repository.put<Partial<DeliveryDto>>(`delivery/${id}`, address);
 };
 
 export const deleteAddress = async (id: string) => {
-  return await repository.delete<DeliveryData>(`delivery/${id}`);
+  return await repository.delete<DeliveryDto>(`delivery/${id}`);
 };

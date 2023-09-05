@@ -1,16 +1,20 @@
 import React, { FC, useEffect, useState } from 'react';
-import styled from '@emotion/styled';
-import { Button, Link, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
-import { colors } from '../../themes';
-import {
-  deleteAddress,
-  getAddress,
-  getAllActive,
-  getAllActiveByUserId,
-  GetDeliveryData,
-} from './api/ user-address';
-import UserEditAddress from './components/user-edit-address';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
+import styled from '@emotion/styled';
+import {
+  Button,
+  Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
+import { colors } from '../../themes';
+import { deleteAddress, getAddress, getAllActiveByUserId } from './api/ user-address';
+import UserEditAddress from './components/user-edit-address';
+import { GetDeliveryData } from './types/get-delivery-data.type';
 
 const StyledTable = styled(Table)`
   width: 90%;
@@ -103,6 +107,24 @@ const UserDeliveryPage: FC = () => {
           </THead>
         </TableHead>
         <TableBody>
+          {addresses.length === 0 ? (
+            <TRow sx={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
+              <Typography variant="h5" style={{ marginRight: 30 }}>
+                No addresses as of now
+              </Typography>
+              <Link
+                component={RouterLink}
+                to="/profile/add-address"
+                sx={{ textDecoration: 'none' }}
+              >
+                <Button variant="contained" color="secondary">
+                  Add address
+                </Button>
+              </Link>
+            </TRow>
+          ) : (
+            ''
+          )}
           {addresses?.map((address, index) => (
             <TRow key={index + 1}>
               <TableCell>{index + 1}</TableCell>

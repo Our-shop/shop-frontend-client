@@ -7,6 +7,7 @@ import { colors } from '../../themes';
 import { addAddressSchema } from './validation-schemas/add-address.schema';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import { addAddress } from './api/ user-address';
+import { AddAddressFormValues } from './types/add-address.type';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -26,13 +27,7 @@ const StyledBackBtn = styled(Button)`
   border: 1px solid #fff;
 `;
 
-interface FormValues {
-  city: string;
-  address: string;
-  phone: string;
-}
-
-const initialValues: FormValues = {
+const initialValues: AddAddressFormValues = {
   city: '',
   address: '',
   phone: '',
@@ -43,7 +38,10 @@ const UserAddAddress: FC = () => {
   const navigate = useNavigate();
   const userId = '9dc49b21-1a18-4a20-828d-92cced1cbc23';
 
-  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
+  const handleSubmit = async (
+    values: AddAddressFormValues,
+    formikHelpers: FormikHelpers<AddAddressFormValues>,
+  ) => {
     setAddress(Object.assign(address, values));
     const addData = {
       userId: userId,

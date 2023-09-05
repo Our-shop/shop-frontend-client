@@ -1,12 +1,13 @@
 import React, { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
-import { ErrorMessage, Field, Form, Formik, FormikHelpers, replace } from 'formik';
 import { styled } from '@mui/material/styles';
 import { colors } from '../../../themes';
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import { addAddressSchema } from '../validation-schemas/add-address.schema';
-import { useNavigate } from 'react-router-dom';
-import { getAddress, GetDeliveryData, updateAddress } from '../api/ user-address';
+import { GetDeliveryData } from '../types/get-delivery-data.type';
+import { updateAddress } from '../api/ user-address';
 
 const StyledBackdrop = styled(Box)`
   background: rgba(0, 0, 0, 0.5);
@@ -36,13 +37,13 @@ const StyledAvatar = styled(Avatar)`
   margin-bottom: 10px;
 `;
 
-const initialValues: FormValues = {
+const initialValues: AddressFormValues = {
   city: '',
   address: '',
   phone: '',
 };
 
-export interface FormValues {
+export interface AddressFormValues {
   city: string;
   address: string;
   phone: string;
@@ -68,7 +69,10 @@ const UserEditAddress: FC<AddressEditProps> = ({
     setAddress(activeAddress);
   }, [showModal, activeAddress]);
 
-  const handleSubmit = async (values: FormValues, formikHelpers: FormikHelpers<FormValues>) => {
+  const handleSubmit = async (
+    values: AddressFormValues,
+    formikHelpers: FormikHelpers<AddressFormValues>,
+  ) => {
     setAddress(Object.assign(address, values));
     const addData = {
       city: address.city,
