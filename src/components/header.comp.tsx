@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,6 +12,11 @@ import { Button, Icon, Link } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store';
+import { useSelector } from 'react-redux';
+import { cartPendingSelector, cartSelector } from '../app/carts/store/carts.selector';
+import { getActiveCart } from '../app/carts/store/carts.actions';
 
 const pages = [
   { name: 'products', href: '/products' },
@@ -26,6 +31,19 @@ const buttonStyle = {
 
 const HeaderComp: FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  // CART
+  const cart = useSelector(cartSelector);
+  const tempUserId = '9f5a5b41-46d7-414b-8e8b-b55b3cad9daf';
+
+  useEffect(() => {
+    dispatch(getActiveCart({ userId: tempUserId }));
+  }, [dispatch]);
+
+  useEffect(() => {
+    console.log(cart);
+  }, [cart]);
 
   return (
     <AppBar position="sticky">
@@ -53,8 +71,13 @@ const HeaderComp: FC = () => {
 
         <Box flexGrow={1} />
         <Box>
-          <IconButton size="large" aria-label="cart" color="inherit">
-            <Badge badgeContent={4} color="error">
+          <IconButton
+            size="large"
+            aria-label="cart"
+            color="inherit"
+            onClick={() => navigate('/carts')}
+          >
+            <Badge badgeContent={cart?.orderItemsQuantity} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>

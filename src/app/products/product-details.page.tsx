@@ -22,9 +22,9 @@ const ProductDetailsPage: FC = () => {
     <PageLayoutComp>
       <Stack direction="row" gap={10} justifyContent="center" alignItems="center">
         <Box>
-          <img src={product.image} alt={product.title} width="100%" />
+          <img src={product.image} alt={product.title} />
         </Box>
-        <Stack padding={2} gap={2} maxWidth={300}>
+        <Stack padding={2} gap={2} maxWidth={500}>
           <Typography variant="h3">{product.title}</Typography>
           <Divider />
           <Typography variant="body1">{product.description}</Typography>

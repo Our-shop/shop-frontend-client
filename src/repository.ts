@@ -8,9 +8,7 @@ const repository = axios.create({
 repository.interceptors.request.use((config) => {
   // const accessToken = localStorage.get('access_token');
   // if (accessToken) {
-  //   config.headers = {
-  //     Authorization: `Bearer ${accessToken}`,
-  //   };
+  //   config.headers.Authorization = `Bearer ${accessToken}`;
   // }
   return config;
 });

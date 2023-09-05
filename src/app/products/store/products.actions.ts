@@ -3,7 +3,7 @@ import { ProductDto } from '../types/product-dto.type';
 import repository from '../../../repository';
 
 export const getProducts = createAsyncThunk<ProductDto[]>(
-  'products/getAll',
+  'GET/products',
   async (_, { rejectWithValue }) => {
     try {
       const response = await repository.get('products/active');
