@@ -2,9 +2,15 @@ import React, { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Button, Link, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
 import { colors } from '../../themes';
-import { deleteAddress, getAddress, getAllActive, GetDeliveryData } from './api/ user-address';
+import {
+  deleteAddress,
+  getAddress,
+  getAllActive,
+  getAllActiveByUserId,
+  GetDeliveryData,
+} from './api/ user-address';
 import UserEditAddress from './components/user-edit-address';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 
 const StyledTable = styled(Table)`
   width: 90%;
@@ -32,9 +38,13 @@ const UserDeliveryPage: FC = () => {
   const [activeAddress, setActiveAddress] = useState<any>();
   const [showModal, setShowModal] = useState(false);
 
-  const getAllActiveDeliveries = async () => {
+  const navigate = useNavigate();
+
+  const userId = '9dc49b21-1a18-4a20-828d-92cced1cbc23';
+
+  const getAllActiveUserDeliveries = async (userId: string) => {
     try {
-      const response = await getAllActive();
+      const response = await getAllActiveByUserId(userId);
       const res = response.data;
       setAddresses(res);
       return response;
@@ -66,11 +76,11 @@ const UserDeliveryPage: FC = () => {
       }
     };
     deleteAddressById();
-    getAllActiveDeliveries();
+    getAllActiveUserDeliveries(userId);
   };
 
   useEffect(() => {
-    getAllActiveDeliveries();
+    getAllActiveUserDeliveries(userId);
   }, [showModal, handleDeleteClick]);
 
   return (
@@ -100,6 +110,15 @@ const UserDeliveryPage: FC = () => {
               <TableCell>{address.address}</TableCell>
               <TableCell>{address.phone}</TableCell>
               <TableCell>
+                <Link
+                  component={RouterLink}
+                  to="/profile/add-address"
+                  sx={{ textDecoration: 'none' }}
+                >
+                  <Button variant="contained" color="secondary" style={{ marginRight: 10 }}>
+                    Add
+                  </Button>
+                </Link>
                 <Button
                   color="primary"
                   variant="contained"
@@ -109,7 +128,7 @@ const UserDeliveryPage: FC = () => {
                   Edit
                 </Button>
                 <Button
-                  color="secondary"
+                  style={{ backgroundColor: colors.delete }}
                   variant="contained"
                   onClick={() => handleDeleteClick(address.id)}
                 >

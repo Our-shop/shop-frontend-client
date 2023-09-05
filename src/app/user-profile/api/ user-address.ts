@@ -23,12 +23,15 @@ export const getAllActive = async () => {
   return await repository.get<GetDeliveryData[]>(`/delivery/active`);
 };
 
+export const getAllActiveByUserId = async (userId: string) => {
+  return await repository.get<GetDeliveryData[]>(`/delivery/active/${userId}`);
+};
+
 export const getAddress = async (id: string) => {
   return await repository.get<GetDeliveryData>(`/delivery/${id}`);
 };
 
 export const updateAddress = async (id: string, address: Partial<DeliveryData>) => {
-  console.log('id', id);
   return await repository.put<Partial<DeliveryData>>(`delivery/${id}`, address);
 };
 
