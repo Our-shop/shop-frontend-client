@@ -7,12 +7,15 @@ import { AppDispatch } from '../../store';
 import { getActiveCart } from './store/carts.actions';
 import { useSelector } from 'react-redux';
 import { cartSelector } from './store/carts.selector';
+import CartItemListComp from './components/cart-item-list.comp';
 
 const CartsPage: FC = () => {
   return (
     <>
       <HeaderComp />
-      <PageLayoutComp>Carts page</PageLayoutComp>
+      <PageLayoutComp>
+        <CartItemListComp />
+      </PageLayoutComp>
       <FooterComp />
     </>
   );

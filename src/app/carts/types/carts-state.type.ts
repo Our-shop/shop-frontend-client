@@ -5,4 +5,12 @@ import { CartDto } from './cart.dto';
 export interface CartsState extends BaseState {
   cart: CartDto | null;
   cartItems: CartItemDto[];
+  pending: {
+    cart: boolean;
+    cartItems: boolean;
+  };
+  errors: {
+    cart: string | null;
+    cartItems: string | null;
+  };
 }

@@ -15,7 +15,7 @@ import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
 import { useSelector } from 'react-redux';
-import { cartPendingSelector, cartSelector } from '../app/carts/store/carts.selector';
+import { cartSelector } from '../app/carts/store/carts.selector';
 import { getActiveCart } from '../app/carts/store/carts.actions';
 
 const pages = [
@@ -40,10 +40,6 @@ const HeaderComp: FC = () => {
   useEffect(() => {
     dispatch(getActiveCart({ userId: tempUserId }));
   }, [dispatch]);
-
-  useEffect(() => {
-    console.log(cart);
-  }, [cart]);
 
   return (
     <AppBar position="sticky">
