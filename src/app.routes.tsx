@@ -27,6 +27,7 @@ const ProductsPage = React.lazy(() => import('./app/products'));
 const AuthPage = React.lazy(() => import('./app/auth'));
 const HomePage = React.lazy(() => import('./app/home'));
 const ProfilePage = React.lazy(() => import('./app/user-profile'));
+const CartsPage = React.lazy(() => import('./app/carts'));
 
 const AppRoutes: FC = () => {
   return (
@@ -38,7 +39,7 @@ const AppRoutes: FC = () => {
       <Route path="/*" element={<PublicRoute element={HomePage} />} />
 
       {/* PRIVATE */}
-      <Route path="/private/*" element={<PrivateRoute element={<>Private</>} />} />
+      <Route path="/carts/*" element={<PrivateRoute element={CartsPage} />} />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/" />} />

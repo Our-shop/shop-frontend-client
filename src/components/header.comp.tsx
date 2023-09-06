@@ -17,6 +17,9 @@ import { getIsRegistered } from '../app/auth/store/auth.selectors';
 import { logout } from '../app/auth/store/auth.slice';
 import { signOut } from '../app/auth/api/sign-out';
 import storage from '../local-storage/storage';
+import { AppDispatch } from '../store';
+import { cartSelector, cartsPendingSelector } from '../app/carts/store/carts.selector';
+import { getActiveCart } from '../app/carts/store/carts.actions';
 
 const pages = [
   { name: 'products', href: '/products' },
@@ -29,9 +32,20 @@ const buttonStyle = {
   margin: '0 4px',
 };
 
+const tempUserId = '9f5a5b41-46d7-414b-8e8b-b55b3cad9daf';
+
 const HeaderComp: FC = () => {
   const [token, setToken] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
+
+  // CART
+  const cart = useSelector(cartSelector);
+  const cartsPending = useSelector(cartsPendingSelector);
+
+  if (cartsPending.cart) {
+    dispatch(getActiveCart({ userId: tempUserId }));
+  }
 
   const dispatch = useDispatch();
   const isRegistered = useSelector(getIsRegistered);
@@ -82,8 +96,13 @@ const HeaderComp: FC = () => {
 
         <Box flexGrow={1} />
         <Box>
-          <IconButton size="large" aria-label="cart" color="inherit">
-            <Badge badgeContent={4} color="error">
+          <IconButton
+            size="large"
+            aria-label="cart"
+            color="inherit"
+            onClick={() => navigate('/carts')}
+          >
+            <Badge badgeContent={cart?.orderItemsQuantity} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
