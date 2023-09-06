@@ -1,6 +1,5 @@
 import React, { FC, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import ProfilePage from './app/user-profile';
 import LoaderComp from './components/loader.comp';
 
 // ======= private route ======= //
@@ -27,6 +26,7 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 const ProductsPage = React.lazy(() => import('./app/products'));
 const AuthPage = React.lazy(() => import('./app/auth'));
 const HomePage = React.lazy(() => import('./app/home'));
+const ProfilePage = React.lazy(() => import('./app/user-profile'));
 
 const AppRoutes: FC = () => {
   return (
