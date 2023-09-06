@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,9 +12,12 @@ import { Button, Icon, Link } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIsRegistered } from '../app/auth/store/auth.selectors';
+import { logout } from '../app/auth/store/auth.slice';
+import { signOut } from '../app/auth/api/sign-out';
+import storage from '../local-storage/storage';
 import { AppDispatch } from '../store';
-import { useSelector } from 'react-redux';
 import { cartSelector, cartsPendingSelector } from '../app/carts/store/carts.selector';
 import { getActiveCart } from '../app/carts/store/carts.actions';
 
@@ -32,6 +35,7 @@ const buttonStyle = {
 const tempUserId = '9f5a5b41-46d7-414b-8e8b-b55b3cad9daf';
 
 const HeaderComp: FC = () => {
+  const [token, setToken] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -43,13 +47,36 @@ const HeaderComp: FC = () => {
     dispatch(getActiveCart({ userId: tempUserId }));
   }
 
+  const dispatch = useDispatch();
+  const isRegistered = useSelector(getIsRegistered);
+
+  const handleSignOut = async () => {
+    await signOut();
+    storage.clear();
+    dispatch(logout());
+    console.log(isRegistered);
+  };
+
+  const handleToken = (token: string) => {
+    setToken(token);
+  };
+
+  useEffect(() => {
+    const token = storage.get('refresh-token');
+    if (token) {
+      handleToken(token);
+    }
+  }, []);
+
   return (
     <AppBar position="sticky">
       <Toolbar>
         <Typography variant="h5">
-          <Icon>
-            <PetsIcon />
-          </Icon>
+          <Link component={RouterLink} to="/" color={colors.white}>
+            <Icon>
+              <PetsIcon />
+            </Icon>
+          </Link>
         </Typography>
 
         <SearchComp placeholder={'Search products...'} />
@@ -79,24 +106,36 @@ const HeaderComp: FC = () => {
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          <Link component={RouterLink} to="/profile">
-            <IconButton size="large" edge="end" aria-label="user" sx={{ color: colors.white }}>
-              <AccountCircle />
-            </IconButton>
-          </Link>
+          {isRegistered && token ? (
+            <Link component={RouterLink} to="/profile">
+              <IconButton size="large" edge="end" aria-label="user" sx={{ color: colors.white }}>
+                <AccountCircle />
+              </IconButton>
+            </Link>
+          ) : (
+            ''
+          )}
         </Box>
 
-        <Box paddingLeft={3}>
-          <Button aria-label="sign-in">
-            <Link
-              component={RouterLink}
-              to="/auth/sign-in"
-              sx={{ color: colors.white, textDecoration: 'none' }}
-            >
-              Sign In
-            </Link>
-          </Button>
-        </Box>
+        {isRegistered && token ? (
+          <Box paddingLeft={3}>
+            <Button aria-label="sign-out" sx={{ color: colors.white }} onClick={handleSignOut}>
+              Sign Out
+            </Button>
+          </Box>
+        ) : (
+          <Box paddingLeft={3}>
+            <Button aria-label="sign-in">
+              <Link
+                component={RouterLink}
+                to="/auth/sign-in"
+                sx={{ color: colors.white, textDecoration: 'none' }}
+              >
+                Sign In
+              </Link>
+            </Button>
+          </Box>
+        )}
 
         <Box paddingLeft={3}>
           <IconButton

@@ -1,11 +1,16 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Form, Formik, Field, ErrorMessage } from 'formik';
-import { Avatar, Button, Grid, Link, Paper, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Button, Grid, Paper, Snackbar, TextField, Typography } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import { useNavigate } from 'react-router-dom';
 import { colors } from '../../themes';
 import { styled } from '@mui/material/styles';
 import { forgotPswSchema } from './validation-schemas/forgot-psw.schema';
+import storage from '../../local-storage/storage';
+import { isAxiosError } from 'axios';
+import { DefaultError } from '../../types/error.type';
+import { forgotPassword } from './api/forgot-password';
+import { ForgotPasswordDto } from './types/forgot-password-dto.type';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -28,22 +33,46 @@ interface FormValues {
 }
 
 const ForgotPasswordPage: FC = () => {
+  const [loading, setLoading] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState('');
+
   const navigate = useNavigate();
+
+  const closeAlert = () => {
+    setAlertOpen(false);
+  };
 
   const initialValues: FormValues = {
     email: '',
   };
 
-  const handleSubmit = (values: FormValues, props: any) => {
-    console.log('Form values:', values);
+  const handleSubmit = async (values: FormValues, props: any) => {
+    const email = values.email;
 
-    setTimeout(() => {
+    try {
+      setLoading(true);
+
+      const forgotPasswordDto: ForgotPasswordDto = {
+        email: email,
+      };
+
+      const { data } = await forgotPassword(forgotPasswordDto);
+
+      storage.set('resetToken', data);
       props.resetForm();
-      props.setSubmitting(false);
       navigate('/auth/reset-password');
-    }, 500);
-
-    console.log('Props:', props);
+    } catch (error) {
+      if (isAxiosError<DefaultError>(error)) {
+        setAlertOpen(true);
+        setAlertText(error.response?.data.message || error.message);
+      } else {
+        setAlertOpen(true);
+        setAlertText('Ooops...Something-went-wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -83,14 +112,24 @@ const ForgotPasswordPage: FC = () => {
                 color="primary"
                 variant="contained"
                 sx={{ margin: '20px auto 8px' }}
-                disabled={props.isSubmitting}
+                disabled={loading}
               >
-                {props.isSubmitting ? 'Loading' : 'Restore password'}
+                {loading ? 'Loading' : 'Restore password'}
               </Button>
             </Form>
           )}
         </Formik>
       </StyledPaper>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={5000}
+        onClose={closeAlert}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert variant="filled" severity="error">
+          {alertText}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };

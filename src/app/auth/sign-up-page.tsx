@@ -1,5 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import {
+  Alert,
   Avatar,
   Button,
   Checkbox,
@@ -11,22 +12,32 @@ import {
   Paper,
   Radio,
   RadioGroup,
+  Snackbar,
   TextField,
   Typography,
 } from '@mui/material';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import { Form, Formik, Field, ErrorMessage } from 'formik';
 import { signUpSchema } from './validation-schemas/sign-up.schema';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { FormHelperText } from '@mui/material';
 import { colors } from '../../themes';
 import { styled } from '@mui/material/styles';
+import { SignUpFormValues } from './types/sign-up-form.type';
+import { getRoleId } from './api/user-role.api';
+import { signUp } from './api/sign-up';
+import storage from '../../local-storage/storage';
+import { isAxiosError } from 'axios';
+import { DefaultError } from '../../types/error.type';
+import jwt_decode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import { register } from './store/auth.slice';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
   min-height: 50vh;
   width: 400px;
-  margin: 50px auto 20px;
+  margin: 30px auto 30px;
 `;
 
 const StyledAvatar = styled(Avatar)`
@@ -34,17 +45,12 @@ const StyledAvatar = styled(Avatar)`
   margin-bottom: 10px;
 `;
 
-interface FormValues {
-  userName: string;
-  email: string;
-  password: string;
-  confirmPassword: string;
-  role: string;
-  acceptTerms: boolean;
-}
-
 const SignUpPage: FC = () => {
-  const initialValues: FormValues = {
+  const [loading, setLoading] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState('');
+
+  const initialValues: SignUpFormValues = {
     userName: '',
     email: '',
     password: '',
@@ -53,16 +59,58 @@ const SignUpPage: FC = () => {
     acceptTerms: false,
   };
 
-  const handleSubmit = (values: FormValues, props: any) => {
-    console.log('Form values:', values);
+  const navigate = useNavigate();
 
-    setTimeout(() => {
+  const closeAlert = () => {
+    setAlertOpen(false);
+  };
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (values: SignUpFormValues, props: any) => {
+    try {
+      setLoading(true);
+      const roleId = await getRoleId(values.role);
+
+      const newUser = {
+        userName: values.userName,
+        email: values.email,
+        password: values.password,
+        roleId: roleId.data,
+      };
+
+      const { data } = await signUp(newUser);
+      storage.set('access-token', data.access_token);
+      storage.set('refresh-token', data.refresh_token);
+      storage.set('at_expired', data.at_expiration);
+      storage.set('rt_expired', data.rt_expiration);
+
+      const payload: { id: string; email: string; roleId: string; permissions: [] } = jwt_decode(
+        data.access_token,
+      );
+      dispatch(
+        register({
+          id: payload.id,
+          email: payload.email,
+          role_id: payload.roleId,
+          permissions: payload.permissions,
+          isRegistered: true,
+        }),
+      );
+
       props.resetForm();
-      props.setSubmitting(false);
-      // TODO add navigation to main page after sign-up
-    }, 2000);
-
-    console.log('Props:', props);
+      navigate('/');
+    } catch (error) {
+      if (isAxiosError<DefaultError>(error)) {
+        setAlertOpen(true);
+        setAlertText(error.response?.data.message || error.message);
+      } else {
+        setAlertOpen(true);
+        setAlertText('Ooops...Something-went-wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -149,9 +197,9 @@ const SignUpPage: FC = () => {
                 variant="contained"
                 fullWidth
                 sx={{ margin: '8px 0' }}
-                disabled={props.isSubmitting}
+                disabled={loading}
               >
-                {props.isSubmitting ? 'Loading' : 'Sign up'}
+                {loading ? 'Loading' : 'Sign up'}
               </Button>
             </Form>
           )}
@@ -163,6 +211,16 @@ const SignUpPage: FC = () => {
           </Link>
         </Typography>
       </StyledPaper>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={5000}
+        onClose={closeAlert}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert variant="filled" severity="error">
+          {alertText}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };

@@ -1,4 +1,5 @@
-import React, { FC, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   AppBar,
   Box,
@@ -14,7 +15,6 @@ import styled from '@emotion/styled';
 import BackHomeBtn from '../../components/ui/back.btn.comp';
 import ForgotPswSettings from './components/forgot-psw.settings';
 import DeleteAccountSettings from './components/delete-account.settings';
-import UserDeliverySettings from './components/user-delivery.settings';
 
 const StyledBox = styled(Box)`
   flex-grow: 1;
@@ -39,6 +39,14 @@ const UserProfilePage: FC = () => {
     setSelectedMenuItem(item);
   };
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (selectedMenuItem === 'Delivery details') {
+      navigate('/profile/delivery-details');
+    }
+  }, [selectedMenuItem]);
+
   return (
     <Box sx={{ display: 'flex' }}>
       <AppBar position="fixed">
@@ -56,7 +64,7 @@ const UserProfilePage: FC = () => {
         {menuItems.map((item: string, index: number) => (
           <ListItem
             button
-            key={item}
+            key={index}
             selected={selectedMenuItem === item}
             onClick={() => handleMenuItemClick(item)}
           >
@@ -76,12 +84,6 @@ const UserProfilePage: FC = () => {
             <>
               <Typography variant="h4">Forgot password</Typography>
               <ForgotPswSettings />
-            </>
-          )}
-          {selectedMenuItem === 'Delivery details' && (
-            <>
-              <Typography variant="h4">Delivery details</Typography>
-              <UserDeliverySettings />
             </>
           )}
           {selectedMenuItem === 'Orders history' && (

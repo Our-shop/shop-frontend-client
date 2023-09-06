@@ -1,25 +1,14 @@
 import React, { FC, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import AuthPage from './app/auth';
-import ProfilePage from './app/user-profile';
-import { CircularProgress } from '@mui/material';
+import LoaderComp from './components/loader.comp';
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
   return true ? (
-    <Suspense
-      fallback={
-        <CircularProgress
-          sx={{
-            position: 'absolute',
-            top: '30%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-          }}
-        />
-      }
-    >
-      <Element />
+    <Suspense fallback={<LoaderComp />}>
+      <div>
+        <Element />
+      </div>
     </Suspense>
   ) : (
     <Navigate to={''} />
@@ -28,24 +17,16 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-  <Suspense
-    fallback={
-      <CircularProgress
-        sx={{
-          position: 'absolute',
-          top: '30%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      />
-    }
-  >
+  <Suspense fallback={<LoaderComp />}>
     <Element />
   </Suspense>
 );
 
 // ======= pages ======= //
 const ProductsPage = React.lazy(() => import('./app/products'));
+const AuthPage = React.lazy(() => import('./app/auth'));
+const HomePage = React.lazy(() => import('./app/home'));
+const ProfilePage = React.lazy(() => import('./app/user-profile'));
 const CartsPage = React.lazy(() => import('./app/carts'));
 
 const AppRoutes: FC = () => {
@@ -55,12 +36,13 @@ const AppRoutes: FC = () => {
       <Route path="/products/*" element={<PublicRoute element={ProductsPage} />} />
       <Route path="/auth/*" element={<PublicRoute element={AuthPage} />} />
       <Route path="/profile/*" element={<PublicRoute element={ProfilePage} />} />
+      <Route path="/*" element={<PublicRoute element={HomePage} />} />
 
       {/* PRIVATE */}
       <Route path="/carts/*" element={<PrivateRoute element={CartsPage} />} />
 
       {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/products" />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

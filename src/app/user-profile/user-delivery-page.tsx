@@ -1,10 +1,23 @@
 import React, { FC, useEffect, useState } from 'react';
+import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Button, Link, Table, TableBody, TableCell, TableHead, TableRow } from '@mui/material';
+import {
+  Button,
+  Link,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Typography,
+} from '@mui/material';
 import { colors } from '../../themes';
-import { deleteAddress, getAddress, getAllActive, GetDeliveryData } from './api/ user-address';
+import { deleteAddress, getAddress, getAllActiveByUserId } from './api/ user-address';
 import UserEditAddress from './components/user-edit-address';
-import { NavLink as RouterLink } from 'react-router-dom';
+import { GetDeliveryData } from './types/get-delivery-data.type';
+import storage from '../../local-storage/storage';
+import LoaderComp from '../../components/loader.comp';
+import jwt_decode from 'jwt-decode';
 
 const StyledTable = styled(Table)`
   width: 90%;
@@ -32,9 +45,15 @@ const UserDeliveryPage: FC = () => {
   const [activeAddress, setActiveAddress] = useState<any>();
   const [showModal, setShowModal] = useState(false);
 
-  const getAllActiveDeliveries = async () => {
+  const navigate = useNavigate();
+
+  const token = storage.get('access-token') as string;
+  const payload: { id: string; email: string; roleId: string; permissions: [] } = jwt_decode(token);
+  const userId = payload.id;
+
+  const getAllActiveUserDeliveries = async (userId: string) => {
     try {
-      const response = await getAllActive();
+      const response = await getAllActiveByUserId(userId);
       const res = response.data;
       setAddresses(res);
       return response;
@@ -66,12 +85,14 @@ const UserDeliveryPage: FC = () => {
       }
     };
     deleteAddressById();
-    getAllActiveDeliveries();
+    getAllActiveUserDeliveries(userId ? userId : '');
   };
 
   useEffect(() => {
-    getAllActiveDeliveries();
+    getAllActiveUserDeliveries(userId ? userId : '');
   }, [showModal, handleDeleteClick]);
+
+  if (!addresses) return <LoaderComp />;
 
   return (
     <>
@@ -93,6 +114,24 @@ const UserDeliveryPage: FC = () => {
           </THead>
         </TableHead>
         <TableBody>
+          {addresses.length === 0 ? (
+            <TRow sx={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
+              <Typography variant="h5" style={{ marginRight: 30 }}>
+                No addresses as of now
+              </Typography>
+              <Link
+                component={RouterLink}
+                to="/profile/add-address"
+                sx={{ textDecoration: 'none' }}
+              >
+                <Button variant="contained" color="secondary">
+                  Add address
+                </Button>
+              </Link>
+            </TRow>
+          ) : (
+            ''
+          )}
           {addresses?.map((address, index) => (
             <TRow key={index + 1}>
               <TableCell>{index + 1}</TableCell>
@@ -100,6 +139,15 @@ const UserDeliveryPage: FC = () => {
               <TableCell>{address.address}</TableCell>
               <TableCell>{address.phone}</TableCell>
               <TableCell>
+                <Link
+                  component={RouterLink}
+                  to="/profile/add-address"
+                  sx={{ textDecoration: 'none' }}
+                >
+                  <Button variant="contained" color="secondary" style={{ marginRight: 10 }}>
+                    Add
+                  </Button>
+                </Link>
                 <Button
                   color="primary"
                   variant="contained"
@@ -109,7 +157,7 @@ const UserDeliveryPage: FC = () => {
                   Edit
                 </Button>
                 <Button
-                  color="secondary"
+                  style={{ backgroundColor: colors.delete }}
                   variant="contained"
                   onClick={() => handleDeleteClick(address.id)}
                 >

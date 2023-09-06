@@ -3,6 +3,7 @@ import { createTheme } from '@mui/material';
 export const colors = {
   lightViolet: '#8976e9ad',
   middleBlue: '#9487E1',
+  warmBlue: '#8772ff',
   darkViolet: '#645d8d',
   green: '#00FF00',
   black: '#000000',
@@ -13,6 +14,7 @@ export const colors = {
   lightOrange: '#E27B3A',
   error: '#FF0000',
   warning: '#FFD700',
+  delete: '#743c59',
 };
 
 const themes = createTheme({
@@ -22,6 +24,11 @@ const themes = createTheme({
       light: colors.lightViolet,
       main: colors.darkViolet,
       dark: colors.darkViolet,
+    },
+    secondary: {
+      light: colors.warmBlue,
+      main: colors.warmBlue,
+      dark: colors.middleBlue,
     },
     error: {
       light: colors.error,

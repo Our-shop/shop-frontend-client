@@ -1,0 +1,18 @@
+[
+  {
+    "id": "6d0d6cd3-5f79-44ac-927b-7da565aaf5c0",
+    "status": "active",
+    "created": 1693918272000,
+    "updated": 1693918272000,
+    "type": "user",
+    "permissions": ["permissions.all"]
+  },
+  {
+    "id": "e15a16eb-23e8-480b-94bc-08053ab43761",
+    "status": "active",
+    "created": 1693927054000,
+    "updated": 1693927054000,
+    "type": "admin",
+    "permissions": ["permissions.all"]
+  }
+]
