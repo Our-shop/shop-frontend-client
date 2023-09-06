@@ -1,6 +1,5 @@
 import React, { FC, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import AuthPage from './app/auth';
 import ProfilePage from './app/user-profile';
 import LoaderComp from './components/loader.comp';
 
@@ -26,6 +25,8 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 
 // ======= pages ======= //
 const ProductsPage = React.lazy(() => import('./app/products'));
+const AuthPage = React.lazy(() => import('./app/auth'));
+const HomePage = React.lazy(() => import('./app/home'));
 
 const AppRoutes: FC = () => {
   return (
@@ -34,12 +35,13 @@ const AppRoutes: FC = () => {
       <Route path="/products/*" element={<PublicRoute element={ProductsPage} />} />
       <Route path="/auth/*" element={<PublicRoute element={AuthPage} />} />
       <Route path="/profile/*" element={<PublicRoute element={ProfilePage} />} />
+      <Route path="/*" element={<PublicRoute element={HomePage} />} />
 
       {/* PRIVATE */}
       <Route path="/private/*" element={<PrivateRoute element={<>Private</>} />} />
 
       {/* DEFAULT */}
-      <Route path="*" element={<Navigate to="/products" />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );
 };

@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -30,23 +30,39 @@ const buttonStyle = {
 };
 
 const HeaderComp: FC = () => {
+  const [token, setToken] = useState('');
   const navigate = useNavigate();
-  const isRegistered = useSelector(getIsRegistered);
+
   const dispatch = useDispatch();
+  const isRegistered = useSelector(getIsRegistered);
 
   const handleSignOut = async () => {
     await signOut();
     storage.clear();
     dispatch(logout());
+    console.log(isRegistered);
   };
+
+  const handleToken = (token: string) => {
+    setToken(token);
+  };
+
+  useEffect(() => {
+    const token = storage.get('refresh-token');
+    if (token) {
+      handleToken(token);
+    }
+  }, []);
 
   return (
     <AppBar position="sticky">
       <Toolbar>
         <Typography variant="h5">
-          <Icon>
-            <PetsIcon />
-          </Icon>
+          <Link component={RouterLink} to="/" color={colors.white}>
+            <Icon>
+              <PetsIcon />
+            </Icon>
+          </Link>
         </Typography>
 
         <SearchComp placeholder={'Search products...'} />
@@ -71,14 +87,18 @@ const HeaderComp: FC = () => {
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          <Link component={RouterLink} to="/profile">
-            <IconButton size="large" edge="end" aria-label="user" sx={{ color: colors.white }}>
-              <AccountCircle />
-            </IconButton>
-          </Link>
+          {isRegistered && token ? (
+            <Link component={RouterLink} to="/profile">
+              <IconButton size="large" edge="end" aria-label="user" sx={{ color: colors.white }}>
+                <AccountCircle />
+              </IconButton>
+            </Link>
+          ) : (
+            ''
+          )}
         </Box>
 
-        {isRegistered ? (
+        {isRegistered && token ? (
           <Box paddingLeft={3}>
             <Button aria-label="sign-out" sx={{ color: colors.white }} onClick={handleSignOut}>
               Sign Out

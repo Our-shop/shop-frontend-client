@@ -1,10 +1,19 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import { Form, Formik, Field, ErrorMessage } from 'formik';
-import { Avatar, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import { Alert, Avatar, Button, Grid, Paper, Snackbar, TextField, Typography } from '@mui/material';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import { colors } from '../../themes';
 import { styled } from '@mui/material/styles';
 import { resetPswSchema } from './validation-schemas/reset-psw.schema';
+import { useNavigate } from 'react-router-dom';
+import { isAxiosError } from 'axios';
+import { DefaultError } from '../../types/error.type';
+import { resetPassword } from './api/reset-password';
+import storage from '../../local-storage/storage';
+import { signIn } from './api/sign-in';
+import jwt_decode from 'jwt-decode';
+import { register } from './store/auth.slice';
+import { useDispatch } from 'react-redux';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -29,23 +38,50 @@ interface FormValues {
 }
 
 const ResetPasswordPage: FC = () => {
+  const [loading, setLoading] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState('');
+
   const initialValues: FormValues = {
     email: '',
     newPsw: '',
     confirmNewPsw: '',
   };
 
-  const handleSubmit = (values: FormValues, props: any) => {
-    console.log('Form values:', values);
+  const navigate = useNavigate();
 
-    setTimeout(() => {
+  const closeAlert = () => {
+    setAlertOpen(false);
+  };
+
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (values: FormValues, props: any) => {
+    try {
+      setLoading(true);
+      const resetPasswordDto = {
+        email: values.email,
+        newPassword: values.newPsw,
+      };
+      const resetToken = storage.get('resetToken');
+
+      await resetPassword(resetPasswordDto, resetToken as string);
+
       props.resetForm();
       props.setSubmitting(false);
 
-      // TODO navigate to main page after reset password
-    }, 2000);
-
-    console.log('Props:', props);
+      navigate('/');
+    } catch (error) {
+      if (isAxiosError<DefaultError>(error)) {
+        setAlertOpen(true);
+        setAlertText(error.response?.data.message || error.message);
+      } else {
+        setAlertOpen(true);
+        setAlertText('Ooops...Something-went-wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -108,14 +144,24 @@ const ResetPasswordPage: FC = () => {
                 variant="contained"
                 fullWidth
                 sx={{ margin: '8px 0' }}
-                disabled={props.isSubmitting}
+                disabled={loading}
               >
-                {props.isSubmitting ? 'Loading' : 'Save'}
+                {loading ? 'Loading' : 'Save'}
               </Button>
             </Form>
           )}
         </Formik>
       </StyledPaper>
+      <Snackbar
+        open={alertOpen}
+        autoHideDuration={5000}
+        onClose={closeAlert}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert variant="filled" severity="error">
+          {alertText}
+        </Alert>
+      </Snackbar>
     </Grid>
   );
 };
