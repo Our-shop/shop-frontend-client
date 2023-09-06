@@ -7,14 +7,19 @@ import { Box, Button, Divider, Stack, Typography } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { useSelector } from 'react-redux';
-import { cartSelector } from '../carts/store/carts.selector';
-import { addCartItem } from '../carts/store/carts.actions';
+import {
+  cartItemsSelector,
+  cartSelector,
+  cartsPendingSelector,
+} from '../carts/store/carts.selector';
+import { addCartItem, getCartItems } from '../carts/store/carts.actions';
 
 const ProductDetailsPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   const { category, id } = useParams();
 
+  // GET PRODUCT
   const [product, setProduct] = useState<FullProductDto>();
 
   useEffect(() => {
@@ -25,6 +30,12 @@ const ProductDetailsPage: FC = () => {
 
   // ADD TO CART
   const cart = useSelector(cartSelector);
+  const cartItems = useSelector(cartItemsSelector);
+  const cartsPending = useSelector(cartsPendingSelector);
+
+  if (cartsPending.cartItems) {
+    cart && dispatch(getCartItems({ cartId: cart.id }));
+  }
 
   const addToCart = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();
@@ -45,14 +56,22 @@ const ProductDetailsPage: FC = () => {
           <Typography variant="body1">{product.description}</Typography>
           <Typography variant="body1">Price: ${product.price}</Typography>
           <Typography variant="body1">{product.type}</Typography>
+
           <Typography variant="body2">
             {product?.expirationDate && 'Expiratioan date: ' + product.expirationDate}
             {product?.size && 'Clothes size: ' + product.size}
             {product?.recommendedAge && 'Recommended age: ' + product.recommendedAge}
           </Typography>
-          <Button variant="contained" sx={{ marginTop: 3 }} onClick={(event) => addToCart(event)}>
-            Add to Cart
-          </Button>
+
+          {cartItems.some((item) => item.product.id === product.id) ? (
+            <Button variant="contained" sx={{ marginTop: 3 }} disabled>
+              Already in cart
+            </Button>
+          ) : (
+            <Button variant="contained" sx={{ marginTop: 3 }} onClick={(event) => addToCart(event)}>
+              + Add to cart
+            </Button>
+          )}
         </Stack>
       </Stack>
     </PageLayoutComp>

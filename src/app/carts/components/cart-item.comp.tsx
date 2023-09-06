@@ -6,22 +6,33 @@ import QuantityEditorComp from './quantity-editor';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
 import { editProductQuantity, deleteCartItem } from '../store/carts.actions';
+import { useNavigate } from 'react-router-dom';
 
 interface CartItemCompProps {
   cartItem: CartItemDto;
 }
 
 const CartItemComp: FC<CartItemCompProps> = ({ cartItem }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
   const product = cartItem.product;
+
   const [productQuantity, setProductQuantity] = useState(cartItem.productQuantity);
 
-  const saveChanges = () => {
+  // BUTTONS
+  const saveChanges = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
     dispatch(editProductQuantity({ ...cartItem, productQuantity }));
   };
 
+  const deleteItem = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.stopPropagation();
+    dispatch(deleteCartItem({ cartItemId: cartItem.id }));
+  };
+
   return (
-    <TableRow hover>
+    <TableRow hover onClick={() => navigate(`/products/${product.category}/${product.id}`)}>
       <TableCell align="center">
         <img src={product.image} height={60}></img>
       </TableCell>
@@ -33,7 +44,6 @@ const CartItemComp: FC<CartItemCompProps> = ({ cartItem }) => {
         </Box>
       </TableCell>
       <TableCell align="right">${(product.price * productQuantity).toFixed(2)}</TableCell>
-      {/* <TableCell align="right">{cartItem.productQuantity}</TableCell> */}
       <QuantityEditorComp quantity={productQuantity} setQuantity={setProductQuantity} />
       <TableCell>
         <Button
@@ -41,15 +51,11 @@ const CartItemComp: FC<CartItemCompProps> = ({ cartItem }) => {
           color="secondary"
           sx={{ marginRight: 3 }}
           disabled={cartItem.productQuantity === productQuantity}
-          onClick={saveChanges}
+          onClick={(event) => saveChanges(event)}
         >
           save changes
         </Button>
-        <Button
-          variant="contained"
-          color="error"
-          onClick={() => dispatch(deleteCartItem({ cartItemId: cartItem.id }))}
-        >
+        <Button variant="contained" color="error" onClick={(event) => deleteItem(event)}>
           delete
         </Button>
       </TableCell>

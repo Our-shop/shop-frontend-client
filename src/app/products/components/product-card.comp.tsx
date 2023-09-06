@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect } from 'react';
 import { ProductDto } from '../types/product-dto.type';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
 import { useSelector } from 'react-redux';
-import { cartSelector } from '../../carts/store/carts.selector';
+import { cartItemsSelector, cartSelector } from '../../carts/store/carts.selector';
 import { addCartItem } from '../../carts/store/carts.actions';
 
 interface ProductCardCompProps {
@@ -20,10 +20,12 @@ interface ProductCardCompProps {
 
 const ProductCardComp: FC<ProductCardCompProps> = ({ product }) => {
   const navigate = useNavigate();
-
   const dispatch = useDispatch<AppDispatch>();
-  const cart = useSelector(cartSelector);
 
+  const cart = useSelector(cartSelector);
+  const cartItems = useSelector(cartItemsSelector);
+
+  // BUTTONS
   const addToCart = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();
     cart && dispatch(addCartItem({ cartId: cart?.id, productId: product.id }));
@@ -54,9 +56,15 @@ const ProductCardComp: FC<ProductCardCompProps> = ({ product }) => {
         </CardActionArea>
 
         <CardActions sx={{ padding: 0, backgroundColor: 'primary.light' }}>
-          <Button size="small" color="inherit" fullWidth onClick={(event) => addToCart(event)}>
-            + Add to cart
-          </Button>
+          {cartItems.some((item) => item.product.id === product.id) ? (
+            <Button size="small" fullWidth disabled>
+              Already in cart
+            </Button>
+          ) : (
+            <Button size="small" color="inherit" fullWidth onClick={(event) => addToCart(event)}>
+              + Add to cart
+            </Button>
+          )}
         </CardActions>
       </Card>
     </Box>

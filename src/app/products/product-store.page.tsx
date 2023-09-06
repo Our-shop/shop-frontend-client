@@ -6,13 +6,25 @@ import { Stack } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { getProducts } from './store/products.actions';
 import { AppDispatch } from '../../store';
+import { getCartItems } from '../carts/store/carts.actions';
+import { useSelector } from 'react-redux';
+import { cartSelector, cartsPendingSelector } from '../carts/store/carts.selector';
 
 const ProductStorePage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
     dispatch(getProducts());
-  }, [dispatch]);
+  }, []);
+
+  // CART ITEMS
+  const cart = useSelector(cartSelector);
+  const cartsPending = useSelector(cartsPendingSelector);
+
+  if (cartsPending.cartItems) {
+    console.log('pending');
+    cart && dispatch(getCartItems({ cartId: cart.id }));
+  }
 
   return (
     <PageLayoutComp>

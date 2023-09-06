@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect } from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -15,7 +15,7 @@ import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../store';
 import { useSelector } from 'react-redux';
-import { cartSelector } from '../app/carts/store/carts.selector';
+import { cartSelector, cartsPendingSelector } from '../app/carts/store/carts.selector';
 import { getActiveCart } from '../app/carts/store/carts.actions';
 
 const pages = [
@@ -29,17 +29,19 @@ const buttonStyle = {
   margin: '0 4px',
 };
 
+const tempUserId = '9f5a5b41-46d7-414b-8e8b-b55b3cad9daf';
+
 const HeaderComp: FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
   // CART
   const cart = useSelector(cartSelector);
-  const tempUserId = '9f5a5b41-46d7-414b-8e8b-b55b3cad9daf';
+  const cartsPending = useSelector(cartsPendingSelector);
 
-  useEffect(() => {
+  if (cartsPending.cart) {
     dispatch(getActiveCart({ userId: tempUserId }));
-  }, [dispatch]);
+  }
 
   return (
     <AppBar position="sticky">

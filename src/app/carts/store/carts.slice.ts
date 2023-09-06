@@ -54,8 +54,11 @@ export const cartsSlice = createSlice({
         state.errors.cartItems = action.payload.message;
       })
       // ============ ADD CART ITEM ============ //
-      .addCase(addCartItem.fulfilled, (state) => {
-        if (state.cart) state.cart.orderItemsQuantity += 1;
+      .addCase(addCartItem.fulfilled, (state, { payload }) => {
+        if (state.cart) {
+          state.cart.orderItemsQuantity += 1;
+        }
+        state.cartItems.push(payload);
       })
       .addCase(addCartItem.rejected, (state, action: any & { payload: any }) => {
         state.pending.cartItems = false;

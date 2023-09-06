@@ -1,4 +1,4 @@
-import { createAction, createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk } from '@reduxjs/toolkit';
 import repository from '../../../repository';
 import { CartDto } from '../types/cart.dto';
 import { CartItemDto } from '../types/cart-item.dto';

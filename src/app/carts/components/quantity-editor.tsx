@@ -9,14 +9,22 @@ interface QunatityEditorCompPros {
 }
 
 const QuantityEditorComp: FC<QunatityEditorCompPros> = ({ quantity, setQuantity }) => {
+  const editQuantity = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
+    quantity: number,
+  ) => {
+    event.stopPropagation();
+    setQuantity(quantity);
+  };
+
   return (
     <TableCell>
       <Box display="flex" alignItems="center" gap={1}>
-        <IconButton onClick={() => setQuantity(quantity - 1)} disabled={quantity < 2}>
+        <IconButton onClick={(event) => editQuantity(event, quantity - 1)} disabled={quantity < 2}>
           <ArrowBackIosNewIcon />
         </IconButton>
         {quantity}
-        <IconButton onClick={() => setQuantity(quantity + 1)}>
+        <IconButton onClick={(event) => editQuantity(event, quantity + 1)}>
           <ArrowForwardIosIcon />
         </IconButton>
       </Box>

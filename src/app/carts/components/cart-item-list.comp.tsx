@@ -1,27 +1,11 @@
-import React, { FC, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { FC } from 'react';
 import { useSelector } from 'react-redux';
-import { cartItemsSelector, cartSelector, cartsPendingSelector } from '../store/carts.selector';
-import { getCartItems } from '../store/carts.actions';
-import { AppDispatch } from '../../../store';
-import { Table, TableBody, TableContainer, TableHead } from '@mui/material';
+import { cartItemsSelector } from '../store/carts.selector';
+import { Table, TableBody, TableContainer } from '@mui/material';
 import CartItemComp from './cart-item.comp';
 
 const CartItemListComp: FC = () => {
-  const dispatch = useDispatch<AppDispatch>();
-
-  //CART ITEMS
   const cartItems = useSelector(cartItemsSelector);
-
-  // CART
-  const cart = useSelector(cartSelector);
-  useEffect(() => {
-    cart?.id && dispatch(getCartItems({ cartId: cart.id }));
-  }, [cart?.id]);
-
-  // PENDING
-  const pending = useSelector(cartsPendingSelector);
-  if (pending.cartItems) return <div>Loading...</div>;
 
   const totalAmount = cartItems.reduce(
     (totalAmount, cartItem) => (totalAmount += cartItem.productQuantity * cartItem.product.price),
