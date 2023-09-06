@@ -4,7 +4,7 @@ import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { pendingSelector, productsSelector } from '../store/products.selectors';
+import { productsPendingSelector, productsSelector } from '../store/products.selectors';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
 import { setProducts } from '../store/products.actions';
@@ -40,7 +40,7 @@ const SidebarComp: FC = () => {
   }, [category]);
 
   // PENDING
-  const pending = useSelector(pendingSelector);
+  const pending = useSelector(productsPendingSelector);
 
   useEffect(() => {
     setOriginalProducts(products);

@@ -7,10 +7,19 @@ import { CircularProgress } from '@mui/material';
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
   return true ? (
-    <Suspense fallback={<div>PrivateRoute Loading...</div>}>
-      <div>
-        <Element />
-      </div>
+    <Suspense
+      fallback={
+        <CircularProgress
+          sx={{
+            position: 'absolute',
+            top: '30%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+          }}
+        />
+      }
+    >
+      <Element />
     </Suspense>
   ) : (
     <Navigate to={''} />
@@ -37,19 +46,18 @@ const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
 
 // ======= pages ======= //
 const ProductsPage = React.lazy(() => import('./app/products'));
+const CartsPage = React.lazy(() => import('./app/carts'));
 
 const AppRoutes: FC = () => {
   return (
     <Routes>
       {/* PUBLIC */}
       <Route path="/products/*" element={<PublicRoute element={ProductsPage} />} />
-
       <Route path="/auth/*" element={<PublicRoute element={AuthPage} />} />
-
       <Route path="/profile/*" element={<PublicRoute element={ProfilePage} />} />
 
       {/* PRIVATE */}
-      <Route path="/private/*" element={<PrivateRoute element={<>Private</>} />} />
+      <Route path="/carts/*" element={<PrivateRoute element={CartsPage} />} />
 
       {/* DEFAULT */}
       <Route path="*" element={<Navigate to="/products" />} />

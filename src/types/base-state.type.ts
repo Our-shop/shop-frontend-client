@@ -1,4 +1,12 @@
+export interface PendingState {
+  [key: string]: boolean;
+}
+
+export interface ErrorState {
+  [key: string]: string | null;
+}
+
 export interface BaseState {
-  pending: boolean;
-  error: string | null;
+  pending: PendingState;
+  errors: ErrorState;
 }
