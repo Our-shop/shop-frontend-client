@@ -97,7 +97,6 @@ const SignUpPage: FC = () => {
           isRegistered: true,
         }),
       );
-      storage.set('userId', payload.id);
 
       props.resetForm();
       navigate('/');

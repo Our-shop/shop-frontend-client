@@ -11,6 +11,7 @@ import { AddAddressFormValues } from './types/add-address.type';
 import storage from '../../local-storage/storage';
 import { getIsRegistered } from '../auth/store/auth.selectors';
 import { useSelector } from 'react-redux';
+import jwt_decode from 'jwt-decode';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -39,11 +40,9 @@ const initialValues: AddAddressFormValues = {
 const UserAddAddress: FC = () => {
   const [address, setAddress] = useState(initialValues);
   const navigate = useNavigate();
-
-  const isRegistered = useSelector(getIsRegistered);
-  console.log(isRegistered);
-
-  const userId = storage.get('userId');
+  const token = storage.get('access-token') as string;
+  const payload: { id: string; email: string; roleId: string; permissions: [] } = jwt_decode(token);
+  const userId = payload.id;
 
   const handleSubmit = async (
     values: AddAddressFormValues,

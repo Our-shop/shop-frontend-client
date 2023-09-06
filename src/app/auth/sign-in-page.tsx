@@ -89,8 +89,6 @@ const SignInPage: FC = () => {
         }),
       );
 
-      storage.set('userId', payload.id);
-
       props.resetForm();
       navigate('/');
     } catch (error) {

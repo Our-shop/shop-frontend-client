@@ -40,7 +40,7 @@ const Home: FC = () => {
           </Alert>
         </Snackbar>
       ) : (
-        <></>
+        <>Home</>
       )}
     </PageLayoutComp>
   );

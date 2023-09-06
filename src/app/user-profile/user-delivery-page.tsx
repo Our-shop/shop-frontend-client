@@ -17,6 +17,7 @@ import UserEditAddress from './components/user-edit-address';
 import { GetDeliveryData } from './types/get-delivery-data.type';
 import storage from '../../local-storage/storage';
 import LoaderComp from '../../components/loader.comp';
+import jwt_decode from 'jwt-decode';
 
 const StyledTable = styled(Table)`
   width: 90%;
@@ -46,7 +47,9 @@ const UserDeliveryPage: FC = () => {
 
   const navigate = useNavigate();
 
-  const userId = storage.get('userId');
+  const token = storage.get('access-token') as string;
+  const payload: { id: string; email: string; roleId: string; permissions: [] } = jwt_decode(token);
+  const userId = payload.id;
 
   const getAllActiveUserDeliveries = async (userId: string) => {
     try {
