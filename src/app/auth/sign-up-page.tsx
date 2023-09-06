@@ -30,6 +30,8 @@ import storage from '../../local-storage/storage';
 import { isAxiosError } from 'axios';
 import { DefaultError } from '../../types/error.type';
 import jwt_decode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import { register } from './store/auth.slice';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -63,6 +65,8 @@ const SignUpPage: FC = () => {
     setAlertOpen(false);
   };
 
+  const dispatch = useDispatch();
+
   const handleSubmit = async (values: SignUpFormValues, props: any) => {
     try {
       setLoading(true);
@@ -81,11 +85,22 @@ const SignUpPage: FC = () => {
       storage.set('at_expired', data.at_expiration);
       storage.set('rt_expired', data.rt_expiration);
 
-      const payload: { id: string } = jwt_decode(data.access_token);
+      const payload: { id: string; email: string; roleId: string; permissions: [] } = jwt_decode(
+        data.access_token,
+      );
+      dispatch(
+        register({
+          id: payload.id,
+          email: payload.email,
+          role_id: payload.roleId,
+          permissions: payload.permissions,
+          isRegistered: true,
+        }),
+      );
       storage.set('userId', payload.id);
 
       props.resetForm();
-      // navigate('/');
+      navigate('/');
     } catch (error) {
       if (isAxiosError<DefaultError>(error)) {
         setAlertOpen(true);

@@ -1,5 +1,5 @@
 export interface AuthState {
-  isAuthenticated: boolean;
+  isRegistered: boolean;
   userId: string;
   email: string;
   roleId: string;

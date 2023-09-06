@@ -2,12 +2,12 @@ import React, { FC, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import AuthPage from './app/auth';
 import ProfilePage from './app/user-profile';
-import { CircularProgress } from '@mui/material';
+import LoaderComp from './components/loader.comp';
 
 // ======= private route ======= //
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
   return true ? (
-    <Suspense fallback={<div>PrivateRoute Loading...</div>}>
+    <Suspense fallback={<LoaderComp />}>
       <div>
         <Element />
       </div>
@@ -19,18 +19,7 @@ const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
 
 // ======= public route ======= //
 const PublicRoute: FC<{ element: any }> = ({ element: Element }) => (
-  <Suspense
-    fallback={
-      <CircularProgress
-        sx={{
-          position: 'absolute',
-          top: '30%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-        }}
-      />
-    }
-  >
+  <Suspense fallback={<LoaderComp />}>
     <Element />
   </Suspense>
 );
@@ -43,9 +32,7 @@ const AppRoutes: FC = () => {
     <Routes>
       {/* PUBLIC */}
       <Route path="/products/*" element={<PublicRoute element={ProductsPage} />} />
-
       <Route path="/auth/*" element={<PublicRoute element={AuthPage} />} />
-
       <Route path="/profile/*" element={<PublicRoute element={ProfilePage} />} />
 
       {/* PRIVATE */}

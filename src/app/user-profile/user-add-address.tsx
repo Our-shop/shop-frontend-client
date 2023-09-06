@@ -9,6 +9,8 @@ import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import { addAddress } from './api/ user-address';
 import { AddAddressFormValues } from './types/add-address.type';
 import storage from '../../local-storage/storage';
+import { getIsRegistered } from '../auth/store/auth.selectors';
+import { useSelector } from 'react-redux';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -37,6 +39,9 @@ const initialValues: AddAddressFormValues = {
 const UserAddAddress: FC = () => {
   const [address, setAddress] = useState(initialValues);
   const navigate = useNavigate();
+
+  const isRegistered = useSelector(getIsRegistered);
+  console.log(isRegistered);
 
   const userId = storage.get('userId');
 

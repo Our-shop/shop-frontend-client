@@ -12,6 +12,11 @@ import { Button, Icon, Link } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getIsRegistered } from '../app/auth/store/auth.selectors';
+import { logout } from '../app/auth/store/auth.slice';
+import { signOut } from '../app/auth/api/sign-out';
+import storage from '../local-storage/storage';
 
 const pages = [
   { name: 'products', href: '/products' },
@@ -26,6 +31,14 @@ const buttonStyle = {
 
 const HeaderComp: FC = () => {
   const navigate = useNavigate();
+  const isRegistered = useSelector(getIsRegistered);
+  const dispatch = useDispatch();
+
+  const handleSignOut = async () => {
+    await signOut();
+    storage.clear();
+    dispatch(logout());
+  };
 
   return (
     <AppBar position="sticky">
@@ -65,17 +78,25 @@ const HeaderComp: FC = () => {
           </Link>
         </Box>
 
-        <Box paddingLeft={3}>
-          <Button aria-label="sign-in">
-            <Link
-              component={RouterLink}
-              to="/auth/sign-in"
-              sx={{ color: colors.white, textDecoration: 'none' }}
-            >
-              Sign In
-            </Link>
-          </Button>
-        </Box>
+        {isRegistered ? (
+          <Box paddingLeft={3}>
+            <Button aria-label="sign-out" sx={{ color: colors.white }} onClick={handleSignOut}>
+              Sign Out
+            </Button>
+          </Box>
+        ) : (
+          <Box paddingLeft={3}>
+            <Button aria-label="sign-in">
+              <Link
+                component={RouterLink}
+                to="/auth/sign-in"
+                sx={{ color: colors.white, textDecoration: 'none' }}
+              >
+                Sign In
+              </Link>
+            </Button>
+          </Box>
+        )}
 
         <Box paddingLeft={3}>
           <IconButton

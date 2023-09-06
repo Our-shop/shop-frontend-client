@@ -4,7 +4,7 @@ import { AuthState } from '../types/auth-state.type';
 import { UserSession } from '../types/user-session.type';
 
 const initialState: AuthState = {
-  isAuthenticated: true,
+  isRegistered: true,
   userId: '',
   email: '',
   roleId: '',
@@ -15,8 +15,8 @@ export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    authenticate: (state, action: PayloadAction<UserSession>) => {
-      state.isAuthenticated = true;
+    register: (state: AuthState, action: PayloadAction<UserSession>) => {
+      state.isRegistered = true;
       state.userId = action.payload.id;
       state.permissions = action.payload.permissions;
       state.roleId = action.payload.role_id;
@@ -24,7 +24,7 @@ export const authSlice = createSlice({
     },
 
     logout: (state) => {
-      state.isAuthenticated = false;
+      state.isRegistered = false;
       state.userId = '';
       state.permissions = [];
       state.roleId = '';
@@ -33,4 +33,4 @@ export const authSlice = createSlice({
   },
 });
 
-export const { authenticate, logout } = authSlice.actions;
+export const { register, logout } = authSlice.actions;

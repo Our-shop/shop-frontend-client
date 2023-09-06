@@ -3,5 +3,5 @@ export interface UserSession {
   email: string;
   role_id: string;
   permissions: string[];
-  exp: number;
+  isRegistered?: boolean;
 }
