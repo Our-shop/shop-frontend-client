@@ -5,6 +5,13 @@ import { Box } from '@mui/material';
 import UserDeliveryComp from './components/user-delivery.comp';
 import ForgotPswSettingsComp from './components/forgot-psw.settings.comp';
 import DeleteAccountComp from './components/delete-account.comp';
+import styled from '@emotion/styled';
+
+const StyledBox = styled(Box)`
+  padding-left: 30px;
+  display: flex;
+  flex-grow: 1;
+`;
 
 const allSettings = [
   { name: 'Edit user details', value: 'Edit user details' },
@@ -24,13 +31,13 @@ const UserProfilePage: FC = () => {
   return (
     <PageLayoutComp sx={{ display: 'flex' }}>
       <Sidebar settings={settings} handleClick={handleClick} />
-      <Box>
+      <StyledBox>
         {settings === 'Edit user details' && <div>Edit user details content</div>}
         {settings === 'Delivery details' && <UserDeliveryComp />}
         {settings === 'Forgot password' && <ForgotPswSettingsComp />}
         {settings === 'Orders history' && <div>Orders history</div>}
         {settings === 'Delete account' && <DeleteAccountComp />}
-      </Box>
+      </StyledBox>
     </PageLayoutComp>
   );
 };

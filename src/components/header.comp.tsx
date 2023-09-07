@@ -53,7 +53,7 @@ const HeaderComp: FC = () => {
     await signOut();
     storage.clear();
     dispatch(logout());
-    console.log(isRegistered);
+    navigate('/');
   };
 
   const handleToken = (token: string) => {

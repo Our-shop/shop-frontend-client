@@ -22,15 +22,13 @@ import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
 import UserAddAddressComp from './user-add-address.comp';
 
 const StyledTable = styled(Table)`
-  width: 90%;
-  margin: 50px;
   background-color: ${colors.lightGrey};
 `;
 
 const THead = styled(TableRow)`
   & > th {
     font-size: 20px;
-    background: #000000;
+    background: ${colors.darkGrey};
     color: ${colors.white};
   }
 `;
@@ -88,6 +86,7 @@ const UserDeliveryComp: FC = () => {
             <TableCell>City</TableCell>
             <TableCell>Address</TableCell>
             <TableCell>Phone</TableCell>
+            <TableCell>Options</TableCell>
           </THead>
         </TableHead>
         <TableBody>

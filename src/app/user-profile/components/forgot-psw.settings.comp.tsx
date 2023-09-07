@@ -20,7 +20,7 @@ const ForgotPswSettingsComp: FC = () => {
           type="submit"
           color="primary"
           variant="contained"
-          sx={{ marginTop: '20px', width: '15%' }}
+          sx={{ marginTop: '20px', width: '200px' }}
         >
           Forgot password
         </Button>

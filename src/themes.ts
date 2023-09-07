@@ -15,6 +15,7 @@ export const colors = {
   error: '#FF0000',
   warning: '#FFD700',
   delete: '#743c59',
+  darkGrey: '#6d6767',
 };
 
 const themes = createTheme({

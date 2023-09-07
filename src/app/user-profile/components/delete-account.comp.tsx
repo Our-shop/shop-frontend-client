@@ -20,9 +20,10 @@ const DeleteAccountComp: FC = () => {
         If you are sure that you want to delete your account press the button below.
       </Typography>
       <Button
+        type="submit"
         color="primary"
         variant="contained"
-        sx={{ marginTop: '20px', width: '15%' }}
+        sx={{ marginTop: '20px', width: '200px' }}
         onClick={handleClick}
       >
         Delete account
