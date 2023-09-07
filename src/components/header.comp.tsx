@@ -47,14 +47,13 @@ const HeaderComp: FC = () => {
     dispatch(getActiveCart({ userId: tempUserId }));
   }
 
-  const dispatch = useDispatch();
   const isRegistered = useSelector(getIsRegistered);
 
   const handleSignOut = async () => {
     await signOut();
     storage.clear();
     dispatch(logout());
-    console.log(isRegistered);
+    navigate('/');
   };
 
   const handleToken = (token: string) => {

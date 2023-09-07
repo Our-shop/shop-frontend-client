@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import { ProductDto } from '../types/product-dto.type';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';

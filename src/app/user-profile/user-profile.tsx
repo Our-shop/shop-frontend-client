@@ -1,103 +1,45 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import {
-  AppBar,
-  Box,
-  IconButton,
-  List,
-  ListItem,
-  ListItemText,
-  Toolbar,
-  Typography,
-} from '@mui/material';
-import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import React, { FC, useState } from 'react';
+import { Box } from '@mui/material';
 import styled from '@emotion/styled';
-import BackHomeBtn from '../../components/ui/back.btn.comp';
-import ForgotPswSettings from './components/forgot-psw.settings';
-import DeleteAccountSettings from './components/delete-account.settings';
+import PageLayoutComp from '../../components/page-layout.com';
+import Sidebar from './components/side-bar';
+import UserDeliveryComp from './components/user-delivery.comp';
+import ForgotPswSettingsComp from './components/forgot-psw.settings.comp';
+import DeleteAccountComp from './components/delete-account.comp';
+import EditUserComp from './components/edit-user.comp';
 
 const StyledBox = styled(Box)`
+  padding-left: 30px;
+  display: flex;
   flex-grow: 1;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  margin-top: 70px;
 `;
 
-const menuItems: string[] = [
-  'Settings',
-  'Delivery details',
-  'Forgot password',
-  'Orders history',
-  'Delete account',
+const allSettings = [
+  { name: 'Edit user details', value: 'Edit user details' },
+  { name: 'Delivery details', value: 'Delivery details' },
+  { name: 'Forgot password', value: 'Forgot password' },
+  { name: 'Orders history', value: 'Orders history' },
+  { name: 'Delete account', value: 'Delete account' },
 ];
 
 const UserProfilePage: FC = () => {
-  const [selectedMenuItem, setSelectedMenuItem] = useState<string>('Settings');
+  const [settings, setSetting] = useState<string>(allSettings[0].value);
 
-  const handleMenuItemClick = (item: string) => {
-    setSelectedMenuItem(item);
+  const handleClick = (next: string) => {
+    setSetting(next);
   };
 
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (selectedMenuItem === 'Delivery details') {
-      navigate('/profile/delivery-details');
-    }
-  }, [selectedMenuItem]);
-
   return (
-    <Box sx={{ display: 'flex' }}>
-      <AppBar position="fixed">
-        <Toolbar>
-          <IconButton edge="start" color="inherit" aria-label="menu">
-            <ManageAccountsIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap marginRight={5}>
-            User Profile
-          </Typography>
-          <BackHomeBtn />
-        </Toolbar>
-      </AppBar>
-      <List sx={{ marginTop: '80px', width: '160px' }}>
-        {menuItems.map((item: string, index: number) => (
-          <ListItem
-            button
-            key={index}
-            selected={selectedMenuItem === item}
-            onClick={() => handleMenuItemClick(item)}
-          >
-            <ListItemText primary={item} />
-          </ListItem>
-        ))}
-      </List>
+    <PageLayoutComp sx={{ display: 'flex' }}>
+      <Sidebar settings={settings} handleClick={handleClick} />
       <StyledBox>
-        <Box sx={{ marginLeft: '20px' }}>
-          {selectedMenuItem === 'Settings' && (
-            <Typography variant="h4">Edit personal information</Typography>
-          )}
-          {selectedMenuItem === 'Edit address details' && (
-            <Typography variant="h4">Edit address details</Typography>
-          )}
-          {selectedMenuItem === 'Forgot password' && (
-            <>
-              <Typography variant="h4">Forgot password</Typography>
-              <ForgotPswSettings />
-            </>
-          )}
-          {selectedMenuItem === 'Orders history' && (
-            <Typography variant="h4">Orders history</Typography>
-          )}
-          {selectedMenuItem === 'Delete account' && (
-            <>
-              <Typography variant="h4">Delete account</Typography>
-              <DeleteAccountSettings />
-            </>
-          )}
-        </Box>
+        {settings === 'Edit user details' && <EditUserComp />}
+        {settings === 'Delivery details' && <UserDeliveryComp />}
+        {settings === 'Forgot password' && <ForgotPswSettingsComp />}
+        {settings === 'Orders history' && <div>Orders history</div>}
+        {settings === 'Delete account' && <DeleteAccountComp />}
       </StyledBox>
-    </Box>
+    </PageLayoutComp>
   );
 };
 

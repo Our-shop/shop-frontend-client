@@ -1,13 +1,29 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import React, { FC, useState } from 'react';
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  Paper,
+  Snackbar,
+  TextField,
+  Typography,
+} from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { styled } from '@mui/material/styles';
 import { colors } from '../../../themes';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import { addAddressSchema } from '../validation-schemas/add-address.schema';
+import { addAddressSchema } from '../../delivery/validation-schemas/add-address.schema';
 import { GetDeliveryData } from '../types/get-delivery-data.type';
-import { updateAddress } from '../api/ user-address';
+import storage from '../../../local-storage/storage';
+import jwt_decode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../store';
+import { addDeliveryItem, getActiveDeliveries } from '../../delivery/store/delivery.actions';
+import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
+import { isAxiosError } from 'axios';
+import { DefaultError } from '../../../types/error.type';
 
 const StyledBackdrop = styled(Box)`
   background: rgba(0, 0, 0, 0.5);
@@ -49,46 +65,57 @@ export interface AddressFormValues {
   phone: string;
 }
 
-interface AddressEditProps {
-  showModal: boolean;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  activeAddress: GetDeliveryData;
-  addressForEditId: string;
+interface AddressAddProps {
+  showAddModal: boolean;
+  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const UserEditAddress: FC<AddressEditProps> = ({
-  showModal,
-  setShowModal,
-  activeAddress,
-  addressForEditId,
-}) => {
-  const [address, setAddress] = useState(initialValues);
-  const navigate = useNavigate();
+const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal }) => {
+  const [loading, setLoading] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState('');
 
-  useEffect(() => {
-    setAddress(activeAddress);
-  }, [showModal, activeAddress]);
+  const dispatch = useDispatch<AppDispatch>();
 
-  const handleSubmit = async (
-    values: AddressFormValues,
-    formikHelpers: FormikHelpers<AddressFormValues>,
-  ) => {
-    setAddress(Object.assign(address, values));
-    const addData = {
-      city: address.city,
-      address: address.address,
-      phone: address.phone,
-    };
-    await updateAddress(addressForEditId, addData);
-    setShowModal(false);
-    navigate('/profile/delivery-details');
+  const closeAlert = () => {
+    setAlertOpen(false);
+  };
+
+  const token = storage.get('access-token') as string;
+  const payload: { id: string; email: string; roleId: string; permissions: [] } = jwt_decode(token);
+  const userId = payload.id;
+
+  const handleSubmit = async (values: AddressFormValues) => {
+    try {
+      setLoading(true);
+      const addData: Partial<DeliveryDto> = {
+        city: values.city,
+        address: values.address,
+        phone: values.phone,
+        userId: userId,
+      };
+      await dispatch(addDeliveryItem({ deliveryDto: addData })).then(() => {
+        dispatch(getActiveDeliveries({ userId: userId }));
+      });
+      setShowAddModal(false);
+    } catch (error) {
+      if (isAxiosError<DefaultError>(error)) {
+        setAlertOpen(true);
+        setAlertText(error.response?.data.message || error.message);
+      } else {
+        setAlertOpen(true);
+        setAlertText('Ooops...Something-went-wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCloseModal = () => {
-    setShowModal(false);
+    setShowAddModal(false);
   };
 
-  if (!showModal) {
+  if (!showAddModal) {
     return <></>;
   }
 
@@ -103,7 +130,7 @@ const UserEditAddress: FC<AddressEditProps> = ({
                   <HomeIcon />
                 </StyledAvatar>
                 <Typography variant="h5" marginBottom={3}>
-                  Edit address
+                  Add address
                 </Typography>
               </Grid>
               <Formik
@@ -153,9 +180,9 @@ const UserEditAddress: FC<AddressEditProps> = ({
                       variant="contained"
                       fullWidth
                       sx={{ margin: '8px 0' }}
-                      disabled={FormikProps.isSubmitting}
+                      disabled={loading}
                     >
-                      {FormikProps.isSubmitting ? 'Loading' : 'Edit Address'}
+                      {loading ? 'Loading' : 'Add Address'}
                     </Button>
                   </Form>
                 )}
@@ -163,9 +190,19 @@ const UserEditAddress: FC<AddressEditProps> = ({
             </StyledPaper>
           </Grid>
         </StyledModal>
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={5000}
+          onClose={closeAlert}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert variant="filled" severity="error">
+            {alertText}
+          </Alert>
+        </Snackbar>
       </StyledBackdrop>
     </>
   );
 };
 
-export default UserEditAddress;
+export default UserAddAddressComp;

@@ -9,7 +9,7 @@ const StyledBox = styled(Box)`
   flex-direction: column;
 `;
 
-const ForgotPswSettings: FC = () => {
+const ForgotPswSettingsComp: FC = () => {
   return (
     <StyledBox>
       <Typography variant="h5">
@@ -20,7 +20,7 @@ const ForgotPswSettings: FC = () => {
           type="submit"
           color="primary"
           variant="contained"
-          sx={{ marginTop: '20px', width: '15%' }}
+          sx={{ marginTop: '20px', width: '200px' }}
         >
           Forgot password
         </Button>
@@ -29,4 +29,4 @@ const ForgotPswSettings: FC = () => {
   );
 };
 
-export default ForgotPswSettings;
+export default ForgotPswSettingsComp;

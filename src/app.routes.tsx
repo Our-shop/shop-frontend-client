@@ -6,9 +6,7 @@ import LoaderComp from './components/loader.comp';
 const PrivateRoute: FC<{ element: any }> = ({ element: Element }) => {
   return true ? (
     <Suspense fallback={<LoaderComp />}>
-      <div>
-        <Element />
-      </div>
+      <Element />
     </Suspense>
   ) : (
     <Navigate to={''} />
