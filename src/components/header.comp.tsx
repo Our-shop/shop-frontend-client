@@ -47,7 +47,6 @@ const HeaderComp: FC = () => {
     dispatch(getActiveCart({ userId: tempUserId }));
   }
 
-  const dispatch = useDispatch();
   const isRegistered = useSelector(getIsRegistered);
 
   const handleSignOut = async () => {

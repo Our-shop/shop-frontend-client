@@ -8,7 +8,7 @@ const StyledBox = styled(Box)`
   flex-direction: column;
 `;
 
-const DeleteAccountSettings: FC = () => {
+const DeleteAccountComp: FC = () => {
   const handleClick = () => {
     console.log('deleted');
     // TODO add logic for deleting user by id
@@ -31,4 +31,4 @@ const DeleteAccountSettings: FC = () => {
   );
 };
 
-export default DeleteAccountSettings;
+export default DeleteAccountComp;

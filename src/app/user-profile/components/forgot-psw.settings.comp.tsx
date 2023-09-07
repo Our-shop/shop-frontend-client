@@ -9,7 +9,7 @@ const StyledBox = styled(Box)`
   flex-direction: column;
 `;
 
-const ForgotPswSettings: FC = () => {
+const ForgotPswSettingsComp: FC = () => {
   return (
     <StyledBox>
       <Typography variant="h5">
@@ -29,4 +29,4 @@ const ForgotPswSettings: FC = () => {
   );
 };
 
-export default ForgotPswSettings;
+export default ForgotPswSettingsComp;

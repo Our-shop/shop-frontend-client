@@ -1,13 +1,17 @@
-import React, { FC, useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { FC } from 'react';
 import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { styled } from '@mui/material/styles';
 import { colors } from '../../../themes';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
-import { addAddressSchema } from '../validation-schemas/add-address.schema';
+import { addAddressSchema } from '../../delivery/validation-schemas/add-address.schema';
 import { GetDeliveryData } from '../types/get-delivery-data.type';
-import { updateAddress } from '../api/ user-address';
+import storage from '../../../local-storage/storage';
+import jwt_decode from 'jwt-decode';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../store';
+import { addDeliveryItem, getActiveDeliveries } from '../../delivery/store/delivery.actions';
+import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
 
 const StyledBackdrop = styled(Box)`
   background: rgba(0, 0, 0, 0.5);
@@ -50,45 +54,43 @@ export interface AddressFormValues {
 }
 
 interface AddressEditProps {
-  showModal: boolean;
-  setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
+  showAddModal: boolean;
+  setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
   activeAddress: GetDeliveryData;
   addressForEditId: string;
 }
 
-const UserEditAddress: FC<AddressEditProps> = ({
-  showModal,
-  setShowModal,
+const UserAddAddressComp: FC<AddressEditProps> = ({
+  showAddModal,
+  setShowAddModal,
   activeAddress,
   addressForEditId,
 }) => {
-  const [address, setAddress] = useState(initialValues);
-  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  useEffect(() => {
-    setAddress(activeAddress);
-  }, [showModal, activeAddress]);
+  const token = storage.get('access-token') as string;
+  const payload: { id: string; email: string; roleId: string; permissions: [] } = jwt_decode(token);
+  const userId = payload.id;
 
-  const handleSubmit = async (
-    values: AddressFormValues,
-    formikHelpers: FormikHelpers<AddressFormValues>,
-  ) => {
-    setAddress(Object.assign(address, values));
-    const addData = {
-      city: address.city,
-      address: address.address,
-      phone: address.phone,
+  const handleSubmit = async (values: AddressFormValues) => {
+    const addData: Partial<DeliveryDto> = {
+      city: values.city,
+      address: values.address,
+      phone: values.phone,
+      userId: userId,
     };
-    await updateAddress(addressForEditId, addData);
-    setShowModal(false);
-    navigate('/profile/delivery-details');
+    console.log('addData');
+    await dispatch(addDeliveryItem({ deliveryDto: addData })).then(() => {
+      dispatch(getActiveDeliveries({ userId: userId }));
+    });
+    setShowAddModal(false);
   };
 
   const handleCloseModal = () => {
-    setShowModal(false);
+    setShowAddModal(false);
   };
 
-  if (!showModal) {
+  if (!showAddModal) {
     return <></>;
   }
 
@@ -103,7 +105,7 @@ const UserEditAddress: FC<AddressEditProps> = ({
                   <HomeIcon />
                 </StyledAvatar>
                 <Typography variant="h5" marginBottom={3}>
-                  Edit address
+                  Add address
                 </Typography>
               </Grid>
               <Formik
@@ -155,7 +157,7 @@ const UserEditAddress: FC<AddressEditProps> = ({
                       sx={{ margin: '8px 0' }}
                       disabled={FormikProps.isSubmitting}
                     >
-                      {FormikProps.isSubmitting ? 'Loading' : 'Edit Address'}
+                      {FormikProps.isSubmitting ? 'Loading' : 'Add Address'}
                     </Button>
                   </Form>
                 )}
@@ -168,4 +170,4 @@ const UserEditAddress: FC<AddressEditProps> = ({
   );
 };
 
-export default UserEditAddress;
+export default UserAddAddressComp;
