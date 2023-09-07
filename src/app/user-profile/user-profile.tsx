@@ -1,11 +1,12 @@
 import React, { FC, useState } from 'react';
+import { Box } from '@mui/material';
+import styled from '@emotion/styled';
 import PageLayoutComp from '../../components/page-layout.com';
 import Sidebar from './components/side-bar';
-import { Box } from '@mui/material';
 import UserDeliveryComp from './components/user-delivery.comp';
 import ForgotPswSettingsComp from './components/forgot-psw.settings.comp';
 import DeleteAccountComp from './components/delete-account.comp';
-import styled from '@emotion/styled';
+import EditUserComp from './components/edit-user.comp';
 
 const StyledBox = styled(Box)`
   padding-left: 30px;
@@ -32,7 +33,7 @@ const UserProfilePage: FC = () => {
     <PageLayoutComp sx={{ display: 'flex' }}>
       <Sidebar settings={settings} handleClick={handleClick} />
       <StyledBox>
-        {settings === 'Edit user details' && <div>Edit user details content</div>}
+        {settings === 'Edit user details' && <EditUserComp />}
         {settings === 'Delivery details' && <UserDeliveryComp />}
         {settings === 'Forgot password' && <ForgotPswSettingsComp />}
         {settings === 'Orders history' && <div>Orders history</div>}

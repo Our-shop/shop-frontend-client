@@ -3,6 +3,7 @@ import { productsSlice } from './app/products/store/products.slice';
 import { authSlice } from './app/auth/store/auth.slice';
 import { cartsSlice } from './app/carts/store/carts.slice';
 import { deliverySlice } from './app/delivery/store/delivery.slice';
+import { userSlice } from './app/user/store/user.slice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     auth: authSlice.reducer,
     carts: cartsSlice.reducer,
     deliveries: deliverySlice.reducer,
+    user: userSlice.reducer,
   },
   devTools: process.env.NODE_ENV !== 'production',
 });

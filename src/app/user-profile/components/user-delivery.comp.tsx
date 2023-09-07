@@ -41,7 +41,6 @@ const TRow = styled(TableRow)`
 
 const UserDeliveryComp: FC = () => {
   const [addressForEditId, setAddressForEditId] = useState<string>('');
-  const [activeAddress, setActiveAddress] = useState<any>();
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
 
@@ -141,17 +140,11 @@ const UserDeliveryComp: FC = () => {
         </TableBody>
       </StyledTable>
       <UserEditAddressComp
-        activeAddress={activeAddress}
         setShowModal={setShowEditModal}
         showModal={showEditModal}
         addressForEditId={addressForEditId}
       />
-      <UserAddAddressComp
-        activeAddress={activeAddress}
-        setShowAddModal={setShowAddModal}
-        showAddModal={showAddModal}
-        addressForEditId={addressForEditId}
-      />
+      <UserAddAddressComp setShowAddModal={setShowAddModal} showAddModal={showAddModal} />
     </>
   );
 };

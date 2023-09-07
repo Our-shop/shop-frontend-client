@@ -1,16 +1,27 @@
-import React, { FC } from 'react';
-import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import React, { FC, useState } from 'react';
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  Paper,
+  Snackbar,
+  TextField,
+  Typography,
+} from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { styled } from '@mui/material/styles';
 import { colors } from '../../../themes';
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { addAddressSchema } from '../../delivery/validation-schemas/add-address.schema';
-import { GetDeliveryData } from '../types/get-delivery-data.type';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
 import storage from '../../../local-storage/storage';
 import jwt_decode from 'jwt-decode';
 import { editDeliveryItem, getActiveDeliveries } from '../../delivery/store/delivery.actions';
+import { isAxiosError } from 'axios';
+import { DefaultError } from '../../../types/error.type';
 
 const StyledBackdrop = styled(Box)`
   background: rgba(0, 0, 0, 0.5);
@@ -55,16 +66,22 @@ export interface AddressFormValues {
 interface AddressEditProps {
   showModal: boolean;
   setShowModal: React.Dispatch<React.SetStateAction<boolean>>;
-  activeAddress: GetDeliveryData;
   addressForEditId: string;
 }
 
 const UserEditAddressComp: FC<AddressEditProps> = ({
   showModal,
   setShowModal,
-  activeAddress,
   addressForEditId,
 }) => {
+  const [loading, setLoading] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState('');
+
+  const closeAlert = () => {
+    setAlertOpen(false);
+  };
+
   const dispatch = useDispatch<AppDispatch>();
 
   const token = storage.get('access-token') as string;
@@ -72,18 +89,31 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
   const userId = payload.id;
 
   const handleSubmit = async (values: AddressFormValues) => {
-    const addData = {
-      city: values.city,
-      address: values.address,
-      phone: values.phone,
-      userId: userId,
-    };
-    await dispatch(editDeliveryItem({ id: addressForEditId, updatedDelivery: addData })).then(
-      () => {
-        dispatch(getActiveDeliveries({ userId: userId }));
-      },
-    );
-    setShowModal(false);
+    try {
+      setLoading(true);
+      const addData = {
+        city: values.city,
+        address: values.address,
+        phone: values.phone,
+        userId: userId,
+      };
+      await dispatch(editDeliveryItem({ id: addressForEditId, updatedDelivery: addData })).then(
+        () => {
+          dispatch(getActiveDeliveries({ userId: userId }));
+        },
+      );
+      setShowModal(false);
+    } catch (error) {
+      if (isAxiosError<DefaultError>(error)) {
+        setAlertOpen(true);
+        setAlertText(error.response?.data.message || error.message);
+      } else {
+        setAlertOpen(true);
+        setAlertText('Ooops...Something-went-wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCloseModal = () => {
@@ -125,7 +155,6 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                       required
                       sx={{ marginBottom: '10px' }}
                       helperText={<ErrorMessage name="city" />}
-                      autoComplete="city"
                     />
                     <Field
                       as={TextField}
@@ -136,7 +165,6 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                       fullWidth
                       required
                       helperText={<ErrorMessage name="address" />}
-                      autoComplete="address"
                     />
                     <Field
                       as={TextField}
@@ -147,7 +175,6 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                       fullWidth
                       required
                       helperText={<ErrorMessage name="phone" />}
-                      autoComplete="phone"
                     />
                     <Button
                       type="submit"
@@ -155,9 +182,9 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                       variant="contained"
                       fullWidth
                       sx={{ margin: '8px 0' }}
-                      disabled={FormikProps.isSubmitting}
+                      disabled={loading}
                     >
-                      {FormikProps.isSubmitting ? 'Loading' : 'Edit Address'}
+                      {loading ? 'Loading' : 'Edit Address'}
                     </Button>
                   </Form>
                 )}
@@ -165,6 +192,16 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
             </StyledPaper>
           </Grid>
         </StyledModal>
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={5000}
+          onClose={closeAlert}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert variant="filled" severity="error">
+            {alertText}
+          </Alert>
+        </Snackbar>
       </StyledBackdrop>
     </>
   );

@@ -1,5 +1,15 @@
-import React, { FC } from 'react';
-import { Avatar, Box, Button, Grid, Paper, TextField, Typography } from '@mui/material';
+import React, { FC, useState } from 'react';
+import {
+  Alert,
+  Avatar,
+  Box,
+  Button,
+  Grid,
+  Paper,
+  Snackbar,
+  TextField,
+  Typography,
+} from '@mui/material';
 import HomeIcon from '@mui/icons-material/Home';
 import { styled } from '@mui/material/styles';
 import { colors } from '../../../themes';
@@ -12,6 +22,8 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
 import { addDeliveryItem, getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
+import { isAxiosError } from 'axios';
+import { DefaultError } from '../../../types/error.type';
 
 const StyledBackdrop = styled(Box)`
   background: rgba(0, 0, 0, 0.5);
@@ -53,37 +65,50 @@ export interface AddressFormValues {
   phone: string;
 }
 
-interface AddressEditProps {
+interface AddressAddProps {
   showAddModal: boolean;
   setShowAddModal: React.Dispatch<React.SetStateAction<boolean>>;
-  activeAddress: GetDeliveryData;
-  addressForEditId: string;
 }
 
-const UserAddAddressComp: FC<AddressEditProps> = ({
-  showAddModal,
-  setShowAddModal,
-  activeAddress,
-  addressForEditId,
-}) => {
+const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal }) => {
+  const [loading, setLoading] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertText, setAlertText] = useState('');
+
   const dispatch = useDispatch<AppDispatch>();
+
+  const closeAlert = () => {
+    setAlertOpen(false);
+  };
 
   const token = storage.get('access-token') as string;
   const payload: { id: string; email: string; roleId: string; permissions: [] } = jwt_decode(token);
   const userId = payload.id;
 
   const handleSubmit = async (values: AddressFormValues) => {
-    const addData: Partial<DeliveryDto> = {
-      city: values.city,
-      address: values.address,
-      phone: values.phone,
-      userId: userId,
-    };
-    console.log('addData');
-    await dispatch(addDeliveryItem({ deliveryDto: addData })).then(() => {
-      dispatch(getActiveDeliveries({ userId: userId }));
-    });
-    setShowAddModal(false);
+    try {
+      setLoading(true);
+      const addData: Partial<DeliveryDto> = {
+        city: values.city,
+        address: values.address,
+        phone: values.phone,
+        userId: userId,
+      };
+      await dispatch(addDeliveryItem({ deliveryDto: addData })).then(() => {
+        dispatch(getActiveDeliveries({ userId: userId }));
+      });
+      setShowAddModal(false);
+    } catch (error) {
+      if (isAxiosError<DefaultError>(error)) {
+        setAlertOpen(true);
+        setAlertText(error.response?.data.message || error.message);
+      } else {
+        setAlertOpen(true);
+        setAlertText('Ooops...Something-went-wrong');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCloseModal = () => {
@@ -155,9 +180,9 @@ const UserAddAddressComp: FC<AddressEditProps> = ({
                       variant="contained"
                       fullWidth
                       sx={{ margin: '8px 0' }}
-                      disabled={FormikProps.isSubmitting}
+                      disabled={loading}
                     >
-                      {FormikProps.isSubmitting ? 'Loading' : 'Add Address'}
+                      {loading ? 'Loading' : 'Add Address'}
                     </Button>
                   </Form>
                 )}
@@ -165,6 +190,16 @@ const UserAddAddressComp: FC<AddressEditProps> = ({
             </StyledPaper>
           </Grid>
         </StyledModal>
+        <Snackbar
+          open={alertOpen}
+          autoHideDuration={5000}
+          onClose={closeAlert}
+          anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        >
+          <Alert variant="filled" severity="error">
+            {alertText}
+          </Alert>
+        </Snackbar>
       </StyledBackdrop>
     </>
   );
