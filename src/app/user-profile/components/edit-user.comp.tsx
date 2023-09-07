@@ -4,30 +4,18 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
-  FormControl,
-  FormControlLabel,
-  FormHelperText,
-  FormLabel,
   Grid,
-  Link,
   Paper,
-  Radio,
-  RadioGroup,
   Snackbar,
   TextField,
   Typography,
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
-import { useNavigate } from 'react-router-dom';
 import { colors } from '../../../themes';
 import { useDispatch } from 'react-redux';
-import { getRoleId } from '../../auth/api/user-role.api';
-import { signUp } from '../../auth/api/sign-up';
 import storage from '../../../local-storage/storage';
 import jwt_decode from 'jwt-decode';
-import { register } from '../../auth/store/auth.slice';
 import { isAxiosError } from 'axios';
 import { DefaultError } from '../../../types/error.type';
 import { UserFormValues } from '../../user/types/user-form-values.type';
@@ -64,8 +52,6 @@ const EditUserComp: FC = () => {
     userName: '',
     email: '',
   };
-
-  const navigate = useNavigate();
 
   const closeAlert = () => {
     setAlertOpen(false);
