@@ -12,7 +12,7 @@ export interface AuthState {
       tokens: boolean;
     };
     errors: {
-      tokens: null;
+      tokens: string | undefined;
     };
   };
 }

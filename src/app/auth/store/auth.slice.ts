@@ -2,10 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AuthState } from '../types/auth-state.type';
 import { UserSession } from '../types/user-session.type';
-import { refreshTokens } from './auth.actions';
+import { refreshTokens, signIn, signUp } from './auth.actions';
 
 const initialState: AuthState = {
-  isRegistered: true,
+  isRegistered: false,
   userId: '',
   email: '',
   roleId: '',
@@ -19,7 +19,7 @@ const initialState: AuthState = {
       tokens: true,
     },
     errors: {
-      tokens: null,
+      tokens: undefined,
     },
   },
 };
@@ -48,10 +48,40 @@ export const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
+      // ============ SiGN UP ============ //
+      .addCase(signUp.pending, (state) => {
+        state.tokens.pending.tokens = true;
+      })
+      .addCase(signUp.fulfilled, (state, { payload }) => {
+        state.isRegistered = true;
+        state.tokens.pending.tokens = false;
+        state.tokens.tokens = payload;
+      })
+      .addCase(signUp.rejected, (state, action) => {
+        state.isRegistered = false;
+        state.tokens.pending.tokens = false;
+        state.tokens.errors.tokens = action.error.message;
+      })
+
+      // ============ SiGN IN ============ //
+      .addCase(signIn.pending, (state) => {
+        state.tokens.pending.tokens = true;
+      })
+      .addCase(signIn.fulfilled, (state, { payload }) => {
+        state.isRegistered = true;
+        state.tokens.pending.tokens = false;
+        state.tokens.tokens = payload;
+      })
+      .addCase(signIn.rejected, (state, action) => {
+        state.isRegistered = false;
+        state.tokens.pending.tokens = false;
+        state.tokens.errors.tokens = action.error.message;
+      })
+
       // ============ REFRESH TOKENS ============ //
       .addCase(refreshTokens.pending, (state) => {
         state.tokens.pending.tokens = true;
-        state.tokens.errors.tokens = null;
+        state.tokens.errors.tokens = undefined;
       })
       .addCase(refreshTokens.fulfilled, (state, { payload }) => {
         state.tokens.pending.tokens = false;

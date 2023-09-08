@@ -10,10 +10,8 @@ import { isAxiosError } from 'axios';
 import { DefaultError } from '../../types/error.type';
 import { resetPassword } from './api/reset-password';
 import storage from '../../local-storage/storage';
-import { signIn } from './api/sign-in';
-import jwt_decode from 'jwt-decode';
-import { register } from './store/auth.slice';
 import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -54,7 +52,7 @@ const ResetPasswordPage: FC = () => {
     setAlertOpen(false);
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = async (values: FormValues, props: any) => {
     try {
