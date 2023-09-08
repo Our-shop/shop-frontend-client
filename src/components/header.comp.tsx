@@ -20,15 +20,8 @@ import storage from '../local-storage/storage';
 import { AppDispatch } from '../store';
 import { cartSelector, cartsPendingSelector } from '../app/carts/store/carts.selector';
 import { getActiveCart } from '../app/carts/store/carts.actions';
-import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
-import { deleteDeliveryItem, getActiveDeliveries } from '../app/delivery/store/delivery.actions';
 import LanguageSwitcher from './language-switcher.comp';
-
-const pages = [
-  { name: 'products', href: '/products' },
-  { name: 'about', href: '/about' },
-];
+import { useTranslation } from 'react-i18next';
 
 const buttonStyle = {
   border: `1px solid ${colors.lightViolet}`,
@@ -39,13 +32,13 @@ const buttonStyle = {
 const tempUserId = '9f5a5b41-46d7-414b-8e8b-b55b3cad9daf';
 
 const HeaderComp: FC = () => {
-  // const userWithTranslate: IUserWithTranslate = t("user", {
-  //   returnObjects: true,
-  // });
+  const { t } = useTranslation();
 
   const [token, setToken] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+  const pages = [{ name: `${t('header:Products')}`, href: '/products' }];
 
   // CART
   const cart = useSelector(cartSelector);
@@ -68,25 +61,12 @@ const HeaderComp: FC = () => {
     setToken(token);
   };
 
-  // const lang = storage.get('i18nextLng') as string;
-
   useEffect(() => {
     const token = storage.get('refresh-token');
     if (token) {
       handleToken(token);
     }
   }, []);
-  // if (lang?.length > 2) {
-  //   i18next.changeLanguage('en');
-  // }
-
-  // const handleLanguageChange = (
-  //   event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  //   value: string,
-  // ) => {
-  //   event.stopPropagation();
-  //   i18n.changeLanguage(value);
-  // };
 
   return (
     <AppBar position="sticky">
@@ -99,7 +79,7 @@ const HeaderComp: FC = () => {
           </Link>
         </Typography>
 
-        <SearchComp placeholder={'Search products...'} />
+        <SearchComp placeholder={`${t('header:Search-products')}`} />
 
         <Box>
           {pages.map((page) => (
@@ -151,35 +131,12 @@ const HeaderComp: FC = () => {
                 to="/auth/sign-in"
                 sx={{ color: colors.white, textDecoration: 'none' }}
               >
-                Sign In
-                {/*{t('sign-in')}*/}
+                {t('header:Sign-in')}
               </Link>
             </Button>
           </Box>
         )}
-
         <LanguageSwitcher />
-
-        {/*<ButtonGroup sx={{paddingLeft: '5px'}}  onChange={handleLanguageChange}>*/}
-        {/*  <IconButton*/}
-        {/*    aria-label="Switch to Russian"*/}
-        {/*    color="inherit"*/}
-        {/*    size="small"*/}
-        {/*    style={buttonStyle}*/}
-        {/*    value="ru"*/}
-        {/*  >*/}
-        {/*    <Typography fontSize={14}>RU</Typography>*/}
-        {/*  </IconButton>*/}
-        {/*  <IconButton*/}
-        {/*    aria-label="Switch to English"*/}
-        {/*    color="inherit"*/}
-        {/*    size="small"*/}
-        {/*    style={buttonStyle}*/}
-        {/*    value="en"*/}
-        {/*     >*/}
-        {/*    <Typography fontSize={14}>EN</Typography>*/}
-        {/*  </IconButton>*/}
-        {/*</ButtonGroup>*/}
       </Toolbar>
     </AppBar>
   );

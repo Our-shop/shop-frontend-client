@@ -63,7 +63,7 @@ const Home: FC = () => {
     if (resetToken) {
       SetShowMessage(true);
       setAlertOpen(true);
-      setAlertText('Password was successfully changed');
+      setAlertText(`${t('home:Password-message')}`);
       storage.clear();
     }
   }, []);
@@ -93,15 +93,15 @@ const Home: FC = () => {
               {t('home:Welcome-message')}
             </Typography>
             <Typography variant="body1" paragraph>
-              We have everything for your beloved pets!
+              {t('home:We-have')}
             </Typography>
             <Link component={RouterLink} to="/products">
               <Button variant="contained" color="primary" size="large">
-                Explore Products
+                {t('home:Explore-products')}
               </Button>
             </Link>
             <AnimatedTypography variant="body2" color={colors.error}>
-              Get 10% discount for your first order!
+              {t('home:Discount')}
             </AnimatedTypography>
           </WelcomeSection>
         </>

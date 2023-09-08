@@ -6,6 +6,10 @@ import Backend from 'i18next-http-backend';
 
 import homeEn from './locales/en/home.json';
 import homeRu from './locales/ru/home.json';
+import HeaderEn from './locales/en/header.json';
+import HeaderRu from './locales/ru/header.json';
+import FooterRu from './locales/ru/footer.json';
+import FooterEn from './locales/en/footer.json';
 
 i18n
   .use(Backend)
@@ -24,9 +28,13 @@ i18n
     resources: {
       en: {
         home: homeEn,
+        header: HeaderEn,
+        footer: FooterEn,
       },
       ru: {
         home: homeRu,
+        header: HeaderRu,
+        footer: FooterRu,
       },
     },
     detection: {
