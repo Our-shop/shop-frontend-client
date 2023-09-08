@@ -19,9 +19,11 @@ import { getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import Badge from '@mui/material/Badge';
 import repository from '../../../repository';
 import { useNavigate } from 'react-router-dom';
-import { ErrorMessage } from 'formik';
+import jwt_decode from 'jwt-decode';
+import { localStoragePayload } from '../../../local-storage/local-storage-payload.type';
 
-const tempUserId = '9f5a5b41-46d7-414b-8e8b-b55b3cad9daf';
+const token = localStorage.getItem('access-token') as string;
+const payload: localStoragePayload = jwt_decode(token);
 
 interface MakeOrderModalProps {
   isOpened: boolean;
@@ -43,8 +45,8 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
   const [currentDelivery, setCurrentDelivery] = useState('');
 
   useEffect(() => {
-    isOpened && cart && dispatch(getCartItems({ cartId: cart.id }));
-    isOpened && dispatch(getActiveDeliveries({ userId: tempUserId }));
+    isOpened && cart && dispatch(getCartItems({ cartId: payload.id }));
+    isOpened && cart && dispatch(getActiveDeliveries({ userId: cart.userId }));
   }, [isOpened]);
 
   useEffect(() => {
