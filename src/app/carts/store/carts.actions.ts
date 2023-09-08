@@ -3,29 +3,29 @@ import repository from '../../../repository';
 import { CartDto } from '../types/cart.dto';
 import { CartItemDto } from '../types/cart-item.dto';
 
-// export const getActiveCart = createAsyncThunk<CartDto>(
-//   'GET/active-cart',
-//   async (_, { rejectWithValue }) => {
-//     try {
-//       const response = await repository.get('active-cart');
-//       return response.data;
-//     } catch (error: any) {
-//       return rejectWithValue(error);
-//     }
-//   },
-// );
-
-export const getActiveCart = createAsyncThunk<CartDto, { userId: string }>(
-  'GET/carts/user/:userId',
-  async ({ userId }, { rejectWithValue }) => {
+export const getActiveCart = createAsyncThunk<CartDto>(
+  'GET/active-cart',
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await repository.get('carts/user/' + userId);
+      const response = await repository.get('active-cart');
       return response.data;
     } catch (error: any) {
       return rejectWithValue(error);
     }
   },
 );
+
+// export const getActiveCart = createAsyncThunk<CartDto, { userId: string }>(
+//   'GET/carts/user/:userId',
+//   async ({ userId }, { rejectWithValue }) => {
+//     try {
+//       const response = await repository.get('carts/user/' + userId);
+//       return response.data;
+//     } catch (error: any) {
+//       return rejectWithValue(error);
+//     }
+//   },
+// );
 
 export const getCartItems = createAsyncThunk<CartItemDto[], { cartId: string }>(
   'GET/order-items/order/:orderId',

@@ -36,6 +36,7 @@ const CartItemComp: FC<CartItemCompProps> = ({ cartItem }) => {
       <TableCell align="center">
         <img src={product.image} height={60}></img>
       </TableCell>
+
       <TableCell>
         <Box>
           <Typography variant="h6">{product.title}</Typography>
@@ -43,12 +44,15 @@ const CartItemComp: FC<CartItemCompProps> = ({ cartItem }) => {
           {/* <Typography>{product.type}</Typography> */}
         </Box>
       </TableCell>
+
       <TableCell align="right">${(product.price * productQuantity).toFixed(2)}</TableCell>
+
       <QuantityEditorComp quantity={productQuantity} setQuantity={setProductQuantity} />
+
       <TableCell>
         <Button
           variant="contained"
-          color="secondary"
+          color="primary"
           sx={{ marginRight: 3 }}
           disabled={cartItem.productQuantity === productQuantity}
           onClick={(event) => saveChanges(event)}
