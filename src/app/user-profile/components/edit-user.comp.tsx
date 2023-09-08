@@ -78,8 +78,6 @@ const EditUserComp: FC = () => {
       setSuccessMessage(true);
       setAlertOpen(true);
       setAlertText('Saved successfully!');
-      console.log('success');
-      // TODO ADD LOGIC FOR REFRESH TOKENS ?
     } catch (error) {
       if (isAxiosError<DefaultError>(error)) {
         setAlertOpen(true);
