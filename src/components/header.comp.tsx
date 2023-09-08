@@ -29,8 +29,6 @@ const buttonStyle = {
   margin: '0 4px',
 };
 
-const tempUserId = '9f5a5b41-46d7-414b-8e8b-b55b3cad9daf';
-
 const HeaderComp: FC = () => {
   const { t } = useTranslation();
 
@@ -45,7 +43,7 @@ const HeaderComp: FC = () => {
   const cartsPending = useSelector(cartsPendingSelector);
 
   if (cartsPending.cart) {
-    dispatch(getActiveCart({ userId: tempUserId }));
+    dispatch(getActiveCart());
   }
 
   const isRegistered = useSelector(getIsRegistered);

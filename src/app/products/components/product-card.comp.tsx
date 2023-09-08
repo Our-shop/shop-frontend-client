@@ -33,7 +33,7 @@ const ProductCardComp: FC<ProductCardCompProps> = ({ product }) => {
 
   return (
     <Box width={220} onClick={() => navigate(`${product.category}/${product.id}`)}>
-      <Card sx={{ width: 220 }} elevation={4}>
+      <Card elevation={4}>
         <CardActionArea>
           <Box margin={'0 auto'} width={80} height={220} display="flex" alignItems="center">
             <CardMedia component="img" image={product.image} alt={product.title}></CardMedia>
