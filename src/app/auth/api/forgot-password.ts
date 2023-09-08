@@ -4,5 +4,3 @@ import { ForgotPasswordDto } from '../types/forgot-password-dto.type';
 export const forgotPassword = (email: ForgotPasswordDto) => {
   return repository.post<string>('/auth/forgot-password', email);
 };
-
-// TODO REWRITE WITH REDUX ACTIONS

@@ -5,7 +5,6 @@ import storage from '../../../local-storage/storage';
 import jwt_decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
-import { deleteDeliveryItem, getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import { deleteUser } from '../../user/store/user.actions';
 import { signOut } from '../../auth/api/sign-out';
 import { logout } from '../../auth/store/auth.slice';
