@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 import { colors } from '../../themes';
 import { NavLink as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const PageLayoutComp = styled('main')({
   padding: 16,
@@ -48,6 +49,7 @@ const Image = styled('img')`
 `;
 
 const Home: FC = () => {
+  const { t } = useTranslation();
   const [showMessage, SetShowMessage] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
@@ -61,7 +63,7 @@ const Home: FC = () => {
     if (resetToken) {
       SetShowMessage(true);
       setAlertOpen(true);
-      setAlertText('Password was successfully changed');
+      setAlertText(`${t('home:Password-message')}`);
       storage.clear();
     }
   }, []);
@@ -88,18 +90,18 @@ const Home: FC = () => {
               alt="Dog Image"
             />
             <Typography variant="h4" gutterBottom>
-              Welcome to Our Pet Shop!
+              {t('home:Welcome-message')}
             </Typography>
             <Typography variant="body1" paragraph>
-              We have everything for your beloved pets!
+              {t('home:We-have')}
             </Typography>
             <Link component={RouterLink} to="/products">
               <Button variant="contained" color="primary" size="large">
-                Explore Products
+                {t('home:Explore-products')}
               </Button>
             </Link>
             <AnimatedTypography variant="body2" color={colors.error}>
-              Get 10% off your first order!
+              {t('home:Discount')}
             </AnimatedTypography>
           </WelcomeSection>
         </>

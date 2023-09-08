@@ -5,6 +5,7 @@ import Link from '@mui/material/Link';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import { IconButton } from '@mui/material';
 import { colors } from '../themes';
+import { useTranslation } from 'react-i18next';
 
 const Component = styled('footer')({
   paddingTop: 20,
@@ -17,24 +18,27 @@ const Component = styled('footer')({
 });
 
 const Copyright: FC = () => {
+  const { t } = useTranslation();
   return (
     <Typography color="text.secondary">
-      {"Copyright ©  Pet's Shop "}
+      {t('footer:Copyright')}
       {new Date().getFullYear()}
       {'.'}
     </Typography>
   );
 };
 
-const gitHubs = [
-  { userName: 'Dmitry', href: 'https://github.com/DmitruKudr' },
-  { userName: 'Anastasya', href: 'https://github.com/AnastasyMeleshko' },
-];
-
 const GitHubLinks: FC = () => {
+  const { t } = useTranslation();
+
+  const gitHubs = [
+    { userName: `${t('footer:Dmitry')}`, href: 'https://github.com/DmitruKudr' },
+    { userName: `${t('footer:Anastasya')}`, href: 'https://github.com/AnastasyMeleshko' },
+  ];
+
   return (
     <Typography paddingLeft={3} color="text.secondary">
-      GitHub Links:
+      {t('footer:GitHub-links')}
       {gitHubs.map((gitHub) => (
         <Link key={gitHub.href} paddingLeft={1} color="inherit" href={gitHub.href} target="_blank">
           {gitHub.userName}

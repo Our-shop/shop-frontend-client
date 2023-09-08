@@ -8,7 +8,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import SearchComp from './ui/search.comp';
-import { Button, Icon, Link } from '@mui/material';
+import { Button, ButtonGroup, Icon, Link } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
@@ -20,11 +20,8 @@ import storage from '../local-storage/storage';
 import { AppDispatch } from '../store';
 import { cartSelector, cartsPendingSelector } from '../app/carts/store/carts.selector';
 import { getActiveCart } from '../app/carts/store/carts.actions';
-
-const pages = [
-  { name: 'products', href: '/products' },
-  { name: 'about', href: '/about' },
-];
+import LanguageSwitcher from './language-switcher.comp';
+import { useTranslation } from 'react-i18next';
 
 const buttonStyle = {
   border: `1px solid ${colors.lightViolet}`,
@@ -35,9 +32,13 @@ const buttonStyle = {
 const tempUserId = '9f5a5b41-46d7-414b-8e8b-b55b3cad9daf';
 
 const HeaderComp: FC = () => {
+  const { t } = useTranslation();
+
   const [token, setToken] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+  const pages = [{ name: `${t('header:Products')}`, href: '/products' }];
 
   // CART
   const cart = useSelector(cartSelector);
@@ -78,7 +79,7 @@ const HeaderComp: FC = () => {
           </Link>
         </Typography>
 
-        <SearchComp placeholder={'Search products...'} />
+        <SearchComp placeholder={`${t('header:Search-products')}`} />
 
         <Box>
           {pages.map((page) => (
@@ -130,30 +131,12 @@ const HeaderComp: FC = () => {
                 to="/auth/sign-in"
                 sx={{ color: colors.white, textDecoration: 'none' }}
               >
-                Sign In
+                {t('header:Sign-in')}
               </Link>
             </Button>
           </Box>
         )}
-
-        <Box paddingLeft={3}>
-          <IconButton
-            aria-label="Switch to Russian"
-            color="inherit"
-            size="small"
-            style={buttonStyle}
-          >
-            <Typography fontSize={14}>RU</Typography>
-          </IconButton>
-          <IconButton
-            aria-label="Switch to English"
-            color="inherit"
-            size="small"
-            style={buttonStyle}
-          >
-            <Typography fontSize={14}>EN</Typography>
-          </IconButton>
-        </Box>
+        <LanguageSwitcher />
       </Toolbar>
     </AppBar>
   );

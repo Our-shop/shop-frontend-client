@@ -34,6 +34,7 @@ import { register } from './store/auth.slice';
 import { AppDispatch } from '../../store';
 import { signUp } from './store/auth.actions';
 import { Tokens } from './types/tokens.type';
+import { useTranslation } from 'react-i18next';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -51,6 +52,8 @@ const SignUpPage: FC = () => {
   const [loading, setLoading] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
+
+  const { t } = useTranslation(['sign-up']);
 
   const initialValues: SignUpFormValues = {
     userName: '',
@@ -125,7 +128,7 @@ const SignUpPage: FC = () => {
             <LockOutlinedIcon />
           </StyledAvatar>
           <Typography variant="h5" marginBottom={3}>
-            Sign Up
+            {t('sign-up')}
           </Typography>
         </Grid>
         <Formik
