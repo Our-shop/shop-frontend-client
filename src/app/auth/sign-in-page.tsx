@@ -18,12 +18,14 @@ import { Form, Formik, Field, ErrorMessage } from 'formik';
 import { signInSchema } from './validation-schemas/sign-in.schema';
 import BackHomeBtn from '../../components/ui/back.btn.comp';
 import { useDispatch } from 'react-redux';
-import { signIn } from './api/sign-in';
 import storage from '../../local-storage/storage';
 import jwt_decode from 'jwt-decode';
 import { register } from './store/auth.slice';
 import { isAxiosError } from 'axios';
 import { DefaultError } from '../../types/error.type';
+import { AppDispatch } from '../../store';
+import { Tokens } from './types/tokens.type';
+import { signIn } from './store/auth.actions';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -58,18 +60,18 @@ const SignInPage: FC = () => {
     setAlertOpen(false);
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = async (values: FormValues, props: any) => {
-    console.log('Form values:', values);
-
     try {
       setLoading(true);
       const activeUser = {
         email: values.email,
         password: values.password,
       };
-      const { data } = await signIn(activeUser);
+
+      const resultAction = await dispatch(signIn(activeUser));
+      const data = resultAction.payload as Tokens;
 
       storage.set('access-token', data.access_token);
       storage.set('refresh-token', data.refresh_token);

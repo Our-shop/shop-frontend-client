@@ -25,13 +25,15 @@ import { colors } from '../../themes';
 import { styled } from '@mui/material/styles';
 import { SignUpFormValues } from './types/sign-up-form.type';
 import { getRoleId } from './api/user-role.api';
-import { signUp } from './api/sign-up';
 import storage from '../../local-storage/storage';
 import { isAxiosError } from 'axios';
 import { DefaultError } from '../../types/error.type';
 import jwt_decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
 import { register } from './store/auth.slice';
+import { AppDispatch } from '../../store';
+import { signUp } from './store/auth.actions';
+import { Tokens } from './types/tokens.type';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -65,7 +67,7 @@ const SignUpPage: FC = () => {
     setAlertOpen(false);
   };
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = async (values: SignUpFormValues, props: any) => {
     try {
@@ -79,7 +81,9 @@ const SignUpPage: FC = () => {
         roleId: roleId.data,
       };
 
-      const { data } = await signUp(newUser);
+      const resultAction = await dispatch(signUp(newUser));
+      const data = resultAction.payload as Tokens;
+
       storage.set('access-token', data.access_token);
       storage.set('refresh-token', data.refresh_token);
       storage.set('at_expired', data.at_expiration);
