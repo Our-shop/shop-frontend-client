@@ -13,7 +13,6 @@ import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsRegistered } from '../app/auth/store/auth.selectors';
 import { logout } from '../app/auth/store/auth.slice';
 import { signOut } from '../app/auth/api/sign-out';
 import storage from '../local-storage/storage';

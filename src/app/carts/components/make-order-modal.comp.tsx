@@ -19,6 +19,7 @@ import { getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import Badge from '@mui/material/Badge';
 import repository from '../../../repository';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface MakeOrderModalProps {
   isOpened: boolean;
