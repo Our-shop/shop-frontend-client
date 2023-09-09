@@ -19,6 +19,7 @@ import { getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import Badge from '@mui/material/Badge';
 import repository from '../../../repository';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface MakeOrderModalProps {
   isOpened: boolean;
@@ -27,6 +28,9 @@ interface MakeOrderModalProps {
 
 const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) => {
   const dispatch = useDispatch<AppDispatch>();
+
+  //i18n
+  const { t } = useTranslation();
 
   // CART
   const cart = useSelector(cartSelector);
@@ -51,10 +55,8 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
   // MAKE ORDER
   const navigate = useNavigate();
   const [alertOpen, setAlertOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
-
-  //i18n
-  const { t } = useTranslation();
+  const [message, setMessage] = useState('');
+  const [severity, setSeverity] = useState<'success' | 'error'>('success');
 
   const totalAmount = cartItems.reduce(
     (totalAmount, cartItem) => (totalAmount += cartItem.productQuantity * cartItem.product.price),
@@ -68,14 +70,18 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
       const res = await repository.post('orders/' + cart?.id, { deliveryId: currentDelivery });
       if (typeof res.data == 'string') {
         setAlertOpen(true);
-        setErrorMessage(res.data);
+        setMessage(res.data);
       } else {
-        navigate('/products');
-        window.location.reload();
+        setAlertOpen(true);
+        setMessage('Order complete!');
+        setTimeout(() => {
+          navigate('/products');
+          window.location.reload();
+        }, 2000);
       }
     } catch (error: any) {
-      setAlertOpen(true);
-      setErrorMessage(error.message);
+      setSeverity('error');
+      setMessage(error.message);
     }
   };
 
@@ -153,8 +159,8 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
         onClose={() => setAlertOpen(false)}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert variant="filled" severity="error">
-          {errorMessage}
+        <Alert variant="filled" severity={severity}>
+          {message}
         </Alert>
       </Snackbar>
     </>
