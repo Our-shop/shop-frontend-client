@@ -8,6 +8,7 @@ import ForgotPswSettingsComp from './components/forgot-psw.settings.comp';
 import DeleteAccountComp from './components/delete-account.comp';
 import EditUserComp from './components/edit-user.comp';
 import { useTranslation } from 'react-i18next';
+import OrdersHistoryComp from './components/orders-history.comp';
 
 const StyledBox = styled(Box)`
   padding-left: 30px;
@@ -27,7 +28,6 @@ const UserProfilePage: FC = () => {
   ];
 
   const [settings, setSetting] = useState<string>(allSettings[0].value);
-  console.log(settings);
 
   const handleClick = (next: string) => {
     setSetting(next);
@@ -40,7 +40,7 @@ const UserProfilePage: FC = () => {
         {settings === 'Edit user details' && <EditUserComp />}
         {settings === 'Delivery details' && <UserDeliveryComp />}
         {settings === 'Forgot password' && <ForgotPswSettingsComp />}
-        {settings === 'Orders history' && <div>Orders history</div>}
+        {settings === 'Orders history' && <OrdersHistoryComp />}
         {settings === 'Delete account' && <DeleteAccountComp />}
       </StyledBox>
     </PageLayoutComp>
