@@ -13,12 +13,14 @@ import { AppDispatch } from '../../../store';
 import { useSelector } from 'react-redux';
 import { cartItemsSelector, cartSelector } from '../../carts/store/carts.selector';
 import { addCartItem } from '../../carts/store/carts.actions';
+import { useTranslation } from 'react-i18next';
 
 interface ProductCardCompProps {
   product: ProductDto;
 }
 
 const ProductCardComp: FC<ProductCardCompProps> = ({ product }) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -58,11 +60,11 @@ const ProductCardComp: FC<ProductCardCompProps> = ({ product }) => {
         <CardActions sx={{ padding: 0, backgroundColor: 'primary.light' }}>
           {cartItems.some((item) => item.product.id === product.id) ? (
             <Button size="small" fullWidth disabled>
-              Already in cart
+              {t('products:Already-in-cart')}
             </Button>
           ) : (
             <Button size="small" color="inherit" fullWidth onClick={(event) => addToCart(event)}>
-              + Add to cart
+              {t('products:Add-to-cart')}
             </Button>
           )}
         </CardActions>

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToggleButtonGroup, ToggleButton, styled } from '@mui/material';
 import { colors } from '../themes';
+import storage from '../local-storage/storage';
 
 const StyledButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   '& .MuiToggleButton-root': {
@@ -28,6 +29,7 @@ const LanguageSwitcher = () => {
     if (!newLanguage) return;
     setLanguage(newLanguage);
     i18n.changeLanguage(newLanguage);
+    storage.set('active-language', newLanguage);
   };
 
   return (

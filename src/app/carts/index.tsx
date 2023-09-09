@@ -10,9 +10,12 @@ import { getCartItems } from './store/carts.actions';
 import { AppDispatch } from '../../store';
 import Stack from '@mui/material/Stack';
 import { Typography, Button } from '@mui/material';
+import { useTranslation } from 'react-i18next';
 
 const CartsPage: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+
+  const { t } = useTranslation();
 
   const cart = useSelector(cartSelector);
   const cartItems = useSelector(cartItemsSelector);
@@ -33,7 +36,7 @@ const CartsPage: FC = () => {
         ) : (
           <Stack direction="row" justifyContent="center">
             <Typography variant="h5" color="initial">
-              Your Cart is empty
+              {t('cartItem:Your-cart-is-empty')}
             </Typography>
           </Stack>
         )}

@@ -1,31 +1,29 @@
 import * as yup from 'yup';
 import { emailRegex, passwordRegex } from './regex';
 
+import i18n from '../../../resources/i18n';
+
 export const signInSchema = yup.object({
   email: yup
     .string()
-    .email('Field-should-be-email')
-    .matches(emailRegex, 'Invalid email format')
-    .required('Required-field'),
+    .email(i18n.t('validation:Field-should-be-email'))
+    .matches(emailRegex, i18n.t('validation:Invalid-email-format'))
+    .required(i18n.t('validation:Required-field')),
   password: yup
     .string()
-    .required('Required-field')
-    .test(
-      'password-validation',
-      'Password should contain at least 6 characters including: 1 uppercase letter, 1 lowercase letter, 1 number or special character',
-      (value) => {
-        const minLength = 6;
-        const maxLength = 20;
+    .required(i18n.t('validation:Required-field'))
+    .test('password-validation', i18n.t('validation:Password-should-contain'), (value) => {
+      const minLength = 6;
+      const maxLength = 20;
 
-        if (!value) {
-          return false;
-        }
+      if (!value) {
+        return false;
+      }
 
-        if (value.length < minLength || value.length > maxLength) {
-          return false;
-        }
+      if (value.length < minLength || value.length > maxLength) {
+        return false;
+      }
 
-        return passwordRegex.test(value);
-      },
-    ),
+      return passwordRegex.test(value);
+    }),
 });

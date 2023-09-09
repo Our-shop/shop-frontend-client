@@ -10,8 +10,7 @@ import { isAxiosError } from 'axios';
 import { DefaultError } from '../../types/error.type';
 import { resetPassword } from './api/reset-password';
 import storage from '../../local-storage/storage';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
+import { useTranslation } from 'react-i18next';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -40,6 +39,8 @@ const ResetPasswordPage: FC = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
 
+  const { t } = useTranslation();
+
   const initialValues: FormValues = {
     email: '',
     newPsw: '',
@@ -51,8 +52,6 @@ const ResetPasswordPage: FC = () => {
   const closeAlert = () => {
     setAlertOpen(false);
   };
-
-  const dispatch = useDispatch<AppDispatch>();
 
   const handleSubmit = async (values: FormValues, props: any) => {
     try {
@@ -75,7 +74,7 @@ const ResetPasswordPage: FC = () => {
         setAlertText(error.response?.data.message || error.message);
       } else {
         setAlertOpen(true);
-        setAlertText('Ooops...Something-went-wrong');
+        setAlertText(`${t('validation:Ooops')}`);
       }
     } finally {
       setLoading(false);
@@ -90,11 +89,11 @@ const ResetPasswordPage: FC = () => {
             <LockResetIcon />
           </StyledAvatar>
           <Typography variant="h5" marginBottom={3}>
-            Reset password
+            {t('resetPassword:Reset-password')}
           </Typography>
         </Grid>
         <Typography variant="h6" marginBottom={3} textAlign={'center'}>
-          Please enter your email and new password:
+          {t('resetPassword:Please-enter')}
         </Typography>
         <Formik
           initialValues={initialValues}
@@ -105,8 +104,8 @@ const ResetPasswordPage: FC = () => {
             <Form>
               <Field
                 as={TextField}
-                label="Email"
-                placeholder="Enter email"
+                label={t('resetPassword:Email')}
+                placeholder={t('resetPassword:Enter-email')}
                 type="email"
                 fullWidth
                 required
@@ -116,8 +115,8 @@ const ResetPasswordPage: FC = () => {
               />
               <Field
                 as={TextField}
-                label="New password"
-                placeholder="Enter new password"
+                label={t('resetPassword:New-password')}
+                placeholder={t('resetPassword:Enter-new-password')}
                 type="password"
                 fullWidth
                 required
@@ -127,8 +126,8 @@ const ResetPasswordPage: FC = () => {
               />
               <Field
                 as={TextField}
-                label="Duplicate new password"
-                placeholder="Duplicate new password"
+                label={t('resetPassword:Duplicate-new-password')}
+                placeholder={t('resetPassword:Duplicate-new-password')}
                 type="password"
                 fullWidth
                 required
@@ -144,7 +143,7 @@ const ResetPasswordPage: FC = () => {
                 sx={{ margin: '8px 0' }}
                 disabled={loading}
               >
-                {loading ? 'Loading' : 'Save'}
+                {loading ? `${t('resetPassword:Loading')}` : `${t('resetPassword:Save')}`}
               </Button>
             </Form>
           )}

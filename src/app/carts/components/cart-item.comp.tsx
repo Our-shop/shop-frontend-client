@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
 import { editProductQuantity, deleteCartItem } from '../store/carts.actions';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface CartItemCompProps {
   cartItem: CartItemDto;
@@ -15,6 +16,8 @@ interface CartItemCompProps {
 const CartItemComp: FC<CartItemCompProps> = ({ cartItem }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+
+  const { t } = useTranslation();
 
   const product = cartItem.product;
 
@@ -57,10 +60,10 @@ const CartItemComp: FC<CartItemCompProps> = ({ cartItem }) => {
           disabled={cartItem.productQuantity === productQuantity}
           onClick={(event) => saveChanges(event)}
         >
-          save changes
+          {t('cartItem:Save-changes')}
         </Button>
         <Button variant="contained" color="error" onClick={(event) => deleteItem(event)}>
-          delete
+          {t('cartItem:Delete')}
         </Button>
       </TableCell>
     </TableRow>

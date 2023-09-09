@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface Props {
   children?: ReactNode;
@@ -24,7 +25,7 @@ class ErrorBoundaryComp extends Component<Props, State> {
 
   public render() {
     if (this.state.hasError) {
-      return <h1>Error! Something went wrong</h1>;
+      return <h1>{useTranslation('errorBoundary:Error-message')}</h1>;
     }
 
     return this.props.children;

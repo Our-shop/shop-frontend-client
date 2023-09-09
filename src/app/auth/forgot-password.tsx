@@ -11,6 +11,7 @@ import { isAxiosError } from 'axios';
 import { DefaultError } from '../../types/error.type';
 import { forgotPassword } from './api/forgot-password';
 import { ForgotPasswordDto } from './types/forgot-password-dto.type';
+import { useTranslation } from 'react-i18next';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -36,6 +37,8 @@ const ForgotPasswordPage: FC = () => {
   const [loading, setLoading] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
+
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -68,7 +71,7 @@ const ForgotPasswordPage: FC = () => {
         setAlertText(error.response?.data.message || error.message);
       } else {
         setAlertOpen(true);
-        setAlertText('Ooops...Something-went-wrong');
+        setAlertText(`${t('validation:Ooops')}`);
       }
     } finally {
       setLoading(false);
@@ -83,11 +86,11 @@ const ForgotPasswordPage: FC = () => {
             <LockResetIcon />
           </StyledAvatar>
           <Typography variant="h5" marginBottom={3}>
-            Forgot password
+            {t('forgotPassword:Forgot-password')}
           </Typography>
         </Grid>
         <Typography variant="h6" marginBottom={3} textAlign={'center'}>
-          To restore the password please enter your email:
+          {t('forgotPassword:To-restore-password')}
         </Typography>
         <Formik
           initialValues={initialValues}
@@ -98,8 +101,8 @@ const ForgotPasswordPage: FC = () => {
             <Form>
               <Field
                 as={TextField}
-                label="Email"
-                placeholder="Enter email"
+                label={t('forgotPassword:Email')}
+                placeholder={t('forgotPassword:Enter-email')}
                 type="email"
                 fullWidth
                 required
@@ -114,7 +117,9 @@ const ForgotPasswordPage: FC = () => {
                 sx={{ margin: '20px auto 8px' }}
                 disabled={loading}
               >
-                {loading ? 'Loading' : 'Restore password'}
+                {loading
+                  ? `${t('forgotPassword:Loading')}`
+                  : `${t('forgotPassword:Restore-password')}`}
               </Button>
             </Form>
           )}

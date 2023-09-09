@@ -7,6 +7,7 @@ import UserDeliveryComp from './components/user-delivery.comp';
 import ForgotPswSettingsComp from './components/forgot-psw.settings.comp';
 import DeleteAccountComp from './components/delete-account.comp';
 import EditUserComp from './components/edit-user.comp';
+import { useTranslation } from 'react-i18next';
 
 const StyledBox = styled(Box)`
   padding-left: 30px;
@@ -14,16 +15,19 @@ const StyledBox = styled(Box)`
   flex-grow: 1;
 `;
 
-const allSettings = [
-  { name: 'Edit user details', value: 'Edit user details' },
-  { name: 'Delivery details', value: 'Delivery details' },
-  { name: 'Forgot password', value: 'Forgot password' },
-  { name: 'Orders history', value: 'Orders history' },
-  { name: 'Delete account', value: 'Delete account' },
-];
-
 const UserProfilePage: FC = () => {
+  const { t } = useTranslation();
+
+  const allSettings = [
+    { name: `${t('userProfile:Edit-user-details')}`, value: 'Edit user details' },
+    { name: `${t('userProfile:Delivery-details')}`, value: 'Delivery details' },
+    { name: `${t('userProfile:Forgot-password')}`, value: 'Forgot password' },
+    { name: `${t('userProfile:Orders-history')}`, value: 'Orders history' },
+    { name: `${t('userProfile:Delete-account')}`, value: 'Delete account' },
+  ];
+
   const [settings, setSetting] = useState<string>(allSettings[0].value);
+  console.log(settings);
 
   const handleClick = (next: string) => {
     setSetting(next);

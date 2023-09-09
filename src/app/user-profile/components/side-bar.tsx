@@ -3,14 +3,7 @@ import Box from '@mui/material/Box';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { Typography } from '@mui/material';
-
-const allSettings = [
-  { name: 'Edit user details', value: 'Edit user details' },
-  { name: 'Delivery details', value: 'Delivery details' },
-  { name: 'Forgot password', value: 'Forgot password' },
-  { name: 'Orders history', value: 'Orders history' },
-  { name: 'Delete account', value: 'Delete account' },
-];
+import { useTranslation } from 'react-i18next';
 
 interface SidebarProps {
   settings: string;
@@ -18,8 +11,18 @@ interface SidebarProps {
 }
 
 const Sidebar: FC<SidebarProps> = ({ settings, handleClick }) => {
+  const { t } = useTranslation();
+
+  const allSettings = [
+    { name: `${t('userProfile:Edit-user-details')}`, value: 'Edit user details' },
+    { name: `${t('userProfile:Delivery-details')}`, value: 'Delivery details' },
+    { name: `${t('userProfile:Forgot-password')}`, value: 'Forgot password' },
+    { name: `${t('userProfile:Orders-history')}`, value: 'Orders history' },
+    { name: `${t('userProfile:Delete-account')}`, value: 'Delete account' },
+  ];
+
   return (
-    <Box width={220}>
+    <Box width={280}>
       <ToggleButtonGroup
         fullWidth
         color="primary"
