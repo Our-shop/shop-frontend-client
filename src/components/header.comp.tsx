@@ -40,8 +40,6 @@ const HeaderComp: FC = () => {
     dispatch(getActiveCart());
   }
 
-  const isRegistered = useSelector(getIsRegistered);
-
   const handleSignOut = async () => {
     await signOut();
     storage.clear();
@@ -98,7 +96,7 @@ const HeaderComp: FC = () => {
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
-          {isRegistered && token ? (
+          {token ? (
             <Link component={RouterLink} to="/profile">
               <IconButton size="large" edge="end" aria-label="user" sx={{ color: colors.white }}>
                 <AccountCircle />
@@ -109,7 +107,7 @@ const HeaderComp: FC = () => {
           )}
         </Box>
 
-        {isRegistered && token ? (
+        {token ? (
           <Box paddingLeft={3}>
             <Button aria-label="sign-out" sx={{ color: colors.white }} onClick={handleSignOut}>
               {t('header:Sign-out')}
