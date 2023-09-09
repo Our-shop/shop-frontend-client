@@ -8,7 +8,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import SearchComp from './ui/search.comp';
-import { Button, ButtonGroup, Icon, Link } from '@mui/material';
+import { Button, Icon, Link } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';

@@ -16,6 +16,8 @@ import ValidationRu from './locales/ru/validation.json';
 import ValidationEn from './locales/en/validation.json';
 import ForgotPasswordEn from './locales/en/forgotPassword.json';
 import ForgotPasswordRu from './locales/ru/forgotPassword.json';
+import SignUpRu from './locales/ru/signUp.json';
+import SignUpEn from './locales/en/signUp.json';
 
 i18n
   .use(Backend)
@@ -39,6 +41,7 @@ i18n
         signIn: SingInEn,
         validation: ValidationEn,
         forgotPassword: ForgotPasswordEn,
+        signUp: SignUpEn,
       },
       ru: {
         home: homeRu,
@@ -47,6 +50,7 @@ i18n
         signIn: SingInRu,
         validation: ValidationRu,
         forgotPassword: ForgotPasswordRu,
+        signUp: SignUpRu,
       },
     },
     detection: {

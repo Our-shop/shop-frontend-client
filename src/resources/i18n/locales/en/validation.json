@@ -3,5 +3,9 @@
   "Invalid-email-format": "Invalid email format",
   "Required-field": "Required field",
   "Password-should-contain": "Password should contain at least 6 characters including: 1 uppercase letter, 1 lowercase letter, 1 number or special character",
-  "Ooops": "Ooops...Something went wrong"
+  "Ooops": "Ooops...Something went wrong",
+  "It-is-too-short": "It's too short",
+  "Password-not-match": "Password not matched",
+  "Please-select-role": "Please select your role",
+  "I-accept": "Please accept terms and conditions"
 }

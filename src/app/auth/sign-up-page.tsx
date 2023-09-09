@@ -53,7 +53,7 @@ const SignUpPage: FC = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
 
-  const { t } = useTranslation(['sign-up']);
+  const { t } = useTranslation();
 
   const initialValues: SignUpFormValues = {
     userName: '',
@@ -113,7 +113,7 @@ const SignUpPage: FC = () => {
         setAlertText(error.response?.data.message || error.message);
       } else {
         setAlertOpen(true);
-        setAlertText('Ooops...Something-went-wrong');
+        setAlertText(`${t('validation:Ooops')}`);
       }
     } finally {
       setLoading(false);
@@ -128,7 +128,7 @@ const SignUpPage: FC = () => {
             <LockOutlinedIcon />
           </StyledAvatar>
           <Typography variant="h5" marginBottom={3}>
-            {t('sign-up')}
+            {t('signUp:Sign-up')}
           </Typography>
         </Grid>
         <Formik
@@ -140,8 +140,8 @@ const SignUpPage: FC = () => {
             <Form>
               <Field
                 as={TextField}
-                label="UserName"
-                placeholder="Enter name"
+                label={t('signUp:User-name')}
+                placeholder={t('signUp:Enter-name')}
                 fullWidth
                 required
                 sx={{ marginBottom: '10px' }}
@@ -150,8 +150,8 @@ const SignUpPage: FC = () => {
               />
               <Field
                 as={TextField}
-                label="Email"
-                placeholder="Enter email"
+                label={t('signUp:Email')}
+                placeholder={t('signUp:Enter-email')}
                 type="email"
                 fullWidth
                 required
@@ -161,8 +161,8 @@ const SignUpPage: FC = () => {
               />
               <Field
                 as={TextField}
-                label="Password"
-                placeholder="Enter password"
+                label={t('signUp:Password')}
+                placeholder={t('signUp:Enter-password')}
                 type="password"
                 fullWidth
                 required
@@ -172,8 +172,8 @@ const SignUpPage: FC = () => {
               />
               <Field
                 as={TextField}
-                label="Confirm password"
-                placeholder="Confirm password"
+                label={t('signUp:Confirm-password')}
+                placeholder={t('signUp:Confirm-password')}
                 type="password"
                 fullWidth
                 required
@@ -182,10 +182,18 @@ const SignUpPage: FC = () => {
                 helperText={<ErrorMessage name="confirmPassword" />}
               />
               <FormControl fullWidth>
-                <FormLabel component="legend">Who are you?</FormLabel>
+                <FormLabel component="legend">{t('signUp:Who-are-you')}</FormLabel>
                 <Field as={RadioGroup} aria-label="role" name="role" style={{ display: 'initial' }}>
-                  <FormControlLabel value="user" control={<Radio />} label="user" />
-                  <FormControlLabel value="admin" control={<Radio />} label="admin" />
+                  <FormControlLabel
+                    value={t('signUp:User')}
+                    control={<Radio />}
+                    label={t('signUp:User')}
+                  />
+                  <FormControlLabel
+                    value={t('signUp:Admin')}
+                    control={<Radio />}
+                    label={t('signUp:Admin')}
+                  />
                 </Field>
               </FormControl>
               <FormHelperText>
@@ -193,7 +201,7 @@ const SignUpPage: FC = () => {
               </FormHelperText>
               <FormControlLabel
                 control={<Field as={Checkbox} name="acceptTerms" />}
-                label="I accept the terms and conditions."
+                label={t('signUp:I-accept')}
               />
               <FormHelperText>
                 <ErrorMessage name="acceptTerms" />
@@ -206,15 +214,15 @@ const SignUpPage: FC = () => {
                 sx={{ margin: '8px 0' }}
                 disabled={loading}
               >
-                {loading ? 'Loading' : 'Sign up'}
+                {loading ? `${t('signUp:Loading')}` : `${t('signUp:Sign-up')}`}
               </Button>
             </Form>
           )}
         </Formik>
-        <Typography sx={{ marginTop: '5px' }}>Already registered?</Typography>
+        <Typography sx={{ marginTop: '5px' }}>{t('signUp:Already-registered')}</Typography>
         <Typography>
           <Link component={RouterLink} to="/auth/sign-in">
-            Sign in
+            {t('signUp:Sign-in')}
           </Link>
         </Typography>
       </StyledPaper>

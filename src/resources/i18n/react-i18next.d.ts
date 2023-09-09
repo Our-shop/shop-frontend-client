@@ -5,6 +5,7 @@ import footer from './locales/en/footer.json';
 import signIn from './locales/en/signIn.json';
 import validation from './locales/en/validation.json';
 import forgotPassword from './locales/en/forgotPassword.json';
+import signUp from './locales/en/signUp.json';
 
 declare module 'react-i18next' {
   interface Resources {
@@ -14,5 +15,6 @@ declare module 'react-i18next' {
     signIn: typeof signIn;
     validation: typeof validation;
     forgotPassword: typeof forgotPassword;
+    signUp: typeof signUp;
   }
 }
