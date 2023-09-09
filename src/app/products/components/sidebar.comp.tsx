@@ -1,8 +1,11 @@
 import React, { FC, useEffect, useState } from 'react';
-import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { Typography } from '@mui/material';
+import { Typography, MenuItem } from '@mui/material';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import FormControl from '@mui/material/FormControl';
+import InputLabel from '@mui/material/InputLabel';
 import { useSelector } from 'react-redux';
 import { productsPendingSelector, productsSelector } from '../store/products.selectors';
 import { useDispatch } from 'react-redux';
@@ -46,8 +49,27 @@ const SidebarComp: FC = () => {
     setOriginalProducts(products);
   }, [pending]);
 
+  // SORT
+  const allSorts = ['Title', 'Price', 'Type'];
+  const [currentSort, setCurrentSort] = useState('');
+
+  const handleSortChange = async (event: SelectChangeEvent) => {
+    setCurrentSort(event.target.value as string);
+    const field = event.target.value.toLocaleLowerCase() as keyof ProductDto;
+
+    dispatch(
+      setProducts(
+        [...products].sort((a, b) =>
+          a[field].toString().toLocaleLowerCase() < b[field].toString().toLocaleLowerCase()
+            ? -1
+            : 1,
+        ),
+      ),
+    );
+  };
+
   return (
-    <Box width={220}>
+    <Stack width={220} direction="column" gap={4}>
       <ToggleButtonGroup
         fullWidth
         color="primary"
@@ -62,7 +84,23 @@ const SidebarComp: FC = () => {
           </ToggleButton>
         ))}
       </ToggleButtonGroup>
-    </Box>
+
+      <FormControl fullWidth>
+        <InputLabel id="sort-label">Sort by</InputLabel>
+        <Select
+          labelId="sort-label"
+          label="sort by"
+          value={currentSort}
+          onChange={handleSortChange}
+        >
+          {allSorts.map((item) => (
+            <MenuItem value={item} key={item}>
+              {item}
+            </MenuItem>
+          ))}
+        </Select>
+      </FormControl>
+    </Stack>
   );
 };
 
