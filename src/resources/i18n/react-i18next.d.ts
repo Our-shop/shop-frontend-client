@@ -6,6 +6,7 @@ import signIn from './locales/en/signIn.json';
 import validation from './locales/en/validation.json';
 import forgotPassword from './locales/en/forgotPassword.json';
 import signUp from './locales/en/signUp.json';
+import resetPassword from './locales/en/resetPassword.json';
 
 declare module 'react-i18next' {
   interface Resources {
@@ -16,5 +17,6 @@ declare module 'react-i18next' {
     validation: typeof validation;
     forgotPassword: typeof forgotPassword;
     signUp: typeof signUp;
+    resetPassword: typeof resetPassword;
   }
 }
