@@ -30,6 +30,8 @@ import CartItemRu from './locales/ru/cartItem.json';
 import CartItemEn from './locales/en/cartItem.json';
 import MakeOrderEn from './locales/en/makeOrder.json';
 import MakeOrderRu from './locales/ru/makeOrder.json';
+import UserProfileEn from './locales/en/userProfile.json';
+import UserProfileRu from './locales/ru/userProfile.json';
 
 i18n
   .use(Backend)
@@ -60,6 +62,7 @@ i18n
         productDetails: ProductDetailsEn,
         cartItem: CartItemEn,
         makeOrder: MakeOrderEn,
+        userProfile: UserProfileEn,
       },
       ru: {
         home: homeRu,
@@ -75,6 +78,7 @@ i18n
         productDetails: ProductDetailsRu,
         cartItem: CartItemRu,
         makeOrder: MakeOrderRu,
+        userProfile: UserProfileRu,
       },
     },
     detection: {

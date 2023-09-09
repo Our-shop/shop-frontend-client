@@ -23,6 +23,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import { editUserSchema } from '../../user/validation-schemas/edit-user.schema';
 import { editUser } from '../../user/store/user.actions';
 import { AppDispatch } from '../../../store';
+import { useTranslation } from 'react-i18next';
 
 const StyledBox = styled(Box)`
   display: flex;
@@ -47,6 +48,8 @@ const EditUserComp: FC = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
   const [successMessage, setSuccessMessage] = useState(false);
+
+  const { t } = useTranslation();
 
   const initialValues: UserFormValues = {
     userName: '',
@@ -77,14 +80,14 @@ const EditUserComp: FC = () => {
       props.resetForm();
       setSuccessMessage(true);
       setAlertOpen(true);
-      setAlertText('Saved successfully!');
+      setAlertText(`${t('userProfile:Saved-successfully')}`);
     } catch (error) {
       if (isAxiosError<DefaultError>(error)) {
         setAlertOpen(true);
         setAlertText(error.response?.data.message || error.message);
       } else {
         setAlertOpen(true);
-        setAlertText('Ooops...Something-went-wrong');
+        setAlertText(`${t('validation:Ooops')}`);
       }
     } finally {
       setLoading(false);
@@ -99,7 +102,7 @@ const EditUserComp: FC = () => {
             <ManageAccountsIcon />
           </StyledAvatar>
           <Typography variant="h5" marginBottom={3}>
-            User settings
+            {t('userProfile:User-settings')}
           </Typography>
         </Grid>
         <Formik
@@ -111,8 +114,8 @@ const EditUserComp: FC = () => {
             <Form>
               <Field
                 as={TextField}
-                label="UserName"
-                placeholder="Enter name"
+                label={t('userProfile:User-name')}
+                placeholder={t('userProfile:Enter-name')}
                 fullWidth
                 required
                 sx={{ marginBottom: '10px' }}
@@ -121,8 +124,8 @@ const EditUserComp: FC = () => {
               />
               <Field
                 as={TextField}
-                label="Email"
-                placeholder="Enter email"
+                label={t('userProfile:Email')}
+                placeholder={t('userProfile:Enter-email')}
                 type="email"
                 fullWidth
                 required
@@ -138,7 +141,7 @@ const EditUserComp: FC = () => {
                 sx={{ margin: '8px 0' }}
                 disabled={loading}
               >
-                {loading ? 'Loading' : 'Save'}
+                {loading ? `${t('userProfile:Loading')}` : `${t('userProfile:Save')}`}
               </Button>
             </Form>
           )}

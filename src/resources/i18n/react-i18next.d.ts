@@ -12,6 +12,7 @@ import products from './locales/en/products.json';
 import productDetails from './locales/en/productDetails.json';
 import cartItem from './locales/en/cartItem.json';
 import makeOrder from './locales/en/makeOrder.json';
+import userProfile from './locales/en/userProfile.json';
 
 declare module 'react-i18next' {
   interface Resources {
@@ -28,5 +29,6 @@ declare module 'react-i18next' {
     productDetails: typeof productDetails;
     cartItem: typeof cartItem;
     makeOrder: typeof makeOrder;
+    userProfile: typeof userProfile;
   }
 }
