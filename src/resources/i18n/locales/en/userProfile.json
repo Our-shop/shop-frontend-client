@@ -24,5 +24,7 @@
   "Enter-city": "Enter city",
   "Enter-address": "Enter address",
   "Enter-phone": "Enter phone",
-  "Edit-address": "Edit address"
+  "Edit-address": "Edit address",
+  "If-reset-password": "If you are sure that you want to reset your password press the button below.",
+  "If-delete-account": "If you are sure that you want to delete your account press the button below."
 }

@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Box, Button, Link, Typography } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { NavLink as RouterLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const StyledBox = styled(Box)`
   margin-top: 20px;
@@ -10,11 +11,11 @@ const StyledBox = styled(Box)`
 `;
 
 const ForgotPswSettingsComp: FC = () => {
+  const { t } = useTranslation();
+
   return (
     <StyledBox>
-      <Typography variant="h5">
-        If you are sure that you want to reset your password press the button below.
-      </Typography>
+      <Typography variant="h5">{t('userProfile:If-reset-password')}</Typography>
       <Link component={RouterLink} to="/auth/forgot-password">
         <Button
           type="submit"
@@ -22,7 +23,7 @@ const ForgotPswSettingsComp: FC = () => {
           variant="contained"
           sx={{ marginTop: '20px', width: '200px' }}
         >
-          Forgot password
+          {t('userProfile:Forgot-password')}
         </Button>
       </Link>
     </StyledBox>
