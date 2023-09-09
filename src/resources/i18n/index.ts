@@ -10,6 +10,12 @@ import HeaderEn from './locales/en/header.json';
 import HeaderRu from './locales/ru/header.json';
 import FooterRu from './locales/ru/footer.json';
 import FooterEn from './locales/en/footer.json';
+import SingInEn from './locales/en/signIn.json';
+import SingInRu from './locales/ru/signIn.json';
+import ValidationRu from './locales/ru/validation.json';
+import ValidationEn from './locales/en/validation.json';
+import ForgotPasswordEn from './locales/en/forgotPassword.json';
+import ForgotPasswordRu from './locales/ru/forgotPassword.json';
 
 i18n
   .use(Backend)
@@ -30,11 +36,17 @@ i18n
         home: homeEn,
         header: HeaderEn,
         footer: FooterEn,
+        signIn: SingInEn,
+        validation: ValidationEn,
+        forgotPassword: ForgotPasswordEn,
       },
       ru: {
         home: homeRu,
         header: HeaderRu,
         footer: FooterRu,
+        signIn: SingInRu,
+        validation: ValidationRu,
+        forgotPassword: ForgotPasswordRu,
       },
     },
     detection: {

@@ -1,0 +1,7 @@
+{
+  "Field-should-be-email": "Field should be email",
+  "Invalid-email-format": "Invalid email format",
+  "Required-field": "Required field",
+  "Password-should-contain": "Password should contain at least 6 characters including: 1 uppercase letter, 1 lowercase letter, 1 number or special character",
+  "Ooops": "Ooops...Something went wrong"
+}
