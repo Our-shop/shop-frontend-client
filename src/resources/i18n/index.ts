@@ -42,8 +42,8 @@ i18n
     load: 'all',
     debug: true,
     keySeparator: '.',
-    ns: ['common'],
-    defaultNS: 'common',
+    ns: ['home'],
+    defaultNS: 'home',
     interpolation: {
       escapeValue: false,
     },
@@ -83,6 +83,7 @@ i18n
     },
     detection: {
       caches: ['cookie'],
+      order: ['cookie', 'navigator'],
     },
   });
 
