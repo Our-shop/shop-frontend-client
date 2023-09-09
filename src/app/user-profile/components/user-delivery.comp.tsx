@@ -20,6 +20,7 @@ import { deliveryItemsSelector } from '../../delivery/store/delivery.selectors';
 import { deleteDeliveryItem, getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
 import UserAddAddressComp from './user-add-address.comp';
+import { useTranslation } from 'react-i18next';
 
 const StyledTable = styled(Table)`
   background-color: ${colors.lightGrey};
@@ -43,6 +44,9 @@ const UserDeliveryComp: FC = () => {
   const [addressForEditId, setAddressForEditId] = useState<string>('');
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+
+  //i18n
+  const { t } = useTranslation();
 
   const token = storage.get('access-token') as string;
   const payload: { id: string; email: string; roleId: string; permissions: [] } = jwt_decode(token);
@@ -82,23 +86,23 @@ const UserDeliveryComp: FC = () => {
         <TableHead>
           <THead>
             <TableCell>№</TableCell>
-            <TableCell>City</TableCell>
-            <TableCell>Address</TableCell>
-            <TableCell>Phone</TableCell>
-            <TableCell>Options</TableCell>
+            <TableCell>{t('userProfile:City')}</TableCell>
+            <TableCell>{t('userProfile:Address')}</TableCell>
+            <TableCell>{t('userProfile:Phone')}</TableCell>
+            <TableCell>{t('userProfile:Options')}</TableCell>
           </THead>
         </TableHead>
         <TableBody>
           {addresses.length === 0 ? (
             <TRow sx={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
               <TableCell>
-                <Typography style={{ marginRight: 30 }}>No addresses as of now</Typography>
+                <Typography style={{ marginRight: 30 }}>{t('userProfile:No-addresses')}</Typography>
                 <Button
                   variant="contained"
                   color="secondary"
                   onClick={(event) => handleAddClick(event)}
                 >
-                  Add address
+                  {t('userProfile:Add-address')}
                 </Button>
               </TableCell>
             </TRow>
@@ -116,7 +120,7 @@ const UserDeliveryComp: FC = () => {
                     style={{ marginRight: 10 }}
                     onClick={(event) => handleAddClick(event)}
                   >
-                    Add
+                    {t('userProfile:Add')}
                   </Button>
                   <Button
                     color="primary"
@@ -124,14 +128,14 @@ const UserDeliveryComp: FC = () => {
                     style={{ marginRight: 10 }}
                     onClick={(event) => handleEditClick(event, address.id)}
                   >
-                    Edit
+                    {t('userProfile:Edit')}
                   </Button>
                   <Button
                     style={{ backgroundColor: colors.delete }}
                     variant="contained"
                     onClick={(event) => handleDeleteClick(event, address.id)}
                   >
-                    Delete
+                    {t('userProfile:Delete')}
                   </Button>
                 </TableCell>
               </TRow>

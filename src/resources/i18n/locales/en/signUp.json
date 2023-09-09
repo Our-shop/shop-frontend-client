@@ -1,0 +1,17 @@
+{
+  "Sign-up": "Sign up",
+  "Sign-in": "Sign in",
+  "User-name": "User name",
+  "Enter-name": "Enter name",
+  "Email": "Email",
+  "Enter-email": "Enter email",
+  "Enter-password": "Enter password",
+  "Password": "Password",
+  "Confirm-password": "Confirm password",
+  "Who-are-you": "Who are you?",
+  "User": "user",
+  "Admin": "admin",
+  "I-accept": "I accept the terms and conditions.",
+  "Loading": "Loading",
+  "Already-registered": "Already registered?"
+}

@@ -13,8 +13,12 @@ import {
   cartsPendingSelector,
 } from '../carts/store/carts.selector';
 import { addCartItem, getCartItems } from '../carts/store/carts.actions';
+import { useTranslation } from 'react-i18next';
+import LoaderComp from '../../components/loader.comp';
 
 const ProductDetailsPage: FC = () => {
+  const { t } = useTranslation();
+
   const dispatch = useDispatch<AppDispatch>();
 
   const { category, id } = useParams();
@@ -42,7 +46,7 @@ const ProductDetailsPage: FC = () => {
     cart && product && dispatch(addCartItem({ cartId: cart?.id, productId: product.id }));
   };
 
-  if (!product) return <div>Loading...</div>;
+  if (!product) return <LoaderComp />;
 
   return (
     <PageLayoutComp>
@@ -50,26 +54,28 @@ const ProductDetailsPage: FC = () => {
         <Box>
           <img src={product.image} alt={product.title} />
         </Box>
-        <Stack padding={2} gap={2} maxWidth={500}>
+        <Stack padding={2} gap={2} maxWidth={500} sx={{ width: '400px' }}>
           <Typography variant="h3">{product.title}</Typography>
           <Divider />
           <Typography variant="body1">{product.description}</Typography>
-          <Typography variant="body1">Price: ${product.price}</Typography>
+          <Typography variant="body1">{`${t('productDetails:Price')} ${product.price}`}</Typography>
           <Typography variant="body1">{product.type}</Typography>
 
           <Typography variant="body2">
-            {product?.expirationDate && 'Expiratioan date: ' + product.expirationDate}
-            {product?.size && 'Clothes size: ' + product.size}
-            {product?.recommendedAge && 'Recommended age: ' + product.recommendedAge}
+            {product?.expirationDate &&
+              `${t('productDetails:Expiratioan-date')}` + product.expirationDate}
+            {product?.size && `${t('productDetails:Clothes-size')}` + product.size}
+            {product?.recommendedAge &&
+              `${t('productDetails:Recommended-age')}` + product.recommendedAge}
           </Typography>
 
           {cartItems.some((item) => item.product.id === product.id) ? (
             <Button variant="contained" sx={{ marginTop: 3 }} disabled>
-              Already in cart
+              {t('productDetails:Already-in-cart')}
             </Button>
           ) : (
             <Button variant="contained" sx={{ marginTop: 3 }} onClick={(event) => addToCart(event)}>
-              + Add to cart
+              {t('productDetails:Add-to-cart')}
             </Button>
           )}
         </Stack>

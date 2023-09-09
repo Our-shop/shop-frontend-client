@@ -11,6 +11,12 @@ repository.interceptors.request.use((config) => {
   if (accessToken) {
     config.headers.Authorization = `Bearer ${accessToken}`;
   }
+  const chosenLanguage = storage.get('active-language');
+  if (chosenLanguage) {
+    config.headers['x-lang'] = chosenLanguage;
+  } else {
+    config.headers['x-lang'] = 'en';
+  }
   return config;
 });
 

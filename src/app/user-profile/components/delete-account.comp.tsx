@@ -9,6 +9,7 @@ import { deleteUser } from '../../user/store/user.actions';
 import { signOut } from '../../auth/api/sign-out';
 import { logout } from '../../auth/store/auth.slice';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const StyledBox = styled(Box)`
   margin-top: 20px;
@@ -18,6 +19,8 @@ const StyledBox = styled(Box)`
 
 const DeleteAccountComp: FC = () => {
   const dispatch = useDispatch<AppDispatch>();
+
+  const { t } = useTranslation();
 
   const navigate = useNavigate();
 
@@ -37,9 +40,7 @@ const DeleteAccountComp: FC = () => {
 
   return (
     <StyledBox>
-      <Typography variant="h5">
-        If you are sure that you want to delete your account press the button below.
-      </Typography>
+      <Typography variant="h5">{t('userProfile:If-delete-account')}</Typography>
       <Button
         type="submit"
         color="primary"
@@ -47,7 +48,7 @@ const DeleteAccountComp: FC = () => {
         sx={{ marginTop: '20px', width: '200px' }}
         onClick={(event) => handleClick(event)}
       >
-        Delete account
+        {t('userProfile:Delete-account')}
       </Button>
     </StyledBox>
   );

@@ -3,6 +3,7 @@ import { NavLink as RouterLink } from 'react-router-dom';
 import { colors } from '../../themes';
 import React, { FC } from 'react';
 import { styled } from '@mui/material/styles';
+import { useTranslation } from 'react-i18next';
 
 const StyledBackBtn = styled(Button)`
   justify-content: center;
@@ -11,9 +12,11 @@ const StyledBackBtn = styled(Button)`
 `;
 
 const BackHomeBtn: FC = () => {
+  const { t } = useTranslation();
+
   return (
     <Link component={RouterLink} to="/" color={colors.white}>
-      <StyledBackBtn variant="contained">Go Back</StyledBackBtn>
+      <StyledBackBtn variant="contained">{t('signIn:Go-Back')}</StyledBackBtn>
     </Link>
   );
 };

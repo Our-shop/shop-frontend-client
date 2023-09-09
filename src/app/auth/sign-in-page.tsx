@@ -26,6 +26,7 @@ import { DefaultError } from '../../types/error.type';
 import { AppDispatch } from '../../store';
 import { Tokens } from './types/tokens.type';
 import { signIn } from './store/auth.actions';
+import { useTranslation } from 'react-i18next';
 
 const StyledPaper = styled(Paper)`
   padding: 20px;
@@ -48,6 +49,8 @@ const SignInPage: FC = () => {
   const [loading, setLoading] = useState(false);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
+
+  const { t } = useTranslation();
 
   const initialValues: FormValues = {
     email: '',
@@ -99,7 +102,7 @@ const SignInPage: FC = () => {
         setAlertText(error.response?.data.message || error.message);
       } else {
         setAlertOpen(true);
-        setAlertText('Ooops...Something-went-wrong');
+        setAlertText(`${t('validation:Ooops')}`);
       }
     } finally {
       setLoading(false);
@@ -114,7 +117,7 @@ const SignInPage: FC = () => {
             <LockOutlinedIcon />
           </StyledAvatar>
           <Typography variant="h5" marginBottom={3}>
-            Sign In
+            {t('signIn:Sign-in')}
           </Typography>
         </Grid>
         <Formik
@@ -126,26 +129,26 @@ const SignInPage: FC = () => {
             <Form>
               <Field
                 as={TextField}
-                label="Email"
+                label={t('signIn:Email')}
                 name="email"
                 type="email"
-                placeholder="Enter email"
+                placeholder={t('signIn:Enter-email')}
                 fullWidth
                 required
                 sx={{ marginBottom: '10px' }}
                 helperText={<ErrorMessage name="email" />}
-                autoComplete="email"
+                autoComplete={t('signIn:Email')}
               />
               <Field
                 as={TextField}
-                label="Password"
+                label={t('signIn:Password')}
                 name="password"
-                placeholder="Enter password"
+                placeholder={t('signIn:Enter-password')}
                 type="password"
                 fullWidth
                 required
                 helperText={<ErrorMessage name="password" />}
-                autoComplete="password"
+                autoComplete={t('signIn:Password')}
               />
               <Button
                 type="submit"
@@ -155,20 +158,20 @@ const SignInPage: FC = () => {
                 sx={{ margin: '8px 0' }}
                 disabled={loading}
               >
-                {loading ? 'Loading' : 'Sign in'}
+                {loading ? `${t('signIn:Loading')}` : `${t('signIn:Sign-in')}`}
               </Button>
             </Form>
           )}
         </Formik>
         <Typography sx={{ marginTop: '5px' }}>
           <Link component={RouterLink} to="/auth/forgot-password">
-            Forgot password?
+            {t('signIn:Forgot-password')}
           </Link>
         </Typography>
-        <Typography sx={{ marginTop: '5px' }}>Do you have an account?</Typography>
+        <Typography sx={{ marginTop: '5px' }}>{t('signIn:Do-you-have')}</Typography>
         <Typography sx={{ marginBottom: '15px' }}>
           <Link component={RouterLink} to="/auth/sign-up">
-            Sign Up
+            {t('signIn:Sign-up')}
           </Link>
         </Typography>
         <BackHomeBtn />
