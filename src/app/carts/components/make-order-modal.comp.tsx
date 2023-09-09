@@ -115,7 +115,7 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
                 <Stack direction="column" justifyContent="space-between" width={300} gap={3}>
                   {deliveriesPending.deliveryItems ? (
                     <div>{t('makeOrder:Loading')}</div>
-                  ) : (
+                  ) : deliveryItems.length ? (
                     <FormControl fullWidth>
                       <InputLabel id="delivery-label">{t('makeOrder:Delivery-address')}</InputLabel>
                       <Select
@@ -133,13 +133,26 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
                         ))}
                       </Select>
                     </FormControl>
+                  ) : (
+                    <Stack direction="column" alignItems="center">
+                      <Typography>You have no active delivery addresses</Typography>
+                      <Button
+                        color="warning"
+                        variant="contained"
+                        fullWidth
+                        onClick={() => navigate('/profile/deliveries')}
+                      >
+                        add new delivery address
+                      </Button>
+                    </Stack>
                   )}
 
-                  <Stack direction="column">
+                  <Stack direction="column" alignItems="center">
                     <Typography>Total amount: ${totalAmount.toFixed(2)}</Typography>
                     <Button
                       variant="contained"
                       color="success"
+                      fullWidth
                       disabled={!currentDelivery}
                       onClick={confirmOrder}
                     >
