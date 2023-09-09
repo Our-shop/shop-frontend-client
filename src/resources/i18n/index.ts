@@ -26,6 +26,10 @@ import ProductsEn from './locales/en/products.json';
 import ProductsRu from './locales/ru/products.json';
 import ProductDetailsEn from './locales/en/productDetails.json';
 import ProductDetailsRu from './locales/ru/productDetails.json';
+import CartItemRu from './locales/ru/cartItem.json';
+import CartItemEn from './locales/en/cartItem.json';
+import MakeOrderEn from './locales/en/makeOrder.json';
+import MakeOrderRu from './locales/ru/makeOrder.json';
 
 i18n
   .use(Backend)
@@ -54,6 +58,8 @@ i18n
         errorBoundary: ErrorBoundaryEn,
         products: ProductsEn,
         productDetails: ProductDetailsEn,
+        cartItem: CartItemEn,
+        makeOrder: MakeOrderEn,
       },
       ru: {
         home: homeRu,
@@ -67,6 +73,8 @@ i18n
         errorBoundary: ErrorBoundaryRu,
         products: ProductsRu,
         productDetails: ProductDetailsRu,
+        cartItem: CartItemRu,
+        makeOrder: MakeOrderRu,
       },
     },
     detection: {

@@ -184,16 +184,8 @@ const SignUpPage: FC = () => {
               <FormControl fullWidth>
                 <FormLabel component="legend">{t('signUp:Who-are-you')}</FormLabel>
                 <Field as={RadioGroup} aria-label="role" name="role" style={{ display: 'initial' }}>
-                  <FormControlLabel
-                    value={t('signUp:User')}
-                    control={<Radio />}
-                    label={t('signUp:User')}
-                  />
-                  <FormControlLabel
-                    value={t('signUp:Admin')}
-                    control={<Radio />}
-                    label={t('signUp:Admin')}
-                  />
+                  <FormControlLabel value="user" control={<Radio />} label={t('signUp:User')} />
+                  <FormControlLabel value="admin" control={<Radio />} label={t('signUp:Admin')} />
                 </Field>
               </FormControl>
               <FormHelperText>

@@ -21,6 +21,7 @@ import repository from '../../../repository';
 import { useNavigate } from 'react-router-dom';
 import jwt_decode from 'jwt-decode';
 import { localStoragePayload } from '../../../local-storage/local-storage-payload.type';
+import { useTranslation } from 'react-i18next';
 
 const token = localStorage.getItem('access-token') as string;
 const payload: localStoragePayload = jwt_decode(token);
@@ -62,6 +63,9 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
   const [alertOpen, setAlertOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
 
+  //i18n
+  const { t } = useTranslation();
+
   const totalAmount = cartItems.reduce(
     (totalAmount, cartItem) => (totalAmount += cartItem.productQuantity * cartItem.product.price),
     0,
@@ -95,7 +99,7 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
         <Box sx={{ outline: 'none' }}>
           <Card elevation={0} sx={{ padding: 5 }}>
             {cartsPending.cartItems ? (
-              <div>Loading...</div>
+              <div>{t('makeOrder:Loading')}</div>
             ) : (
               <Stack direction="row" justifyContent="space-between" gap={10}>
                 <Stack direction="column" gap={3}>
@@ -114,13 +118,13 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
 
                 <Stack direction="column" justifyContent="space-between" width={300} gap={3}>
                   {deliveriesPending.deliveryItems ? (
-                    <div>Loading...</div>
+                    <div>{t('makeOrder:Loading')}</div>
                   ) : (
                     <FormControl fullWidth>
-                      <InputLabel id="delivery-label">Delivery address</InputLabel>
+                      <InputLabel id="delivery-label">{t('makeOrder:Delivery-address')}</InputLabel>
                       <Select
                         labelId="delivery-label"
-                        label="delivery address"
+                        label={t('makeOrder:Delivery-address')}
                         value={currentDelivery}
                         onChange={handleSelectChange}
                       >
@@ -143,7 +147,7 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
                       disabled={!currentDelivery}
                       onClick={confirmOrder}
                     >
-                      Confirm
+                      {t('makeOrder:Confirm')}
                     </Button>
                   </Stack>
                 </Stack>

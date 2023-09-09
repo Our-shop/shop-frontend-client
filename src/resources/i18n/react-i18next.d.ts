@@ -10,6 +10,8 @@ import resetPassword from './locales/en/resetPassword.json';
 import errorBoundary from './locales/en/errorBoundary.json';
 import products from './locales/en/products.json';
 import productDetails from './locales/en/productDetails.json';
+import cartItem from './locales/en/cartItem.json';
+import makeOrder from './locales/en/makeOrder.json';
 
 declare module 'react-i18next' {
   interface Resources {
@@ -24,5 +26,7 @@ declare module 'react-i18next' {
     errorBoundary: typeof errorBoundary;
     products: typeof products;
     productDetails: typeof productDetails;
+    cartItem: typeof cartItem;
+    makeOrder: typeof makeOrder;
   }
 }

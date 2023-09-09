@@ -5,10 +5,13 @@ import { Table, TableBody, TableContainer, Typography, Button } from '@mui/mater
 import CartItemComp from './cart-item.comp';
 import MakeOrderModalComp from './make-order-modal.comp';
 import Stack from '@mui/material/Stack';
+import { useTranslation } from 'react-i18next';
 
 const CartItemListComp: FC = () => {
   const cartItems = useSelector(cartItemsSelector);
   const [isOpened, setIsOpened] = useState(false);
+
+  const { t } = useTranslation();
 
   const totalAmount = cartItems.reduce(
     (totalAmount, cartItem) => (totalAmount += cartItem.productQuantity * cartItem.product.price),
@@ -19,10 +22,10 @@ const CartItemListComp: FC = () => {
     <>
       <Stack direction="row" justifyContent="center" alignItems="center" gap={3}>
         <Typography variant="body1" color="initial">
-          Total amount: ${totalAmount.toFixed(2)}
+          {t('cartItem:Total-amount')} ${totalAmount.toFixed(2)}
         </Typography>
         <Button color="success" variant="contained" onClick={() => setIsOpened(true)}>
-          Make order
+          {t('cartItem:Make-order')}
         </Button>
       </Stack>
       <TableContainer>

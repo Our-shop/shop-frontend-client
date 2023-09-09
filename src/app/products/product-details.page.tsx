@@ -54,7 +54,7 @@ const ProductDetailsPage: FC = () => {
         <Box>
           <img src={product.image} alt={product.title} />
         </Box>
-        <Stack padding={2} gap={2} maxWidth={500}>
+        <Stack padding={2} gap={2} maxWidth={500} sx={{ width: '400px' }}>
           <Typography variant="h3">{product.title}</Typography>
           <Divider />
           <Typography variant="body1">{product.description}</Typography>
