@@ -96,6 +96,7 @@ const HeaderComp: FC = () => {
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
+
           {token ? (
             <Link component={RouterLink} to="/profile">
               <IconButton size="large" edge="end" aria-label="user" sx={{ color: colors.white }}>

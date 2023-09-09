@@ -19,12 +19,6 @@ import { getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import Badge from '@mui/material/Badge';
 import repository from '../../../repository';
 import { useNavigate } from 'react-router-dom';
-import jwt_decode from 'jwt-decode';
-import { localStoragePayload } from '../../../local-storage/local-storage-payload.type';
-import { useTranslation } from 'react-i18next';
-
-const token = localStorage.getItem('access-token') as string;
-const payload: localStoragePayload = jwt_decode(token);
 
 interface MakeOrderModalProps {
   isOpened: boolean;
@@ -46,13 +40,9 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
   const [currentDelivery, setCurrentDelivery] = useState('');
 
   useEffect(() => {
-    isOpened && cart && dispatch(getCartItems({ cartId: payload.id }));
+    isOpened && cart && dispatch(getCartItems({ cartId: cart.id }));
     isOpened && cart && dispatch(getActiveDeliveries({ userId: cart.userId }));
   }, [isOpened]);
-
-  useEffect(() => {
-    console.log(deliveryItems);
-  }, [deliveryItems]);
 
   const handleSelectChange = (event: SelectChangeEvent) => {
     setCurrentDelivery(event.target.value as string);
