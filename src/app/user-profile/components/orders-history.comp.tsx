@@ -16,6 +16,7 @@ import styled from '@emotion/styled';
 import { UserDto } from '../../user/types/user-dto.type';
 import { OrderDto } from '../../carts/types/order.dto';
 import { colors } from '../../../themes';
+import { useTranslation } from 'react-i18next';
 
 const StyledBox = styled(Box)`
   width: 100%;
@@ -36,7 +37,7 @@ const StyledTableCell = styled(TableCell)`
 `;
 
 const OrdersHistoryComp: FC = () => {
-  // const { t } = useTranslation();
+  const { t } = useTranslation();
   const [userName, setUserName] = useState<string | null>(null);
   const [history, setHistory] = useState<OrderDto[]>([]);
 
@@ -68,22 +69,23 @@ const OrdersHistoryComp: FC = () => {
   return (
     <StyledBox>
       <Typography variant="h6" gutterBottom>
-        Hi, {userName ? `${userName}` : 'friend!'}
+        {`${t('userProfile:Hi')}`}
+        {userName ? `${userName}` : `${t('userProfile:Friend')}`}
       </Typography>
       <Typography variant="h6" gutterBottom>
-        Here are your orders:
+        {t('userProfile:Here-are-your-orders')}
       </Typography>
       <Paper elevation={3}>
         <StyledTable>
           <StyledTableHead>
             <TableRow>
-              <StyledTableCell width={'300px'}>Order ID</StyledTableCell>
-              <StyledTableCell width={'100px'}>Status</StyledTableCell>
-              <StyledTableCell width={'200px'}>Product Title</StyledTableCell>
-              <StyledTableCell width={'250px'}>Product Quantity</StyledTableCell>
-              <StyledTableCell width={'200px'}>Product Price</StyledTableCell>
-              <StyledTableCell width={'400px'}>Product Amount</StyledTableCell>
-              <StyledTableCell>Total Amount</StyledTableCell>
+              <StyledTableCell width={'300px'}>{t('userProfile:Order-ID')}</StyledTableCell>
+              <StyledTableCell width={'100px'}>{t('userProfile:Status')}</StyledTableCell>
+              <StyledTableCell width={'200px'}>{t('userProfile:Product-Title')}</StyledTableCell>
+              <StyledTableCell width={'250px'}>{t('userProfile:Product-Quantity')}</StyledTableCell>
+              <StyledTableCell width={'200px'}>{t('userProfile:Product-Price')}</StyledTableCell>
+              <StyledTableCell width={'400px'}>{t('userProfile:Product-Amount')}</StyledTableCell>
+              <StyledTableCell>{t('userProfile:Total-Amount')}</StyledTableCell>
             </TableRow>
           </StyledTableHead>
           <TableBody>
@@ -91,7 +93,7 @@ const OrdersHistoryComp: FC = () => {
               history.map((order) => (
                 <TableRow key={order.id}>
                   <StyledTableCell>{order.id}</StyledTableCell>
-                  <StyledTableCell>In Progress</StyledTableCell>
+                  <StyledTableCell>{t('userProfile:In-progress')}</StyledTableCell>
                   <StyledTableCell colSpan={7}>
                     <Table>
                       <TableBody>

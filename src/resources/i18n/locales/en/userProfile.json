@@ -26,5 +26,17 @@
   "Enter-phone": "Enter phone",
   "Edit-address": "Edit address",
   "If-reset-password": "If you are sure that you want to reset your password press the button below.",
-  "If-delete-account": "If you are sure that you want to delete your account press the button below."
+  "If-delete-account": "If you are sure that you want to delete your account press the button below.",
+  "Hi": "Hi, ",
+  "Friend": "friend!",
+  "Here-are-your-orders" : "Here are your orders:",
+  "Order-ID": "Order ID",
+  "Status": "Status",
+  "Product-Title": "Product title",
+  "Product-Quantity": "Product quantity",
+  "Product-Price": "Product price",
+  "Product-Amount": "Product amount",
+  "Total-Amount": "Total amount",
+  "In-progress": "In progress"
+
 }
