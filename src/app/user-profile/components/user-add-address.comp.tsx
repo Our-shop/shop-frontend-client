@@ -15,7 +15,6 @@ import { styled } from '@mui/material/styles';
 import { colors } from '../../../themes';
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
 import { addAddressSchema } from '../../delivery/validation-schemas/add-address.schema';
-import { GetDeliveryData } from '../types/get-delivery-data.type';
 import storage from '../../../local-storage/storage';
 import jwt_decode from 'jwt-decode';
 import { useDispatch } from 'react-redux';
@@ -24,6 +23,7 @@ import { addDeliveryItem, getActiveDeliveries } from '../../delivery/store/deliv
 import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
 import { isAxiosError } from 'axios';
 import { DefaultError } from '../../../types/error.type';
+import { useTranslation } from 'react-i18next';
 
 const StyledBackdrop = styled(Box)`
   background: rgba(0, 0, 0, 0.5);
@@ -75,6 +75,9 @@ const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
 
+  //i18n
+  const { t } = useTranslation();
+
   const dispatch = useDispatch<AppDispatch>();
 
   const closeAlert = () => {
@@ -104,7 +107,7 @@ const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal
         setAlertText(error.response?.data.message || error.message);
       } else {
         setAlertOpen(true);
-        setAlertText('Ooops...Something-went-wrong');
+        setAlertText(`${t('validation:Ooops')}`);
       }
     } finally {
       setLoading(false);
@@ -130,7 +133,7 @@ const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal
                   <HomeIcon />
                 </StyledAvatar>
                 <Typography variant="h5" marginBottom={3}>
-                  Add address
+                  {t('userProfile:Add-address')}
                 </Typography>
               </Grid>
               <Formik
@@ -142,37 +145,37 @@ const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal
                   <Form>
                     <Field
                       as={TextField}
-                      label="City"
+                      label={t('userProfile:City')}
                       name="city"
                       type="city"
-                      placeholder="Enter city"
+                      placeholder={t('userProfile:Enter-city')}
                       fullWidth
                       required
                       sx={{ marginBottom: '10px' }}
                       helperText={<ErrorMessage name="city" />}
-                      autoComplete="city"
+                      autoComplete={t('userProfile:City')}
                     />
                     <Field
                       as={TextField}
-                      label="Address"
+                      label={t('userProfile:Address')}
                       name="address"
-                      placeholder="Enter address"
+                      placeholder={t('userProfile:Enter-address')}
                       type="address"
                       fullWidth
                       required
                       helperText={<ErrorMessage name="address" />}
-                      autoComplete="address"
+                      autoComplete={t('userProfile:Address')}
                     />
                     <Field
                       as={TextField}
-                      label="Phone"
+                      label={t('userProfile:Phone')}
                       name="phone"
-                      placeholder="Enter phone"
+                      placeholder={t('userProfile:Enter-phone')}
                       type="phone"
                       fullWidth
                       required
                       helperText={<ErrorMessage name="phone" />}
-                      autoComplete="phone"
+                      autoComplete={t('userProfile:Phone')}
                     />
                     <Button
                       type="submit"
@@ -182,7 +185,7 @@ const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal
                       sx={{ margin: '8px 0' }}
                       disabled={loading}
                     >
-                      {loading ? 'Loading' : 'Add Address'}
+                      {loading ? `${t('userProfile:Loading')}` : `${t('userProfile:Add-address')}`}
                     </Button>
                   </Form>
                 )}

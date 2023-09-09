@@ -11,5 +11,18 @@
   "Email": "Email",
   "Enter-email": "Enter email",
   "Loading": "Loading",
-  "Save": "Save"
+  "Save": "Save",
+  "City": "City",
+  "Address": "Address",
+  "Phone": "Phone",
+  "Options": "Options",
+  "No-addresses": "No addresses as of now",
+  "Add-address": "Add address",
+  "Add": "Add",
+  "Edit": "Edit",
+  "Delete": "Delete",
+  "Enter-city": "Enter city",
+  "Enter-address": "Enter address",
+  "Enter-phone": "Enter phone",
+  "Edit-address": "Edit address"
 }

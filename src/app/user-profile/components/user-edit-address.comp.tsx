@@ -22,6 +22,7 @@ import jwt_decode from 'jwt-decode';
 import { editDeliveryItem, getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import { isAxiosError } from 'axios';
 import { DefaultError } from '../../../types/error.type';
+import { useTranslation } from 'react-i18next';
 
 const StyledBackdrop = styled(Box)`
   background: rgba(0, 0, 0, 0.5);
@@ -78,6 +79,9 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
 
+  //i18n
+  const { t } = useTranslation();
+
   const closeAlert = () => {
     setAlertOpen(false);
   };
@@ -109,7 +113,7 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
         setAlertText(error.response?.data.message || error.message);
       } else {
         setAlertOpen(true);
-        setAlertText('Ooops...Something-went-wrong');
+        setAlertText(`${t('validation:Ooops')}`);
       }
     } finally {
       setLoading(false);
@@ -135,7 +139,7 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                   <HomeIcon />
                 </StyledAvatar>
                 <Typography variant="h5" marginBottom={3}>
-                  Edit address
+                  {t('userProfile:Edit-address')}
                 </Typography>
               </Grid>
               <Formik
@@ -147,10 +151,10 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                   <Form>
                     <Field
                       as={TextField}
-                      label="City"
+                      label={t('userProfile:City')}
                       name="city"
                       type="city"
-                      placeholder="Enter city"
+                      placeholder={t('userProfile:Enter-city')}
                       fullWidth
                       required
                       sx={{ marginBottom: '10px' }}
@@ -158,9 +162,9 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                     />
                     <Field
                       as={TextField}
-                      label="Address"
+                      label={t('userProfile:Address')}
                       name="address"
-                      placeholder="Enter address"
+                      placeholder={t('userProfile:Enter-address')}
                       type="address"
                       fullWidth
                       required
@@ -168,9 +172,9 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                     />
                     <Field
                       as={TextField}
-                      label="Phone"
+                      label={t('userProfile:Phone')}
                       name="phone"
-                      placeholder="Enter phone"
+                      placeholder={t('userProfile:Enter-phone')}
                       type="phone"
                       fullWidth
                       required
@@ -184,7 +188,7 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                       sx={{ margin: '8px 0' }}
                       disabled={loading}
                     >
-                      {loading ? 'Loading' : 'Edit Address'}
+                      {loading ? `${t('userProfile:Loading')}` : `${t('userProfile:Edit-address')}`}
                     </Button>
                   </Form>
                 )}
