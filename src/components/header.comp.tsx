@@ -44,6 +44,7 @@ const HeaderComp: FC = () => {
     storage.clear();
     dispatch(logout());
     navigate('/');
+    window.location.reload();
   };
 
   const handleToken = (token: string) => {
