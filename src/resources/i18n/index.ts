@@ -20,6 +20,12 @@ import SignUpRu from './locales/ru/signUp.json';
 import SignUpEn from './locales/en/signUp.json';
 import ResetPasswordEn from './locales/en/resetPassword.json';
 import ResetPasswordRu from './locales/ru/resetPassword.json';
+import ErrorBoundaryEn from './locales/en/errorBoundary.json';
+import ErrorBoundaryRu from './locales/ru/errorBoundary.json';
+import ProductsEn from './locales/en/products.json';
+import ProductsRu from './locales/ru/products.json';
+import ProductDetailsEn from './locales/en/productDetails.json';
+import ProductDetailsRu from './locales/ru/productDetails.json';
 
 i18n
   .use(Backend)
@@ -45,6 +51,9 @@ i18n
         forgotPassword: ForgotPasswordEn,
         signUp: SignUpEn,
         resetPassword: ResetPasswordEn,
+        errorBoundary: ErrorBoundaryEn,
+        products: ProductsEn,
+        productDetails: ProductDetailsEn,
       },
       ru: {
         home: homeRu,
@@ -55,6 +64,9 @@ i18n
         forgotPassword: ForgotPasswordRu,
         signUp: SignUpRu,
         resetPassword: ResetPasswordRu,
+        errorBoundary: ErrorBoundaryRu,
+        products: ProductsRu,
+        productDetails: ProductDetailsRu,
       },
     },
     detection: {

@@ -23,12 +23,6 @@ import { getActiveCart } from '../app/carts/store/carts.actions';
 import LanguageSwitcher from './language-switcher.comp';
 import { useTranslation } from 'react-i18next';
 
-const buttonStyle = {
-  border: `1px solid ${colors.lightViolet}`,
-  borderRadius: '50%',
-  margin: '0 4px',
-};
-
 const HeaderComp: FC = () => {
   const { t } = useTranslation();
 
@@ -118,7 +112,7 @@ const HeaderComp: FC = () => {
         {isRegistered && token ? (
           <Box paddingLeft={3}>
             <Button aria-label="sign-out" sx={{ color: colors.white }} onClick={handleSignOut}>
-              Sign Out
+              {t('header:Sign-out')}
             </Button>
           </Box>
         ) : (

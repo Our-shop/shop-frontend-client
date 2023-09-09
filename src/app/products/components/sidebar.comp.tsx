@@ -9,15 +9,18 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../../store';
 import { setProducts } from '../store/products.actions';
 import { ProductDto } from '../types/product-dto.type';
-
-const allCategories = [
-  { name: 'all products', value: '' },
-  { name: 'food', value: 'food' },
-  { name: 'clothes', value: 'clothes' },
-  { name: 'toys', value: 'toys' },
-];
+import { useTranslation } from 'react-i18next';
 
 const SidebarComp: FC = () => {
+  const { t } = useTranslation();
+
+  const allCategories = [
+    { name: `${t('products:all-products')}`, value: '' },
+    { name: `${t('products:food')}`, value: 'food' },
+    { name: `${t('products:clothes')}`, value: 'clothes' },
+    { name: `${t('products:toys')}`, value: 'toys' },
+  ];
+
   const dispatch = useDispatch<AppDispatch>();
 
   // CATEGORY

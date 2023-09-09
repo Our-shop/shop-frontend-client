@@ -10,8 +10,6 @@ import { isAxiosError } from 'axios';
 import { DefaultError } from '../../types/error.type';
 import { resetPassword } from './api/reset-password';
 import storage from '../../local-storage/storage';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../store';
 import { useTranslation } from 'react-i18next';
 
 const StyledPaper = styled(Paper)`

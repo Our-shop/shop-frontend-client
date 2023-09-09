@@ -1,5 +1,6 @@
 {
-  "Products": "Продукты",
+  "Products": "Каталог товаров",
   "Search-products": "Поиск продуктов...",
-  "Sign-in": "Войти"
+  "Sign-in": "Войти",
+  "Sign-out": "Выйти"
 }
