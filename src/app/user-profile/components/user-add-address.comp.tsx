@@ -24,6 +24,7 @@ import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
 import { isAxiosError } from 'axios';
 import { DefaultError } from '../../../types/error.type';
 import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from 'react-router';
 
 const StyledBackdrop = styled(Box)`
   background: rgba(0, 0, 0, 0.5);
@@ -75,6 +76,10 @@ const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertText, setAlertText] = useState('');
 
+  // NAVIGATE
+  const navigate = useNavigate();
+  const params = useParams();
+
   //i18n
   const { t } = useTranslation();
 
@@ -101,6 +106,8 @@ const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal
         dispatch(getActiveDeliveries({ userId: userId }));
       });
       setShowAddModal(false);
+
+      Object.values(params).includes('deliveries') && navigate('/carts');
     } catch (error) {
       if (isAxiosError<DefaultError>(error)) {
         setAlertOpen(true);
