@@ -93,7 +93,7 @@ const HeaderComp: FC = () => {
                 <ShoppingCartIcon></ShoppingCartIcon>
               </Badge>
               <Typography variant="caption" sx={{ position: 'absolute', top: 28 }}>
-                {cart && cart.discount > 0 && cart.discount + '%'}
+                {cart && cart.discount > 0 && `-${cart.discount}%`}
               </Typography>
             </IconButton>
           )}
