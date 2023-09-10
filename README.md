@@ -1,31 +1,83 @@
-# shop-frontend-client
+# Ecommerce Pet's shop project
 
-## Technical Assignment
+## Technologies:
+## Frontend:
+1. DDD (Domain Driven Design)
+2. React
+3. TypeScript
+4. Redux, Redux-toolkit, Redux-thunk
+5. Material UI (components, themes)
+6. i18n (en/ru)
+7. Axios
+8. .env
+9. Jest tests
+10. Service worker
+11. Lazy loading
 
-### Tasks to do
+## Backend:
+1. DDD (Domain Driven Design)
+2. PostgresQL
+3. MicroOrm
+4. Migrations
+5. Event emitter
+6. Redis
+7. Docker
+8. .env
+9. JWT Auth (Passport JS): Access and Refresh Token
+10. I18N (EN, RU)
+11. Swagger
+12. Jest tests
+13. Foreign keys
+14. Local storage
 
-1. Authentication
-2. Store overview
-3. Cart interaction (add/remove item)
-4. Purchasing from cart
-5. Purchase history
-6. Error page
-7. Tests
+## Database schema:
+![image](https://github.com/Our-shop/shop-frontend-client/assets/46794308/abbe67b2-b074-49ea-aa30-2bdc611c6926)
 
-### Technologies
+## Description of functionality:
+1. Authentication (Sign-in, Sign up)
+2. Forget password, reset password
+3. Protected routs for cart and user profile
+4. Store overview of products
+5. Search of products
+6. Products filters by categories and products sorting
+7. Page overview for product item
+8. Cart interaction (add/remove item)
+9. Purchasing from cart
+10. Purchase history in user profile
+11. Add, edit, delete operations for addresses in user profile
+12. Overwiew of user addresses
+13. Edit user name and email
+14. Delete account functionality
+15. Translation EN-RU
+16. Error boundary page
+17. Lazy loading
+18. Jest Tests
 
-1. React
-2. TypeScript
-3. Redux, redux-toolkit, redux-thunk
-4. Material UI (components, themes)
-5. i18n (eng/ru)
-6. axios
-7. .env
-8. Jest (75% coverage)
+# To run the App:
 
-### Other
+## Backend:
 
-1. Lazy loading
-2. ddd
-3. Service worker to cache data
-4. ErrorBound
+1. Clone git shop-backend repository to your local machine.
+2. Open terminal in root directory of the application.
+3. `npm install`
+4. Ensure that ports 8000, 8080, 5432, 6379 and 5000 are free on your machine.
+5. Enter command 'docker-compose up' in the terminal.
+6. Once installation complete check if 3 containers started in docker desktop app.
+7. Follow link http://localhost:8080 to be able to open PgAdmin
+8. PgAdmin credentials: email: admin@gmail.com password: postgres
+9. Your should see added server with initial migrations
+10. Once you don't see server create new one: POSTGRES_USER: postgres, POSTGRES_PASSWORD: postgres
+11. Your should find preinstalled initial migrations for user roles and products
+12. Check if you have initial migrations in DB.
+    10 In case you don't find initial migrations you can add initial roles for "user" and "admin" in Swager by link http://localhost:5000/swagger
+13. Also add products if necessary
+14. Run back: 'npm run start:dev'
+
+## Frontend:
+
+1. Clone git shop-frontend-client repository to your local machine.
+2. Open terminal in root directory of the application.
+3. `npm install`
+4. Run front: `npm start`
+
+Enjoy our work ! :)
