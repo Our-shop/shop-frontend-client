@@ -13,6 +13,7 @@
 9. Jest tests
 10. Service worker
 11. Lazy loading
+12. Local storage
 
 ## Backend:
 1. DDD (Domain Driven Design)
@@ -28,7 +29,6 @@
 11. Swagger
 12. Jest tests
 13. Foreign keys
-14. Local storage
 
 ## Database schema:
 ![image](https://github.com/Our-shop/shop-frontend-client/assets/46794308/abbe67b2-b074-49ea-aa30-2bdc611c6926)
