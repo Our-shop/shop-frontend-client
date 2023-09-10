@@ -69,7 +69,6 @@ const UserDeliveryComp: FC = () => {
       dispatch(getActiveDeliveries({ userId: userId }));
     });
   };
-
   const handleAddClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setShowAddModal(true);
   };

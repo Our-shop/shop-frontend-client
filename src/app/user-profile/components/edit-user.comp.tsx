@@ -111,7 +111,7 @@ const EditUserComp: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={editUserSchema}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field
                 as={TextField}

@@ -147,7 +147,7 @@ const UserEditAddressComp: FC<AddressEditProps> = ({
                 onSubmit={handleSubmit}
                 validationSchema={addAddressSchema}
               >
-                {(FormikProps) => (
+                {() => (
                   <Form>
                     <Field
                       as={TextField}

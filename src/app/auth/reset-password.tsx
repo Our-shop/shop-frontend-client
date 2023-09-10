@@ -102,7 +102,7 @@ const ResetPasswordPage: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={resetPswSchema}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field
                 as={TextField}

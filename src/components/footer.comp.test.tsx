@@ -4,7 +4,15 @@ import FooterComp from './footer.comp';
 
 // Mock the useTranslation hook
 jest.mock('react-i18next', () => ({
-  useTranslation: () => ({ t: (key: string) => key }),
+  useTranslation: () => {
+    return {
+      t: (key: string) => key,
+      i18n: {
+        language: 'en',
+        changeLanguage: jest.fn(),
+      },
+    };
+  },
 }));
 
 describe('FooterComp', () => {

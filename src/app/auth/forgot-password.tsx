@@ -98,7 +98,7 @@ const ForgotPasswordPage: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={forgotPswSchema}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field
                 as={TextField}
@@ -110,6 +110,7 @@ const ForgotPasswordPage: FC = () => {
                 sx={{ marginBottom: '10px' }}
                 name="email"
                 helperText={<ErrorMessage name="email" />}
+                data-testid="email-input"
               />
               <Button
                 type="submit"
@@ -117,6 +118,7 @@ const ForgotPasswordPage: FC = () => {
                 variant="contained"
                 sx={{ margin: '20px auto 8px' }}
                 disabled={loading}
+                data-testid="submit-btn"
               >
                 {loading
                   ? `${t('forgotPassword:Loading')}`

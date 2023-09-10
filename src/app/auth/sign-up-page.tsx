@@ -137,7 +137,7 @@ const SignUpPage: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={signUpSchema}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field
                 as={TextField}
