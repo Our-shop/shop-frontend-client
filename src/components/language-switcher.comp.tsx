@@ -42,8 +42,12 @@ const LanguageSwitcher = () => {
       size="small"
       sx={{ marginLeft: '30px' }}
     >
-      <ToggleButton value="en">En</ToggleButton>
-      <ToggleButton value="ru">Ru</ToggleButton>
+      <ToggleButton value="en" data-testid="En">
+        En
+      </ToggleButton>
+      <ToggleButton value="ru" data-testid="Ru">
+        Ru
+      </ToggleButton>
     </StyledButtonGroup>
   );
 };

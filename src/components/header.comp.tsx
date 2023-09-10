@@ -36,7 +36,6 @@ const HeaderComp: FC = () => {
   const cartsPending = useSelector(cartsPendingSelector);
 
   if (token && cartsPending.cart) {
-    console.log('here');
     dispatch(getActiveCart());
   }
 
@@ -60,7 +59,7 @@ const HeaderComp: FC = () => {
   }, []);
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" data-testid="header">
       <Toolbar>
         <Typography variant="h5">
           <Link component={RouterLink} to="/" color={colors.white}>
@@ -116,7 +115,7 @@ const HeaderComp: FC = () => {
           </Box>
         ) : (
           <Box paddingLeft={3}>
-            <Button aria-label="sign-in">
+            <Button aria-label="sign-in" data-testid="sign-in">
               <Link
                 component={RouterLink}
                 to="/auth/sign-in"

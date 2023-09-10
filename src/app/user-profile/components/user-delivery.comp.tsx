@@ -15,14 +15,12 @@ import storage from '../../../local-storage/storage';
 import LoaderComp from '../../../components/loader.comp';
 import jwt_decode from 'jwt-decode';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../store';
+import { AppDispatch } from '../../../store';
 import { deliveryItemsSelector } from '../../delivery/store/delivery.selectors';
 import { deleteDeliveryItem, getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
 import UserAddAddressComp from './user-add-address.comp';
 import { useTranslation } from 'react-i18next';
-import repository from '../../../repository';
-import { OrderDto } from '../../carts/types/order.dto';
 
 const StyledTable = styled(Table)`
   background-color: ${colors.lightGrey};
@@ -46,7 +44,6 @@ const UserDeliveryComp: FC = () => {
   const [addressForEditId, setAddressForEditId] = useState<string>('');
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
-  const [active, setActive] = useState<DeliveryDto[]>([]);
 
   //i18n
   const { t } = useTranslation();
@@ -56,7 +53,7 @@ const UserDeliveryComp: FC = () => {
   const userId = payload.id;
 
   const dispatch = useDispatch<AppDispatch>();
-  //const addresses = useSelector(deliveryItemsSelector);
+  const addresses = useSelector(deliveryItemsSelector);
 
   const handleEditClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
     setAddressForEditId(id);
@@ -79,18 +76,9 @@ const UserDeliveryComp: FC = () => {
 
   useEffect(() => {
     dispatch(getActiveDeliveries({ userId: userId }));
+  }, [showEditModal, showAddModal, dispatch]);
 
-    repository
-      .get<DeliveryDto[]>(`/delivery/active/${userId}`)
-      .then((result) => {
-        setActive(result.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  }, [showEditModal, showAddModal, dispatch, userId]);
-
-  if (!active) return <LoaderComp />;
+  if (!addresses) return <LoaderComp />;
 
   return (
     <>
@@ -105,7 +93,7 @@ const UserDeliveryComp: FC = () => {
           </THead>
         </TableHead>
         <TableBody>
-          {active.length === 0 ? (
+          {addresses.length === 0 ? (
             <TRow sx={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
               <TableCell>
                 <Typography style={{ marginRight: 30 }}>{t('userProfile:No-addresses')}</Typography>
@@ -119,7 +107,7 @@ const UserDeliveryComp: FC = () => {
               </TableCell>
             </TRow>
           ) : (
-            active.map((address: DeliveryDto, index: number) => (
+            addresses.map((address: DeliveryDto, index: number) => (
               <TRow key={address.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{address.city}</TableCell>

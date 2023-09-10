@@ -9,7 +9,6 @@ describe('Error Boundary', () => {
     };
 
     render(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       //@ts-ignore
       <ErrorBoundary fallback={<ErrorBoundary />}>
         <ThrowError />
