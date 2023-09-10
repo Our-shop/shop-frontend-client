@@ -37,6 +37,7 @@ const HeaderComp: FC = () => {
   const cartsPending = useSelector(cartsPendingSelector);
 
   if (token && cartsPending.cart) {
+    console.log('here');
     dispatch(getActiveCart());
   }
 

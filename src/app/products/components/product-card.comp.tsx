@@ -30,6 +30,9 @@ const ProductCardComp: FC<ProductCardCompProps> = ({ product }) => {
   // BUTTONS
   const addToCart = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();
+    const token = localStorage.getItem('access-token');
+    !token && navigate('/auth/sign-in');
+
     cart && dispatch(addCartItem({ cartId: cart?.id, productId: product.id }));
   };
 
