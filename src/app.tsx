@@ -1,4 +1,5 @@
 import React from 'react';
+import './app.css';
 import ErrorBoundaryComp from './components/error-boundary.comp';
 
 // app router

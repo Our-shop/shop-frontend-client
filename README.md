@@ -17,7 +17,7 @@
 1. React
 2. TypeScript
 3. Redux, redux-toolkit, redux-thunk
-4. Material UI (components, theme)
+4. Material UI (components, themes)
 5. i18n (eng/ru)
 6. axios
 7. .env
