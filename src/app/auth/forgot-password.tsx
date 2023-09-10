@@ -63,6 +63,7 @@ const ForgotPasswordPage: FC = () => {
       const { data } = await forgotPassword(forgotPasswordDto);
 
       storage.set('resetToken', data);
+      // eslint-disable-next-line react/prop-types
       props.resetForm();
       navigate('/auth/reset-password');
     } catch (error) {

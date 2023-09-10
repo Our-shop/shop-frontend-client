@@ -88,16 +88,14 @@ const HeaderComp: FC = () => {
         <Box flexGrow={1} />
 
         <Box>
-          {token && (
-            <IconButton aria-label="cart" color="inherit" onClick={() => navigate('/carts')}>
-              <Badge badgeContent={cart?.orderItemsQuantity} color="error">
-                <ShoppingCartIcon></ShoppingCartIcon>
-              </Badge>
-              <Typography variant="caption" sx={{ position: 'absolute', top: 28 }}>
-                {cart && cart.discount > 0 && `-${cart.discount}%`}
-              </Typography>
-            </IconButton>
-          )}
+          <IconButton aria-label="cart" color="inherit" onClick={() => navigate('/carts')}>
+            <Badge badgeContent={cart?.orderItemsQuantity} color="error">
+              <ShoppingCartIcon></ShoppingCartIcon>
+            </Badge>
+            <Typography variant="caption" sx={{ position: 'absolute', top: 28 }}>
+              {cart && cart.discount > 0 && `-${cart.discount}%`}
+            </Typography>
+          </IconButton>
 
           {token ? (
             <Link component={RouterLink} to="/profile">

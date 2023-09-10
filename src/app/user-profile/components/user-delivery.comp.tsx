@@ -21,6 +21,8 @@ import { deleteDeliveryItem, getActiveDeliveries } from '../../delivery/store/de
 import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
 import UserAddAddressComp from './user-add-address.comp';
 import { useTranslation } from 'react-i18next';
+import repository from '../../../repository';
+import { OrderDto } from '../../carts/types/order.dto';
 
 const StyledTable = styled(Table)`
   background-color: ${colors.lightGrey};
@@ -44,6 +46,7 @@ const UserDeliveryComp: FC = () => {
   const [addressForEditId, setAddressForEditId] = useState<string>('');
   const [showEditModal, setShowEditModal] = useState(false);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [active, setActive] = useState<DeliveryDto[]>([]);
 
   //i18n
   const { t } = useTranslation();
@@ -53,7 +56,7 @@ const UserDeliveryComp: FC = () => {
   const userId = payload.id;
 
   const dispatch = useDispatch<AppDispatch>();
-  const addresses = useSelector(deliveryItemsSelector);
+  //const addresses = useSelector(deliveryItemsSelector);
 
   const handleEditClick = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>, id: string) => {
     setAddressForEditId(id);
@@ -76,9 +79,18 @@ const UserDeliveryComp: FC = () => {
 
   useEffect(() => {
     dispatch(getActiveDeliveries({ userId: userId }));
-  }, [showEditModal, showAddModal, dispatch]);
 
-  if (!addresses) return <LoaderComp />;
+    repository
+      .get<DeliveryDto[]>(`/delivery/active/${userId}`)
+      .then((result) => {
+        setActive(result.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [showEditModal, showAddModal, dispatch, userId]);
+
+  if (!active) return <LoaderComp />;
 
   return (
     <>
@@ -93,7 +105,7 @@ const UserDeliveryComp: FC = () => {
           </THead>
         </TableHead>
         <TableBody>
-          {addresses.length === 0 ? (
+          {active.length === 0 ? (
             <TRow sx={{ display: 'flex', alignItems: 'center', padding: '20px' }}>
               <TableCell>
                 <Typography style={{ marginRight: 30 }}>{t('userProfile:No-addresses')}</Typography>
@@ -107,7 +119,7 @@ const UserDeliveryComp: FC = () => {
               </TableCell>
             </TRow>
           ) : (
-            addresses.map((address: DeliveryDto, index: number) => (
+            active.map((address: DeliveryDto, index: number) => (
               <TRow key={address.id}>
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{address.city}</TableCell>

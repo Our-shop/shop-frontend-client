@@ -94,6 +94,7 @@ const SignInPage: FC = () => {
         }),
       );
 
+      // eslint-disable-next-line react/prop-types
       props.resetForm();
       navigate('/');
     } catch (error) {
