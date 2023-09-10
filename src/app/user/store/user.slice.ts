@@ -26,6 +26,7 @@ export const userSlice = createSlice({
       })
       .addCase(editUser.fulfilled, (state, { payload }) => {
         state.pending.user = false;
+        state.user = payload;
       })
       .addCase(editUser.rejected, (state, action: any & { payload: any }) => {
         state.errors.user = action.payload.message;
@@ -38,6 +39,7 @@ export const userSlice = createSlice({
       })
       .addCase(deleteUser.fulfilled, (state, { payload }) => {
         state.pending.user = false;
+        state.user = payload;
       })
       .addCase(deleteUser.rejected, (state, action: any & { payload: any }) => {
         state.errors.user = action.payload.message;

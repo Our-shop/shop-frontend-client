@@ -14,4 +14,16 @@ export const getProducts = createAsyncThunk<ProductDto[]>(
   },
 );
 
+export const searchProducts = createAsyncThunk<ProductDto[], { query: string }>(
+  'GET/products/query',
+  async ({ query }, { rejectWithValue }) => {
+    try {
+      const response = await repository.get('products/' + query);
+      return response.data;
+    } catch (error: any) {
+      return rejectWithValue(error);
+    }
+  },
+);
+
 export const setProducts = createAction<ProductDto[]>('products/setProducts');

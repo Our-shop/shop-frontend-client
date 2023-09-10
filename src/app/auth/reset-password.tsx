@@ -64,7 +64,9 @@ const ResetPasswordPage: FC = () => {
 
       await resetPassword(resetPasswordDto, resetToken as string);
 
+      // eslint-disable-next-line react/prop-types
       props.resetForm();
+      // eslint-disable-next-line react/prop-types
       props.setSubmitting(false);
 
       navigate('/');
@@ -100,7 +102,7 @@ const ResetPasswordPage: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={resetPswSchema}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field
                 as={TextField}

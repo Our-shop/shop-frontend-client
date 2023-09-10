@@ -15,18 +15,6 @@ export const getActiveCart = createAsyncThunk<CartDto>(
   },
 );
 
-// export const getActiveCart = createAsyncThunk<CartDto, { userId: string }>(
-//   'GET/carts/user/:userId',
-//   async ({ userId }, { rejectWithValue }) => {
-//     try {
-//       const response = await repository.get('carts/user/' + userId);
-//       return response.data;
-//     } catch (error: any) {
-//       return rejectWithValue(error);
-//     }
-//   },
-// );
-
 export const getCartItems = createAsyncThunk<CartItemDto[], { cartId: string }>(
   'GET/order-items/order/:orderId',
   async ({ cartId }, { rejectWithValue }) => {

@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useState } from 'react';
 import PageLayoutComp from '../../components/page-layout.com';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import repository from '../../repository';
 import { FullProductDto } from './types/full-product.type';
 import { Box, Button, Divider, Stack, Typography } from '@mui/material';
@@ -20,6 +20,7 @@ const ProductDetailsPage: FC = () => {
   const { t } = useTranslation();
 
   const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
 
   const { category, id } = useParams();
 
@@ -37,12 +38,15 @@ const ProductDetailsPage: FC = () => {
   const cartItems = useSelector(cartItemsSelector);
   const cartsPending = useSelector(cartsPendingSelector);
 
-  if (cartsPending.cartItems) {
+  useEffect(() => {
     cart && dispatch(getCartItems({ cartId: cart.id }));
-  }
+  }, [cartsPending.cart]);
 
   const addToCart = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.stopPropagation();
+    const token = localStorage.getItem('access-token');
+    !token && navigate('/auth/sign-in');
+
     cart && product && dispatch(addCartItem({ cartId: cart?.id, productId: product.id }));
   };
 

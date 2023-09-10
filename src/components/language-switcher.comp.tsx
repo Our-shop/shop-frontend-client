@@ -1,10 +1,11 @@
+import React from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ToggleButtonGroup, ToggleButton, styled } from '@mui/material';
 import { colors } from '../themes';
 import storage from '../local-storage/storage';
 
-const StyledButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+const StyledButtonGroup = styled(ToggleButtonGroup)(() => ({
   '& .MuiToggleButton-root': {
     backgroundColor: colors.lightGrey,
     color: colors.darkGrey,
@@ -41,8 +42,12 @@ const LanguageSwitcher = () => {
       size="small"
       sx={{ marginLeft: '30px' }}
     >
-      <ToggleButton value="en">En</ToggleButton>
-      <ToggleButton value="ru">Ru</ToggleButton>
+      <ToggleButton value="en" data-testid="En">
+        En
+      </ToggleButton>
+      <ToggleButton value="ru" data-testid="Ru">
+        Ru
+      </ToggleButton>
     </StyledButtonGroup>
   );
 };

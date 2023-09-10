@@ -7,13 +7,12 @@ import Typography from '@mui/material/Typography';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import SearchComp from './ui/search.comp';
+import SearchProductsComp from './search-products.comp';
 import { Button, Icon, Link } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
 import { NavLink as RouterLink, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getIsRegistered } from '../app/auth/store/auth.selectors';
 import { logout } from '../app/auth/store/auth.slice';
 import { signOut } from '../app/auth/api/sign-out';
 import storage from '../local-storage/storage';
@@ -36,7 +35,7 @@ const HeaderComp: FC = () => {
   const cart = useSelector(cartSelector);
   const cartsPending = useSelector(cartsPendingSelector);
 
-  if (cartsPending.cart) {
+  if (token && cartsPending.cart) {
     dispatch(getActiveCart());
   }
 
@@ -45,6 +44,7 @@ const HeaderComp: FC = () => {
     storage.clear();
     dispatch(logout());
     navigate('/');
+    window.location.reload();
   };
 
   const handleToken = (token: string) => {
@@ -59,7 +59,7 @@ const HeaderComp: FC = () => {
   }, []);
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" data-testid="header">
       <Toolbar>
         <Typography variant="h5">
           <Link component={RouterLink} to="/" color={colors.white}>
@@ -69,7 +69,7 @@ const HeaderComp: FC = () => {
           </Link>
         </Typography>
 
-        <SearchComp placeholder={`${t('header:Search-products')}`} />
+        <SearchProductsComp placeholder={`${t('header:Search-products')}`} />
 
         <Box>
           {pages.map((page) => (
@@ -85,21 +85,20 @@ const HeaderComp: FC = () => {
         </Box>
 
         <Box flexGrow={1} />
+
         <Box>
-          <IconButton
-            size="large"
-            aria-label="cart"
-            color="inherit"
-            onClick={() => navigate('/carts')}
-          >
+          <IconButton aria-label="cart" color="inherit" onClick={() => navigate('/carts')}>
             <Badge badgeContent={cart?.orderItemsQuantity} color="error">
-              <ShoppingCartIcon />
+              <ShoppingCartIcon></ShoppingCartIcon>
             </Badge>
+            <Typography variant="caption" sx={{ position: 'absolute', top: 28 }}>
+              {cart && cart.discount > 0 && `-${cart.discount}%`}
+            </Typography>
           </IconButton>
 
           {token ? (
             <Link component={RouterLink} to="/profile">
-              <IconButton size="large" edge="end" aria-label="user" sx={{ color: colors.white }}>
+              <IconButton edge="end" aria-label="user" sx={{ color: colors.white }}>
                 <AccountCircle />
               </IconButton>
             </Link>
@@ -116,7 +115,7 @@ const HeaderComp: FC = () => {
           </Box>
         ) : (
           <Box paddingLeft={3}>
-            <Button aria-label="sign-in">
+            <Button aria-label="sign-in" data-testid="sign-in">
               <Link
                 component={RouterLink}
                 to="/auth/sign-in"

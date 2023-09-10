@@ -21,10 +21,9 @@ const ProductStorePage: FC = () => {
   const cart = useSelector(cartSelector);
   const cartsPending = useSelector(cartsPendingSelector);
 
-  if (cartsPending.cartItems) {
-    console.log('pending');
+  useEffect(() => {
     cart && dispatch(getCartItems({ cartId: cart.id }));
-  }
+  }, [cartsPending.cart]);
 
   return (
     <PageLayoutComp>
