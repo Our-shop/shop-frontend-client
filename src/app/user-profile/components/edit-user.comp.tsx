@@ -77,6 +77,7 @@ const EditUserComp: FC = () => {
 
       await dispatch(editUser({ userId: userId, updatedUser: updatedData }));
 
+      // eslint-disable-next-line react/prop-types
       props.resetForm();
       setSuccessMessage(true);
       setAlertOpen(true);
@@ -110,7 +111,7 @@ const EditUserComp: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={editUserSchema}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field
                 as={TextField}

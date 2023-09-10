@@ -105,6 +105,7 @@ const SignUpPage: FC = () => {
         }),
       );
 
+      // eslint-disable-next-line react/prop-types
       props.resetForm();
       navigate('/');
     } catch (error) {
@@ -136,7 +137,7 @@ const SignUpPage: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={signUpSchema}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field
                 as={TextField}

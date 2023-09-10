@@ -15,7 +15,7 @@ import storage from '../../../local-storage/storage';
 import LoaderComp from '../../../components/loader.comp';
 import jwt_decode from 'jwt-decode';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../store';
+import { AppDispatch } from '../../../store';
 import { deliveryItemsSelector } from '../../delivery/store/delivery.selectors';
 import { deleteDeliveryItem, getActiveDeliveries } from '../../delivery/store/delivery.actions';
 import { DeliveryDto } from '../../delivery/types/delivery-dto.type';
@@ -69,7 +69,6 @@ const UserDeliveryComp: FC = () => {
       dispatch(getActiveDeliveries({ userId: userId }));
     });
   };
-
   const handleAddClick = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     setShowAddModal(true);
   };

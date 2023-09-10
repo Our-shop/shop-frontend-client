@@ -110,7 +110,6 @@ const SearchProductsComp: FC<SearchCompProps> = ({ placeholder }) => {
             <MenuItem key={product.id} onClick={() => clickProduct(product)}>
               <Stack direction="row" alignItems="center" gap={3}>
                 <img src={product.image} height={50}></img>
-
                 <Typography>{product.title}</Typography>
               </Stack>
             </MenuItem>

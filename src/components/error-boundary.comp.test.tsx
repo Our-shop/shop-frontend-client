@@ -1,20 +1,20 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import ErrorBoundary from './error-boundary.comp';
 
 describe('Error Boundary', () => {
-  it('should catch an error thrown by its child component', () => {
+  it('should work correctly', () => {
     const ThrowError = () => {
       throw new Error('Test');
     };
 
     render(
-      <ErrorBoundary>
+      //@ts-ignore
+      <ErrorBoundary fallback={<ErrorBoundary />}>
         <ThrowError />
       </ErrorBoundary>,
     );
 
-    const errorBoundaryElement = screen.getByTestId('errorboundary');
-    expect(errorBoundaryElement).toBeVisible();
+    expect(screen.getByTestId('errorboundary')).toBeVisible();
   });
 });

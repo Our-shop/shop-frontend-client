@@ -36,7 +36,6 @@ const HeaderComp: FC = () => {
   const cartsPending = useSelector(cartsPendingSelector);
 
   if (token && cartsPending.cart) {
-    console.log('here');
     dispatch(getActiveCart());
   }
 
@@ -60,7 +59,7 @@ const HeaderComp: FC = () => {
   }, []);
 
   return (
-    <AppBar position="sticky">
+    <AppBar position="sticky" data-testid="header">
       <Toolbar>
         <Typography variant="h5">
           <Link component={RouterLink} to="/" color={colors.white}>
@@ -88,16 +87,14 @@ const HeaderComp: FC = () => {
         <Box flexGrow={1} />
 
         <Box>
-          {token && (
-            <IconButton aria-label="cart" color="inherit" onClick={() => navigate('/carts')}>
-              <Badge badgeContent={cart?.orderItemsQuantity} color="error">
-                <ShoppingCartIcon></ShoppingCartIcon>
-              </Badge>
-              <Typography variant="caption" sx={{ position: 'absolute', top: 28 }}>
-                {cart && cart.discount > 0 && `-${cart.discount}%`}
-              </Typography>
-            </IconButton>
-          )}
+          <IconButton aria-label="cart" color="inherit" onClick={() => navigate('/carts')}>
+            <Badge badgeContent={cart?.orderItemsQuantity} color="error">
+              <ShoppingCartIcon></ShoppingCartIcon>
+            </Badge>
+            <Typography variant="caption" sx={{ position: 'absolute', top: 28 }}>
+              {cart && cart.discount > 0 && `-${cart.discount}%`}
+            </Typography>
+          </IconButton>
 
           {token ? (
             <Link component={RouterLink} to="/profile">
@@ -118,7 +115,7 @@ const HeaderComp: FC = () => {
           </Box>
         ) : (
           <Box paddingLeft={3}>
-            <Button aria-label="sign-in">
+            <Button aria-label="sign-in" data-testid="sign-in">
               <Link
                 component={RouterLink}
                 to="/auth/sign-in"

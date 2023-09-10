@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { getCartItems } from './store/carts.actions';
 import { AppDispatch } from '../../store';
 import Stack from '@mui/material/Stack';
-import { Typography, Button } from '@mui/material';
+import { Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
 
 const CartsPage: FC = () => {

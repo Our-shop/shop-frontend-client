@@ -63,6 +63,7 @@ const ForgotPasswordPage: FC = () => {
       const { data } = await forgotPassword(forgotPasswordDto);
 
       storage.set('resetToken', data);
+      // eslint-disable-next-line react/prop-types
       props.resetForm();
       navigate('/auth/reset-password');
     } catch (error) {
@@ -97,7 +98,7 @@ const ForgotPasswordPage: FC = () => {
           onSubmit={handleSubmit}
           validationSchema={forgotPswSchema}
         >
-          {(props) => (
+          {() => (
             <Form>
               <Field
                 as={TextField}
@@ -109,6 +110,7 @@ const ForgotPasswordPage: FC = () => {
                 sx={{ marginBottom: '10px' }}
                 name="email"
                 helperText={<ErrorMessage name="email" />}
+                data-testid="email-input"
               />
               <Button
                 type="submit"
@@ -116,6 +118,7 @@ const ForgotPasswordPage: FC = () => {
                 variant="contained"
                 sx={{ margin: '20px auto 8px' }}
                 disabled={loading}
+                data-testid="submit-btn"
               >
                 {loading
                   ? `${t('forgotPassword:Loading')}`

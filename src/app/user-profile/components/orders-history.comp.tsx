@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import storage from '../../../local-storage/storage';
 import jwt_decode from 'jwt-decode';
 import repository from '../../../repository';

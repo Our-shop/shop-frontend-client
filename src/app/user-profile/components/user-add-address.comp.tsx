@@ -13,7 +13,7 @@ import {
 import HomeIcon from '@mui/icons-material/Home';
 import { styled } from '@mui/material/styles';
 import { colors } from '../../../themes';
-import { ErrorMessage, Field, Form, Formik, FormikHelpers } from 'formik';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 import { addAddressSchema } from '../../delivery/validation-schemas/add-address.schema';
 import storage from '../../../local-storage/storage';
 import jwt_decode from 'jwt-decode';
@@ -148,7 +148,7 @@ const UserAddAddressComp: FC<AddressAddProps> = ({ showAddModal, setShowAddModal
                 onSubmit={handleSubmit}
                 validationSchema={addAddressSchema}
               >
-                {(FormikProps) => (
+                {() => (
                   <Form>
                     <Field
                       as={TextField}
