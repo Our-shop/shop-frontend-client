@@ -35,6 +35,7 @@ const DeleteAccountComp: FC = () => {
       storage.clear();
       dispatch(logout());
       navigate('/');
+      window.location.reload();
     });
   };
 
