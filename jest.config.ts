@@ -1,11 +1,13 @@
+// eslint-disable-next-line no-undef,@typescript-eslint/ban-ts-comment
 // @ts-ignore
 module.exports = {
-  moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
-  setupFilesAfterEnv: ['<rootDir>/setupTests.ts'],
   rootDir: 'src',
+  preset: 'ts-jest',
+  moduleFileExtensions: ['js', 'json', 'ts', 'tsx'],
+  setupFilesAfterEnv: ['<rootDir>/setup-tests.ts'],
   testRegex: ['.*\\.test\\.ts$', '.*\\.test\\.tsx$'],
   transform: {
-    '\\.[jt]sx?$': 'ts-jest',
+    '^.+\\.(js|ts)$': 'ts-jest',
   },
   collectCoverageFrom: [
     '**/*.{js,jsx,ts,tsx}',
@@ -13,7 +15,6 @@ module.exports = {
     '!**/node_modules/**',
     '!**/coverage/**',
   ],
-  coveragePathIgnorePatterns: [],
   coverageDirectory: '../coverage',
   testEnvironment: 'jsdom',
   moduleNameMapper: {
@@ -21,4 +22,5 @@ module.exports = {
   },
   moduleDirectories: ['node_modules', 'src'],
   modulePathIgnorePatterns: [],
+  coveragePathIgnorePatterns: ['./src/app.css'],
 };
