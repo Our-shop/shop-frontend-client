@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Badge from '@mui/material/Badge';
 import AccountCircle from '@mui/icons-material/AccountCircle';
-import SearchComp from './ui/search.comp';
+import SearchProductsComp from './search-products.comp';
 import { Button, Icon, Link } from '@mui/material';
 import PetsIcon from '@mui/icons-material/Pets';
 import { colors } from '../themes';
@@ -35,7 +35,7 @@ const HeaderComp: FC = () => {
   const cart = useSelector(cartSelector);
   const cartsPending = useSelector(cartsPendingSelector);
 
-  if (cartsPending.cart) {
+  if (token && cartsPending.cart) {
     dispatch(getActiveCart());
   }
 
@@ -69,7 +69,7 @@ const HeaderComp: FC = () => {
           </Link>
         </Typography>
 
-        <SearchComp placeholder={`${t('header:Search-products')}`} />
+        <SearchProductsComp placeholder={`${t('header:Search-products')}`} />
 
         <Box>
           {pages.map((page) => (
@@ -85,21 +85,22 @@ const HeaderComp: FC = () => {
         </Box>
 
         <Box flexGrow={1} />
+
         <Box>
-          <IconButton
-            size="large"
-            aria-label="cart"
-            color="inherit"
-            onClick={() => navigate('/carts')}
-          >
-            <Badge badgeContent={cart?.orderItemsQuantity} color="error">
-              <ShoppingCartIcon />
-            </Badge>
-          </IconButton>
+          {token && (
+            <IconButton aria-label="cart" color="inherit" onClick={() => navigate('/carts')}>
+              <Badge badgeContent={cart?.orderItemsQuantity} color="error">
+                <ShoppingCartIcon></ShoppingCartIcon>
+              </Badge>
+              <Typography variant="caption" sx={{ position: 'absolute', top: 28 }}>
+                {cart && cart.discount > 0 && `-${cart.discount}%`}
+              </Typography>
+            </IconButton>
+          )}
 
           {token ? (
             <Link component={RouterLink} to="/profile">
-              <IconButton size="large" edge="end" aria-label="user" sx={{ color: colors.white }}>
+              <IconButton edge="end" aria-label="user" sx={{ color: colors.white }}>
                 <AccountCircle />
               </IconButton>
             </Link>

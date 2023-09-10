@@ -29,6 +29,9 @@ interface MakeOrderModalProps {
 const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) => {
   const dispatch = useDispatch<AppDispatch>();
 
+  //i18n
+  const { t } = useTranslation();
+
   // CART
   const cart = useSelector(cartSelector);
   const cartItems = useSelector(cartItemsSelector);
@@ -52,15 +55,17 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
   // MAKE ORDER
   const navigate = useNavigate();
   const [alertOpen, setAlertOpen] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [message, setMessage] = useState('');
+  const [severity, setSeverity] = useState<'success' | 'error'>('success');
 
-  //i18n
-  const { t } = useTranslation();
-
-  const totalAmount = cartItems.reduce(
+  let totalAmount = cartItems.reduce(
     (totalAmount, cartItem) => (totalAmount += cartItem.productQuantity * cartItem.product.price),
     0,
   );
+
+  if (cart) {
+    totalAmount -= (totalAmount / 100) * cart.discount;
+  }
 
   const confirmOrder = async () => {
     setCurrentDelivery('');
@@ -69,14 +74,18 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
       const res = await repository.post('orders/' + cart?.id, { deliveryId: currentDelivery });
       if (typeof res.data == 'string') {
         setAlertOpen(true);
-        setErrorMessage(res.data);
+        setMessage(res.data);
       } else {
-        navigate('/products');
-        window.location.reload();
+        setAlertOpen(true);
+        setMessage('Order complete!');
+        setTimeout(() => {
+          navigate('/products');
+          window.location.reload();
+        }, 2000);
       }
     } catch (error: any) {
-      setAlertOpen(true);
-      setErrorMessage(error.message);
+      setSeverity('error');
+      setMessage(error.message);
     }
   };
 
@@ -110,7 +119,7 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
                 <Stack direction="column" justifyContent="space-between" width={300} gap={3}>
                   {deliveriesPending.deliveryItems ? (
                     <div>{t('makeOrder:Loading')}</div>
-                  ) : (
+                  ) : deliveryItems.length ? (
                     <FormControl fullWidth>
                       <InputLabel id="delivery-label">{t('makeOrder:Delivery-address')}</InputLabel>
                       <Select
@@ -128,13 +137,26 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
                         ))}
                       </Select>
                     </FormControl>
+                  ) : (
+                    <Stack direction="column" alignItems="center">
+                      <Typography>You have no active delivery addresses</Typography>
+                      <Button
+                        color="warning"
+                        variant="contained"
+                        fullWidth
+                        onClick={() => navigate('/profile/deliveries')}
+                      >
+                        add new delivery address
+                      </Button>
+                    </Stack>
                   )}
 
-                  <Stack direction="column">
+                  <Stack direction="column" alignItems="center">
                     <Typography>Total amount: ${totalAmount.toFixed(2)}</Typography>
                     <Button
                       variant="contained"
                       color="success"
+                      fullWidth
                       disabled={!currentDelivery}
                       onClick={confirmOrder}
                     >
@@ -154,8 +176,8 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
         onClose={() => setAlertOpen(false)}
         anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       >
-        <Alert variant="filled" severity="error">
-          {errorMessage}
+        <Alert variant="filled" severity={severity}>
+          {message}
         </Alert>
       </Snackbar>
     </>
