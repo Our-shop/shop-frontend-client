@@ -48,7 +48,7 @@ interface SearchCompProps {
   placeholder: string;
 }
 
-const SearchComp: FC<SearchCompProps> = ({ placeholder }) => {
+const SearchProductsComp: FC<SearchCompProps> = ({ placeholder }) => {
   return (
     <Search>
       <SearchIconWrapper>
@@ -59,4 +59,4 @@ const SearchComp: FC<SearchCompProps> = ({ placeholder }) => {
   );
 };
 
-export default SearchComp;
+export default SearchProductsComp;

@@ -58,10 +58,14 @@ const MakeOrderModalComp: FC<MakeOrderModalProps> = ({ isOpened, setIsOpened }) 
   const [message, setMessage] = useState('');
   const [severity, setSeverity] = useState<'success' | 'error'>('success');
 
-  const totalAmount = cartItems.reduce(
+  let totalAmount = cartItems.reduce(
     (totalAmount, cartItem) => (totalAmount += cartItem.productQuantity * cartItem.product.price),
     0,
   );
+
+  if (cart) {
+    totalAmount -= (totalAmount / 100) * cart.discount;
+  }
 
   const confirmOrder = async () => {
     setCurrentDelivery('');
